@@ -1,0 +1,10 @@
+site_name: Applied Deep Learning
+site_url: https://github.com/waikato-datamining/applied-deeplearning
+site_description: Documentation for Applied Deep Learning.
+theme:
+    name: readthedocs
+markdown_extensions:
+    - toc:
+        baselevel: 3
+nav:
+  - 'Home': index.md
