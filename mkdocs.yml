@@ -8,3 +8,18 @@ markdown_extensions:
         baselevel: 3
 nav:
   - 'Home': index.md
+  - 'Image classification':
+    - 'Introduction': image_classification/index.md
+    - 'wai.pytorchimageclass': image_classification/wai.pytorchimageclass.md
+    - 'wai.tfimageclass': image_classification/wai.tfimageclass.md
+    - 'wai.tflite_model_maker': image_classification/wai.tflite_model_maker.md
+  - 'Object detection':
+    - 'Introduction': object_detection/index.md
+    - 'MMDetection': object_detection/mmdetection.md
+    - 'wai.tflite_model_maker': object_detection/wai.tflite_model_maker.md
+  - 'Instance segmentation':
+    - 'Introduction': instance_segmentation/index.md
+    - 'Detectron2': instance_segmentation/detectron2.md
+  - 'Image segmentation':
+    - 'Introduction': image_segmentation/index.md
+    - 'Image Segmentation Keras': image_segmentation/image-segmentation-keras.md
