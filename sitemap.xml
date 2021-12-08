@@ -11,6 +11,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/annotate/</loc>
+     <lastmod>2021-12-08</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/wai.pytorchimageclass/</loc>
      <lastmod>2021-12-08</lastmod>
      <changefreq>daily</changefreq>
@@ -31,6 +36,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/annotate/</loc>
+     <lastmod>2021-12-08</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/mmdetection/</loc>
      <lastmod>2021-12-08</lastmod>
      <changefreq>daily</changefreq>
@@ -46,12 +56,22 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://www.data-mining.co.nz/applied-deeplearning/instance_segmentation/annotate/</loc>
+     <lastmod>2021-12-08</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/instance_segmentation/detectron2/</loc>
      <lastmod>2021-12-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/</loc>
+     <lastmod>2021-12-08</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/annotate/</loc>
      <lastmod>2021-12-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
