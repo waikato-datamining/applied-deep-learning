@@ -8,6 +8,7 @@ markdown_extensions:
         baselevel: 3
 nav:
   - 'Home': index.md
+  - 'Prerequisites': prerequisites.md
   - 'Image classification':
     - 'Introduction': image_classification/index.md
     - 'Annotate': image_classification/annotate.md
