@@ -55,6 +55,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../prerequisites/">Prerequisites</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <span class="caption-text">Image classification</span>
     <ul class="subnav">
                 <li class="">
@@ -74,6 +79,18 @@
     <a class="current" href="./">wai.tfimageclass</a>
     <ul class="subnav">
             
+    <li class="toctree-l3"><a href="#prerequisites">Prerequisites</a></li>
+    
+
+    <li class="toctree-l3"><a href="#data">Data</a></li>
+    
+
+    <li class="toctree-l3"><a href="#training">Training</a></li>
+    
+
+    <li class="toctree-l3"><a href="#predicting">Predicting</a></li>
+    
+
     </ul>
                 </li>
                 <li class="">
@@ -180,7 +197,52 @@
           <div role="main">
             <div class="section">
               
-                
+                <p>The <a href="https://github.com/waikato-datamining/tensorflow/tree/master/image_classification">wai.tfimageclass</a> Python library
+(<a href="https://pypi.org/project/wai.tfimageclass/">PyPI</a>) can be used for training various models that are available from 
+the <a href="https://tfhub.dev/">Tensorflow Hub</a>.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/">102 flowers</a>
+dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
+dataset with the flowers already split into categories from which will use a subset to speed up the training process.</p>
+<p>Download the dataset from the following URL and extract it:</p>
+<p><a href="http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/102flowers-categories.tgz">http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/102flowers-categories.tgz</a></p>
+<p>Once extracted, you can delete all sub-directories apart from:</p>
+<ul>
+<li>alpine_sea_holly</li>
+<li>anthurium</li>
+<li>artichoke</li>
+</ul>
+<p>Rename the <code>categories</code> directory to <code>3flowers</code> and move it into the <code>data</code> folder of our directory structure 
+outlined. </p>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/tf_image_classification:1.14
+</code></pre>
+<p>If you only have a CPU machine available, then use this one instead:</p>
+<pre><code>waikatodatamining/tf_image_classification:1.14_cpu
+</code></pre>
+<p>The training script is called <code>tfic-retrain</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>3flowers-default
+</code></pre>
+<p>The following command, issued in the <code>applied_deep_learning</code> directory, will map the <code>applied_deep_learning</code>
+directory (= the current working directory) onto the <code>/workspace</code> directory within the docker container, giving
+us access to all the sub-directories there, and train our 3flowsers dataset:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_image_classification:1.14_cpu \
+  tfic-retrain \
+  --image_dir /workspace/data/3flowers \
+  --output_graph /workspace/output/3flowers-default/graph.pb \
+  --training_steps 500
+</code></pre>
+<h3 id="predicting">Predicting</h3>
               
             </div>
           </div>
