@@ -67,5 +67,9 @@
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/image-segmentation-keras/</loc>
      <lastmod>2022-06-15</lastmod>
      <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/segmentation_models/</loc>
+     <lastmod>2022-06-15</lastmod>
+     <changefreq>daily</changefreq>
     </url>
 </urlset>
