@@ -10,3 +10,4 @@ Before you delve into training models, take a look at how you need to [annotate 
 The following frameworks are available:
 
 * [Image Segmentation Keras](image-segmentation-keras.md)
+* [Segmentation models](segmentation_models.md)

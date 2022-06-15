@@ -35,3 +35,4 @@ nav:
     - 'Annotate': image_segmentation/annotate.md
     - 'Framework':
       - 'Image Segmentation Keras': image_segmentation/image-segmentation-keras.md
+      - 'Segmentation models': image_segmentation/segmentation_models.md
