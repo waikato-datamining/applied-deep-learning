@@ -3,6 +3,9 @@ site_url: https://www.data-mining.co.nz/applied-deeplearning/
 site_description: Documentation for Applied Deep Learning.
 theme:
     name: readthedocs
+plugins:
+    # https://github.com/soulless-viewer/mkdocs-video
+    - mkdocs-video
 markdown_extensions:
     - toc:
         baselevel: 3

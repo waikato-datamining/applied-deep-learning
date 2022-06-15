@@ -10,3 +10,7 @@ In the Flow editor (available from the *Tools* menu in ADAMS), you can load and 
 [adams-imaging-annotate_objects.flow](https://github.com/waikato-datamining/adams-base/blob/master/adams-imaging/src/main/flows/adams-imaging-annotate_objects.flow)
 
 When prompted, use *object_shape* as *Selection type*.
+
+The following video takes you through the process:
+
+![type:video](https://www.youtube.com/embed/7BjcWxlnG-8)
