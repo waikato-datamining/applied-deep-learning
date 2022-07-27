@@ -7,4 +7,4 @@ The following frameworks are available:
 
 * [wai.pytorchimageclass](wai.pytorchimageclass.md)
 * [wai.tfimageclass](wai.tfimageclass.md)
-* [wai.tflite_model_maker](wai.tflite_model_maker.md)
+* [mmclassification](mmclassification.md)

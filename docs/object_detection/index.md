@@ -7,4 +7,4 @@ Before you delve into training models, take a look at how you need to [annotate 
 The following frameworks are available:
 
 * [MMDetection](mmdetection.md)
-* [wai.tflite_model_maker](wai.tflite_model_maker.md)
+* [Yolov5](yolov5.md)

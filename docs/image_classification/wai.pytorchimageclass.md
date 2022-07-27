@@ -1,5 +1,5 @@
 With [wai.pytorchimageclass](https://github.com/waikato-datamining/pytorch/tree/master/image-classification)
-it is possible to train various image classification network architectues and also perform inference.
+it is possible to train various image classification network architectures and also perform inference.
 
 The code is based on this Pytorch example:
 
