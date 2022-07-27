@@ -14,7 +14,7 @@ dataset with the flowers already split into categories from which will use a sub
 
 Download the dataset from the following URL and extract it:
 
-[http://datasets.cms.waikato.ac.nz/ufdl/data/image_classification/102flowers/102flowers-categories.tgz](http://datasets.cms.waikato.ac.nz/ufdl/data/image_classification/102flowers/102flowers-categories.tgz)
+[https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip](https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip)
 
 Once extracted, you can delete all sub-directories apart from:
 
@@ -69,5 +69,5 @@ docker run \
 ```
 
 
-
 # Predicting
+
