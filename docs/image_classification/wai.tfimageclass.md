@@ -163,7 +163,7 @@ docker run \
   --out_dir /workspace/predictions/out
 ```
 
-E.g., for the `image_01965.jpg` from the `anthurium`, we will get a CSV file similar to 
+E.g., for the `image_01965.jpg` from the `anthurium` class, we will get a CSV file similar to 
 [this one](img/image_01965.csv):
 
 {{ read_csv('docs/image_classification/img/image_01965.csv') }}
