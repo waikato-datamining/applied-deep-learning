@@ -6,6 +6,9 @@ theme:
 plugins:
     # https://github.com/soulless-viewer/mkdocs-video
     - mkdocs-video
+    # https://github.com/timvink/mkdocs-table-reader-plugin
+    - search
+    - table-reader
 markdown_extensions:
     - toc:
         baselevel: 3
