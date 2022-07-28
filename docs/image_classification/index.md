@@ -8,5 +8,4 @@ Before you delve into training models, take a look at how you need to [annotate 
 The following frameworks are available:
 
 * [MMClassification](mmclassification.md)
-* [wai.pytorchimageclass](wai.pytorchimageclass.md)
 * [wai.tfimageclass](wai.tfimageclass.md)
