@@ -2,6 +2,8 @@
 than just a simple rectangle/bounding box. However, this makes the algorithms computationally more expensive
 and more memory hungry.
 
+![Screenshot](img/dog.jpg) ![Screenshot](img/cat.jpg)
+
 Before you delve into training models, take a look at how you need to [annotate your data](annotate.md).
 
 The following frameworks are available:
