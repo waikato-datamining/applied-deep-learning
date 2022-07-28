@@ -39,7 +39,11 @@
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href="../.." class="icon icon-home"> Applied Deep Learning</a>
-        
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -57,16 +61,12 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Framework</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../mmclassification/">MMClassification</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../wai.pytorchimageclass/">wai.pytorchimageclass</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">wai.tfimageclass</a>
     <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../wai.pytorchimageclass/">wai.pytorchimageclass</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="./">wai.tfimageclass</a>
-    <ul class="current">
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../wai.tflite_model_maker/">wai.tflite_model_maker</a>
-                </li>
     </ul>
                     </li>
                 </ul>
@@ -76,13 +76,9 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../object_detection/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Framework</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../object_detection/mmdetection/">MMDetection</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../object_detection/wai.tflite_model_maker/">wai.tflite_model_maker</a>
-                </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/mmdetection/">MMDetection</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/yolov5/">Yolov5</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
@@ -91,11 +87,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Framework</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../instance_segmentation/detectron2/">Detectron2</a>
-                </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/detectron2/">Detectron2</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
@@ -104,13 +96,11 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Framework</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../image_segmentation/image-segmentation-keras/">Image Segmentation Keras</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../image_segmentation/segmentation_models/">Segmentation models</a>
-                </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/image-segmentation-keras/">Image Segmentation Keras</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/mmsegmentation/">MMSegmentation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/segmentation_models/">Segmentation models</a>
                     </li>
                 </ul>
       </div>
@@ -132,10 +122,6 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../..">Docs</a> &raquo;</li>
     
-      
-        
-          <li>Framework &raquo;</li>
-        
       
         
           <li>Image classification &raquo;</li>
@@ -163,14 +149,14 @@ the <a href="https://tfhub.dev/">Tensorflow Hub</a>.</p>
 dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
 dataset with the flowers already split into categories from which will use a subset to speed up the training process.</p>
 <p>Download the dataset from the following URL and extract it:</p>
-<p><a href="http://datasets.cms.waikato.ac.nz/ufdl/data/image_classification/102flowers/102flowers-categories.tgz">http://datasets.cms.waikato.ac.nz/ufdl/data/image_classification/102flowers/102flowers-categories.tgz</a></p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip</a></p>
 <p>Once extracted, you can delete all sub-directories apart from:</p>
 <ul>
 <li>alpine_sea_holly</li>
 <li>anthurium</li>
 <li>artichoke</li>
 </ul>
-<p>Rename the <code>categories</code> directory to <code>3flowers</code> and move it into the <code>data</code> folder of our directory structure 
+<p>Rename the <code>subdir</code> directory to <code>3flowers</code> and move it into the <code>data</code> folder of our directory structure 
 outlined. </p>
 <h3 id="training">Training</h3>
 <p>For training, we will use the following docker image:</p>
@@ -180,7 +166,8 @@ outlined. </p>
 <pre><code>waikatodatamining/tf_image_classification:1.14_cpu
 </code></pre>
 <p>The training script is called <code>tfic-retrain</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help
+<pre><code class="language-bash">docker run -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
+docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
@@ -189,16 +176,111 @@ create the following directory in the <code>output</code> folder:</p>
 </code></pre>
 <p>The following command, issued in the <code>applied_deep_learning</code> directory, will map the <code>applied_deep_learning</code>
 directory (= the current working directory) onto the <code>/workspace</code> directory within the docker container, giving
-us access to all the sub-directories there, and train our 3flowsers dataset:</p>
+us access to all the sub-directories there, and train our 3flowers dataset (<code>-u $(id -u):$(id -g)</code> maps the user 
+and group ID):</p>
+<p>GPU:</p>
 <pre><code class="language-bash">docker run \
   -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-retrain \
+  --image_dir /workspace/data/3flowers \
+  --output_graph /workspace/output/3flowers-default/graph.pb \
+  --output_info /workspace/output/3flowers-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-default \
+  --training_steps 500
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
   --output_graph /workspace/output/3flowers-default/graph.pb \
+  --output_info /workspace/output/3flowers-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-default \
   --training_steps 500
 </code></pre>
+<h3 id="exporting-model">Exporting model</h3>
+<p>Before we can use the model, we need to export it to <em>Tensorflow lite</em> or <em>tflite</em>:</p>
+<p>GPU:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-export \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --tflite_model /workspace/output/3flowers-default/graph.tflite
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14_cpu \
+  tfic-export \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --tflite_model /workspace/output/3flowers-default/graph.tflite
+</code></pre>
 <h3 id="predicting">Predicting</h3>
+<p>For making predictions for a single image, you can use the script <code>tfic-labelimage</code>.</p>
+<p>Since we will want to batch predict multiple images, will use the script <code>tfic-poll</code> instead: </p>
+<p>GPU:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-poll \
+  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph_type tflite \
+  --info /workspace/output/3flowers-default/graph.json \
+  --in_dir /workspace/predictions/in \
+  --out_dir /workspace/predictions/out
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -v `pwd`:/workspace \
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14_cpu \
+  tfic-poll \
+  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph_type tflite \
+  --info /workspace/output/3flowers-default/graph.json \
+  --in_dir /workspace/predictions/in \
+  --out_dir /workspace/predictions/out
+</code></pre>
+<p>E.g., for the <code>image_01965.jpg</code> from the <code>anthurium</code>, we will get a CSV file similar to 
+<a href="../img/image_01965.csv">this one</a>:</p>
+<table>
+<thead>
+<tr>
+<th align="left">label</th>
+<th align="right">probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">anthurium</td>
+<td align="right">0.989429</td>
+</tr>
+<tr>
+<td align="left">artichoke</td>
+<td align="right">0.0060946</td>
+</tr>
+<tr>
+<td align="left">alpine_sea_holly</td>
+<td align="right">0.00447612</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div>
@@ -206,7 +288,7 @@ us access to all the sub-directories there, and train our 3flowsers dataset:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../wai.tflite_model_maker/" class="btn btn-neutral float-right" title="wai.tflite_model_maker">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../object_detection/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../wai.pytorchimageclass/" class="btn btn-neutral" title="wai.pytorchimageclass"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -238,12 +320,13 @@ us access to all the sub-directories there, and train our 3flowsers dataset:</p>
         <span><a href="../wai.pytorchimageclass/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../wai.tflite_model_maker/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../../object_detection/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
     <script>var base_url = '../..';</script>
     <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
     <script defer>
         window.onload = function () {
             SphinxRtdTheme.Navigation.enable(true);
