@@ -18,21 +18,20 @@ nav:
   - 'Image classification':
     - 'Introduction': image_classification/index.md
     - 'Annotate': image_classification/annotate.md
-    - 'MMClassification': image_classification/mmclassification.md
-    - 'wai.pytorchimageclass': image_classification/wai.pytorchimageclass.md
-    - 'wai.tfimageclass': image_classification/wai.tfimageclass.md
+    - '» MMClassification': image_classification/mmclassification.md
+    - '» wai.tfimageclass': image_classification/wai.tfimageclass.md
   - 'Object detection':
     - 'Introduction': object_detection/index.md
     - 'Annotate': object_detection/annotate.md
-    - 'MMDetection': object_detection/mmdetection.md
-    - 'Yolov5': object_detection/yolov5.md
+    - '» MMDetection': object_detection/mmdetection.md
+    - '» Yolov5': object_detection/yolov5.md
   - 'Instance segmentation':
     - 'Introduction': instance_segmentation/index.md
     - 'Annotate': instance_segmentation/annotate.md
-    - 'Detectron2': instance_segmentation/detectron2.md
+    - '» Detectron2': instance_segmentation/detectron2.md
   - 'Image segmentation':
     - 'Introduction': image_segmentation/index.md
     - 'Annotate': image_segmentation/annotate.md
-    - 'Image Segmentation Keras': image_segmentation/image-segmentation-keras.md
-    - 'MMSegmentation': image_segmentation/mmsegmentation.md
-    - 'Segmentation models': image_segmentation/segmentation_models.md
+    - '» Image Segmentation Keras': image_segmentation/image-segmentation-keras.md
+    - '» MMSegmentation': image_segmentation/mmsegmentation.md
+    - '» Segmentation models': image_segmentation/segmentation_models.md
