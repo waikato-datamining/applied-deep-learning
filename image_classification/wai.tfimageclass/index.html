@@ -63,7 +63,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../mmclassification/">MMClassification</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../wai.pytorchimageclass/">wai.pytorchimageclass</a>
+                    <li class="toctree-l1"><a class="" href="../wai.pytorchimageclass.md">wai.pytorchimageclass</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">wai.tfimageclass</a>
     <ul class="current">
@@ -172,7 +172,7 @@ docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>3flowers-default
+<pre><code>3flowers-tf-default
 </code></pre>
 <p>The following command, issued in the <code>applied_deep_learning</code> directory, will map the <code>applied_deep_learning</code>
 directory (= the current working directory) onto the <code>/workspace</code> directory within the docker container, giving
@@ -180,84 +180,84 @@ us access to all the sub-directories there, and train our 3flowers dataset (<cod
 and group ID):</p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
   -u $(id -u):$(id -g) \
   --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
-  --output_graph /workspace/output/3flowers-default/graph.pb \
-  --output_info /workspace/output/3flowers-default/graph.json \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --image_lists_dir /workspace/output/3flowers-default \
+  --output_graph /workspace/output/3flowers-tf-default/graph.pb \
+  --output_info /workspace/output/3flowers-tf-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-tf-default \
   --training_steps 500
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
-  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
-  --output_graph /workspace/output/3flowers-default/graph.pb \
-  --output_info /workspace/output/3flowers-default/graph.json \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --image_lists_dir /workspace/output/3flowers-default \
+  --output_graph /workspace/output/3flowers-tf-default/graph.pb \
+  --output_info /workspace/output/3flowers-tf-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-tf-default \
   --training_steps 500
 </code></pre>
 <h3 id="exporting-model">Exporting model</h3>
 <p>Before we can use the model, we need to export it to <em>Tensorflow lite</em> or <em>tflite</em>:</p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
   -u $(id -u):$(id -g) \
   --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-export \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --tflite_model /workspace/output/3flowers-default/graph.tflite
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --tflite_model /workspace/output/3flowers-tf-default/graph.tflite
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
-  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-export \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --tflite_model /workspace/output/3flowers-default/graph.tflite
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --tflite_model /workspace/output/3flowers-tf-default/graph.tflite
 </code></pre>
 <h3 id="predicting">Predicting</h3>
 <p>For making predictions for a single image, you can use the script <code>tfic-labelimage</code>.</p>
 <p>Since we will want to batch predict multiple images, will use the script <code>tfic-poll</code> instead: </p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -v `pwd`:/workspace \
   -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-poll \
-  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph /workspace/output/3flowers-tf-default/graph.tflite \
   --graph_type tflite \
-  --info /workspace/output/3flowers-default/graph.json \
+  --info /workspace/output/3flowers-tf-default/graph.json \
   --in_dir /workspace/predictions/in \
   --out_dir /workspace/predictions/out
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
-  -v `pwd`:/workspace \
   -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-poll \
-  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph /workspace/output/3flowers-tf-default/graph.tflite \
   --graph_type tflite \
-  --info /workspace/output/3flowers-default/graph.json \
+  --info /workspace/output/3flowers-tf-default/graph.json \
   --in_dir /workspace/predictions/in \
   --out_dir /workspace/predictions/out
 </code></pre>
-<p>E.g., for the <code>image_01965.jpg</code> from the <code>anthurium</code>, we will get a CSV file similar to 
+<p>E.g., for the <code>image_01965.jpg</code> from the <code>anthurium</code> class, we will get a CSV file similar to 
 <a href="../img/image_01965.csv">this one</a>:</p>
 <table>
 <thead>
@@ -291,7 +291,7 @@ and group ID):</p>
         <a href="../../object_detection/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../wai.pytorchimageclass/" class="btn btn-neutral" title="wai.pytorchimageclass"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../mmclassification/" class="btn btn-neutral" title="MMClassification"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -317,7 +317,7 @@ and group ID):</p>
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../wai.pytorchimageclass/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../mmclassification/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../../object_detection/" style="color: #fcfcfc">Next &raquo;</a></span>
