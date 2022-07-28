@@ -22,7 +22,7 @@ Once extracted, you can delete all sub-directories apart from:
 * anthurium
 * artichoke
 
-Rename the `categories` directory to `3flowers` and move it into the `data` folder of our directory structure 
+Rename the `subdir` directory to `3flowers` and move it into the `data` folder of our directory structure 
 outlined. 
 
 
@@ -43,7 +43,8 @@ waikatodatamining/tf_image_classification:1.14_cpu
 The training script is called `tfic-retrain`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help
+docker run -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
+docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -56,18 +57,113 @@ create the following directory in the `output` folder:
 
 The following command, issued in the `applied_deep_learning` directory, will map the `applied_deep_learning`
 directory (= the current working directory) onto the `/workspace` directory within the docker container, giving
-us access to all the sub-directories there, and train our 3flowsers dataset:
+us access to all the sub-directories there, and train our 3flowers dataset (`-u $(id -u):$(id -g)` maps the user 
+and group ID):
+
+GPU:
 
 ```bash
 docker run \
   -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-retrain \
+  --image_dir /workspace/data/3flowers \
+  --output_graph /workspace/output/3flowers-default/graph.pb \
+  --output_info /workspace/output/3flowers-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-default \
+  --training_steps 500
+```
+
+CPU:
+
+```bash
+docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
   --output_graph /workspace/output/3flowers-default/graph.pb \
+  --output_info /workspace/output/3flowers-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-default \
   --training_steps 500
+```
+
+# Exporting model
+
+Before we can use the model, we need to export it to *Tensorflow lite* or *tflite*:
+
+GPU:
+
+```bash
+docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-export \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --tflite_model /workspace/output/3flowers-default/graph.tflite
+```
+
+CPU:
+
+```bash
+docker run \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14_cpu \
+  tfic-export \
+  --saved_model_dir /workspace/output/3flowers-default/saved_model \
+  --tflite_model /workspace/output/3flowers-default/graph.tflite
 ```
 
 
 # Predicting
 
+For making predictions for a single image, you can use the script `tfic-labelimage`.
+
+Since we will want to batch predict multiple images, will use the script `tfic-poll` instead: 
+
+GPU:
+
+```bash
+docker run \
+  -v `pwd`:/workspace \
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14 \
+  tfic-poll \
+  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph_type tflite \
+  --info /workspace/output/3flowers-default/graph.json \
+  --in_dir /workspace/predictions/in \
+  --out_dir /workspace/predictions/out
+```
+
+CPU:
+
+```bash
+docker run \
+  -v `pwd`:/workspace \
+  -u $(id -u):$(id -g) \
+  -t waikatodatamining/tf_image_classification:1.14_cpu \
+  tfic-poll \
+  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph_type tflite \
+  --info /workspace/output/3flowers-default/graph.json \
+  --in_dir /workspace/predictions/in \
+  --out_dir /workspace/predictions/out
+```
+
+E.g., for the `image_01965.jpg` from the `anthurium`, we will get a CSV file similar to 
+[this one](img/image_01965.csv):
+
+{{ read_csv('docs/image_classification/img/image_01965.csv') }}
