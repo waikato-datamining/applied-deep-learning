@@ -52,7 +52,7 @@ what dataset and model were used. So for our first training run, which will use 
 create the following directory in the `output` folder:
 
 ```
-3flowers-default
+3flowers-tf-default
 ```
 
 The following command, issued in the `applied_deep_learning` directory, will map the `applied_deep_learning`
@@ -64,17 +64,17 @@ GPU:
 
 ```bash
 docker run \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
   -u $(id -u):$(id -g) \
   --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
-  --output_graph /workspace/output/3flowers-default/graph.pb \
-  --output_info /workspace/output/3flowers-default/graph.json \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --image_lists_dir /workspace/output/3flowers-default \
+  --output_graph /workspace/output/3flowers-tf-default/graph.pb \
+  --output_info /workspace/output/3flowers-tf-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-tf-default \
   --training_steps 500
 ```
 
@@ -82,16 +82,16 @@ CPU:
 
 ```bash
 docker run \
+  -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
-  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
-  --output_graph /workspace/output/3flowers-default/graph.pb \
-  --output_info /workspace/output/3flowers-default/graph.json \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --image_lists_dir /workspace/output/3flowers-default \
+  --output_graph /workspace/output/3flowers-tf-default/graph.pb \
+  --output_info /workspace/output/3flowers-tf-default/graph.json \
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --image_lists_dir /workspace/output/3flowers-tf-default \
   --training_steps 500
 ```
 
@@ -103,27 +103,27 @@ GPU:
 
 ```bash
 docker run \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
   -u $(id -u):$(id -g) \
   --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-export \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --tflite_model /workspace/output/3flowers-default/graph.tflite
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --tflite_model /workspace/output/3flowers-tf-default/graph.tflite
 ```
 
 CPU:
 
 ```bash
 docker run \
+  -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
-  -u $(id -u):$(id -g) \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-export \
-  --saved_model_dir /workspace/output/3flowers-default/saved_model \
-  --tflite_model /workspace/output/3flowers-default/graph.tflite
+  --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
+  --tflite_model /workspace/output/3flowers-tf-default/graph.tflite
 ```
 
 
@@ -137,13 +137,13 @@ GPU:
 
 ```bash
 docker run \
-  -v `pwd`:/workspace \
   -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-poll \
-  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph /workspace/output/3flowers-tf-default/graph.tflite \
   --graph_type tflite \
-  --info /workspace/output/3flowers-default/graph.json \
+  --info /workspace/output/3flowers-tf-default/graph.json \
   --in_dir /workspace/predictions/in \
   --out_dir /workspace/predictions/out
 ```
@@ -152,13 +152,13 @@ CPU:
 
 ```bash
 docker run \
-  -v `pwd`:/workspace \
   -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-poll \
-  --graph /workspace/output/3flowers-default/graph.tflite \
+  --graph /workspace/output/3flowers-tf-default/graph.tflite \
   --graph_type tflite \
-  --info /workspace/output/3flowers-default/graph.json \
+  --info /workspace/output/3flowers-tf-default/graph.json \
   --in_dir /workspace/predictions/in \
   --out_dir /workspace/predictions/out
 ```
