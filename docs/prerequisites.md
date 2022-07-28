@@ -40,16 +40,3 @@ Create the following directory structure for the examples of this tutorial:
         |
         +-- out
 ```
-
-# wai.annotations
-
-Within the `applied_deep_learning` directory, we will install [wai.annotations](https://github.com/waikato-ufdl/wai-annotations),
-for converting data:
-
-```bash
-python3 -m venv waiann
-./waiann/bin/pip install --upgrade pip setuptools
-./waiann/bin/pip install "numpy<1.23.0"
-./waiann/bin/pip install wai.pycocotools
-./waiann/bin/pip install wai.annotations
-```
