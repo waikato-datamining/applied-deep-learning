@@ -2,7 +2,7 @@
 framework for image segmentation that offers a wide variety of architectures. Custom docker
 images with additional tools are available from here:
 
-https://github.com/waikato-datamining/mmsegmentation
+[https://github.com/waikato-datamining/mmsegmentation](https://github.com/waikato-datamining/mmsegmentation)
 
 
 # Prerequisites
