@@ -40,3 +40,24 @@ Create the following directory structure for the examples of this tutorial:
         |
         +-- out
 ```
+
+# Docker notes
+
+To make the Docker commands as easy as possible, they will all get issued from the within
+the `applied_deep_learning` directory. In order to get access to the *data*, *output* and 
+*predictions* directories, we use the following mapping:
+
+```
+-v `pwd`:/workspace
+```
+
+This will map the `applied_deep_learning` directory onto the `/workspace` directory within
+the container.
+
+Since Docker usually runs as `root` within the container, we want to make sure that the user
+group of any files that get generated are being owned by the current user. This can be achieved
+by adding the following to the Docker command:
+
+```
+-u $(id -u):$(id -g) -e USER=$USER
+```
