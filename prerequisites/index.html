@@ -168,6 +168,19 @@ image classification models can be built in a reasonable amount of time on CPU-o
         |
         +-- out
 </code></pre>
+<h3 id="docker-notes">Docker notes</h3>
+<p>To make the Docker commands as easy as possible, they will all get issued from the within
+the <code>applied_deep_learning</code> directory. In order to get access to the <em>data</em>, <em>output</em> and 
+<em>predictions</em> directories, we use the following mapping:</p>
+<pre><code>-v `pwd`:/workspace
+</code></pre>
+<p>This will map the <code>applied_deep_learning</code> directory onto the <code>/workspace</code> directory within
+the container.</p>
+<p>Since Docker usually runs as <code>root</code> within the container, we want to make sure that the user
+group of any files that get generated are being owned by the current user. This can be achieved
+by adding the following to the Docker command:</p>
+<pre><code>-u $(id -u):$(id -g) -e USER=$USER
+</code></pre>
               
             </div>
           </div>

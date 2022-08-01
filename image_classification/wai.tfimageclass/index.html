@@ -146,7 +146,7 @@ the <a href="https://tfhub.dev/">Tensorflow Hub</a>.</p>
 <p>In this example, we will use the <a href="http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/">102 flowers</a>
 dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
 dataset with the flowers already split into categories from which will use a subset to speed up the training process.</p>
-<p>Download the dataset from the following URL and extract it:</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
 <p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip</a></p>
 <p>Once extracted, you can delete all sub-directories apart from:</p>
 <ul>
@@ -172,13 +172,11 @@ what dataset and model were used. So for our first training run, which will use 
 create the following directory in the <code>output</code> folder:</p>
 <pre><code>3flowers-tf-default
 </code></pre>
-<p>The following command, issued in the <code>applied_deep_learning</code> directory, will map the <code>applied_deep_learning</code>
-directory (= the current working directory) onto the <code>/workspace</code> directory within the docker container, giving
-us access to all the sub-directories there, and train our 3flowers dataset (<code>-u $(id -u):$(id -g)</code> maps the user 
-and group ID):</p>
+<p>The following command will train an <a href="https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3">Inception v3</a> 
+model for 500 steps:</p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
@@ -189,11 +187,12 @@ and group ID):</p>
   --output_info /workspace/output/3flowers-tf-default/graph.json \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
   --image_lists_dir /workspace/output/3flowers-tf-default \
+  --tfhub_module https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3 \
   --training_steps 500
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14_cpu \
@@ -203,13 +202,14 @@ and group ID):</p>
   --output_info /workspace/output/3flowers-tf-default/graph.json \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
   --image_lists_dir /workspace/output/3flowers-tf-default \
+  --tfhub_module https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3 \
   --training_steps 500
 </code></pre>
 <h3 id="exporting-model">Exporting model</h3>
 <p>Before we can use the model, we need to export it to <em>Tensorflow lite</em> or <em>tflite</em>:</p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
@@ -220,7 +220,7 @@ and group ID):</p>
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14_cpu \
@@ -233,7 +233,7 @@ and group ID):</p>
 <p>Since we will want to batch predict multiple images, will use the script <code>tfic-poll</code> instead: </p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-poll \
@@ -245,7 +245,7 @@ and group ID):</p>
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-poll \
