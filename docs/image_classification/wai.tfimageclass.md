@@ -55,10 +55,8 @@ create the following directory in the `output` folder:
 3flowers-tf-default
 ```
 
-The following command, issued in the `applied_deep_learning` directory, will map the `applied_deep_learning`
-directory (= the current working directory) onto the `/workspace` directory within the docker container, giving
-us access to all the sub-directories there, and train our 3flowers dataset (`-u $(id -u):$(id -g)` maps the user 
-and group ID):
+The following command will train an [Inception v3](https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3) 
+model for 500 steps:
 
 GPU:
 
@@ -75,6 +73,7 @@ docker run \
   --output_info /workspace/output/3flowers-tf-default/graph.json \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
   --image_lists_dir /workspace/output/3flowers-tf-default \
+  --tfhub_module https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3 \
   --training_steps 500
 ```
 
@@ -92,6 +91,7 @@ docker run \
   --output_info /workspace/output/3flowers-tf-default/graph.json \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
   --image_lists_dir /workspace/output/3flowers-tf-default \
+  --tfhub_module https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3 \
   --training_steps 500
 ```
 
