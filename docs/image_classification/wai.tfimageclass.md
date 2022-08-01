@@ -64,7 +64,7 @@ GPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
@@ -82,7 +82,7 @@ CPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14_cpu \
@@ -103,7 +103,7 @@ GPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
@@ -117,7 +117,7 @@ CPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules
   -t waikatodatamining/tf_image_classification:1.14_cpu \
@@ -137,7 +137,7 @@ GPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-poll \
@@ -152,7 +152,7 @@ CPU:
 
 ```bash
 docker run \
-  -u $(id -u):$(id -g) \
+  -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-poll \
