@@ -12,7 +12,7 @@ In this example, we will use the [102 flowers](http://datasets.cms.waikato.ac.nz
 dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
 dataset with the flowers already split into categories from which will use a subset to speed up the training process.
 
-Download the dataset from the following URL and extract it:
+Download the dataset from the following URL into the *data* directory and extract it:
 
 [https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip](https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip)
 
