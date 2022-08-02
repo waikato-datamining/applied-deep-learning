@@ -215,8 +215,8 @@ own purposes:</p>
   --work-dir /workspace/output/camvid12-mmseg-pspnet50
 </code></pre>
 <h3 id="predicting">Predicting</h3>
-<p>Using the <code>mmseg_poll</code> script, we can batch predict images from the <code>predictions/in</code> directory
-as follows: </p>
+<p>Using the <code>mmseg_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
@@ -225,12 +225,16 @@ as follows: </p>
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMSEG_CLASSES=&quot;sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled&quot; \
   -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
-  mmseg_poll \
+  mmseg_predict_poll \
   --model /workspace/output/camvid12-mmseg-pspnet50/latest.pth \
   --config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
+<p><strong>NB:</strong> 
+* The predictions can either be output in <em>grayscale</em> (default) or <em>bluechannel</em> format (<code>--prediction_format</code>).
+* You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>SimpleImageSegmentationAnnotationsHandler</em>
+  (which will overlay the PNG transparently on the JPG; may require some configuring via the <code>...</code> button).</p>
               
             </div>
           </div>

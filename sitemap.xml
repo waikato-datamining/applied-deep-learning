@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/prerequisites/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/annotate/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/mmclassification/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_classification/wai.tfimageclass/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/annotate/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/mmdetection/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/object_detection/yolov5/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/instance_segmentation/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/instance_segmentation/annotate/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/instance_segmentation/detectron2/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/annotate/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/image-segmentation-keras/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/mmsegmentation/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://www.data-mining.co.nz/applied-deeplearning/image_segmentation/segmentation_models/</loc>
-     <lastmod>2022-08-01</lastmod>
+     <lastmod>2022-08-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
