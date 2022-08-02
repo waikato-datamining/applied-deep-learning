@@ -10,7 +10,7 @@ Make sure you have the directory structure created as outlined in the [Prerequis
 
 In this example, we will use the [102 flowers](http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/)
 dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
-dataset with the flowers already split into categories from which will use a subset to speed up the training process.
+dataset with the flowers already split into categories from which we will use a subset to speed up the training process.
 
 Download the dataset from the following URL into the *data* directory and extract it:
 
