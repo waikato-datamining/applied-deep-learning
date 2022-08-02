@@ -8,4 +8,3 @@ The following frameworks are available:
 
 * [Image Segmentation Keras](image-segmentation-keras.md)
 * [MMSegmentation](mmsegmentation.md)
-* [Segmentation models](segmentation_models.md)
