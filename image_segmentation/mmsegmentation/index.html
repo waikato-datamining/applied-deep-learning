@@ -196,7 +196,7 @@ own purposes:</p>
 <p>Open the <code>pspnet_r50.py</code> file in a text editor and perform the following operations:</p>
 <ul>
 <li>change <code>num_classes</code> to 12 (background not counted).</li>
-<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the data dictionary.</li>
+<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary.</li>
 <li>change <code>data_root</code> occurrences to <code>/workspace/data/indexed-split</code> (the directory above the <code>train</code> and <code>val</code> directories).</li>
 <li>change <code>img_dir</code> occurrences to <code>img_dir=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
 <li>do the same with <code>ann_dir</code></li>
