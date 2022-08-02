@@ -87,7 +87,7 @@ docker run \
 Open the `pspnet_r50.py` file in a text editor and perform the following operations:
 
 * change `num_classes` to 12 (background not counted).
-* change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the data dictionary.
+* change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary.
 * change `data_root` occurrences to `/workspace/data/indexed-split` (the directory above the `train` and `val` directories).
 * change `img_dir` occurrences to `img_dir=data_root+'/DIR',` with `DIR` being the appropriate `train`, `val` or `test`
 * do the same with `ann_dir`
