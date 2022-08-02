@@ -131,7 +131,8 @@ docker run \
   --prediction_out /workspace/predictions/out
 ```
 
-**NB:** 
+**Notes** 
+
 * The predictions can either be output in *grayscale* (default) or *bluechannel* format (`--prediction_format`).
 * You can view the predictions with the ADAMS *Preview browser* and, e.g., the *SimpleImageSegmentationAnnotationsHandler*
   (which will overlay the PNG transparently on the JPG; may require some configuring via the `...` button).
