@@ -29,6 +29,8 @@ Create the following directory structure for the examples of this tutorial:
 +-- applied_deep_learning
     |
     +-- cache
+    |   |
+    |   +-- torch
     |
     +-- data
     |
