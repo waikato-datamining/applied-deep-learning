@@ -93,10 +93,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">» Image Segmentation Keras</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../mmsegmentation/">» MMSegmentation</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../segmentation_models/">» Segmentation models</a>
                     </li>
                 </ul>
       </div>
@@ -135,7 +135,91 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a href="https://github.com/divamgupta/image-segmentation-keras">Image Segmenation Keras</a> is a Keras/Tensorflow
+based image segmentation framework. Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/tensorflow/tree/master/image-segmentation-keras">https://github.com/waikato-datamining/tensorflow/tree/master/image-segmentation-keras</a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/camvid12/">CamVid-12</a>
+dataset, which consists of still images from dashcam videos from a city environment (12 different labels).</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip</a></p>
+<p>Once extracted, we have to convert the format from <em>grayscale</em> into <em>blue channel</em>, which the framework uses.
+We can do this by using the <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
+At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
+<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-grayscale-is \
+      -i &quot;/workspace/data/grayscale/*.png&quot; \
+      --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
+    to-blue-channel-is \
+      -o /workspace/data/bluechannel-split \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/image-segmentation-keras:1.14.0_0.3.0
+</code></pre>
+<p>The training script is called <code>keras_seg_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 keras_seg_train --help 
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>camvid12-keras-unet50
+</code></pre>
+<p>Image Segmentation Keras does not use a config file, but can be configured via command-line parameters
+instead:</p>
+<ul>
+<li>the number of classes (<code>--n_classes</code>) is actual classes plus background </li>
+<li>the width/height of the inputs must be multiples of 32 (<code>--input_height</code>, <code>--input_width</code>) </li>
+<li>the output directory is specified via <code>--checkpoints_path</code> (make sure to have a trailing slash!) </li>
+<li>in our case, the images and the annotations reside in the same directories, so <code>--train_images</code> and <code>--train_annotations</code> 
+  point to the same directory (analog for <code>--val_images</code> and <code>--val_annotations</code>)</li>
+<li>with <code>--epochs</code> you can specify for how long the model will get trained</li>
+<li><code>--model_name</code> specifies the architecture and backend (see <a href="https://github.com/divamgupta/image-segmentation-keras#models">here</a> for available options)</li>
+</ul>
+<p>Kick off the training of a U-Net with a ResNet50 backend using the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/.keras \
+  -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 \
+  keras_seg_train \
+  --checkpoints_path /workspace/output/camvid12-keras-unet50/ \
+  --train_images /workspace/data/bluechannel-split/train \
+  --train_annotations /workspace/data/bluechannel-split/train \
+  --val_images /workspace/data/bluechannel-split/val \
+  --val_annotations /workspace/data/bluechannel-split/val \
+  --epochs 10 \
+  --n_classes 13 \
+  --input_height 384 \
+  --input_width 480 \
+  --model_name resnet50_unet
+</code></pre>
+<h3 id="predicting">Predicting</h3>
+<p>Using the <code>keras_seg_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/tmp/.keras \
+  -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 \
+  keras_seg_poll \
+  --checkpoints_path /workspace/output/camvid12-keras-unet50/ \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/isk-0016E5_05310.png" /> </p>
+<p><img alt="Screenshot" src="../img/isk-0016E5_05310-overlay.png" /></p>
               
             </div>
           </div>
