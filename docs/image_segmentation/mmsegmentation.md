@@ -139,6 +139,6 @@ docker run \
 
 **Example prediction**
 
-![Screenshot](img/0016E5_05310.png) 
+![Screenshot](img/mmseg-0016E5_05310.png) 
 
-![Screenshot](img/0016E5_05310-overlay.png)
+![Screenshot](img/mmseg-0016E5_05310-overlay.png)
