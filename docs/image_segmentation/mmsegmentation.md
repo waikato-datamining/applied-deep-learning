@@ -112,8 +112,8 @@ docker run \
 
 # Predicting
 
-Using the `mmseg_poll` script, we can batch predict images from the `predictions/in` directory
-as follows: 
+Using the `mmseg_predict_poll` script, we can batch-process images placed in the `predictions/in` directory
+as follows (e.g., from our *test* subset): 
 
 ```bash
 docker run \
@@ -124,9 +124,14 @@ docker run \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMSEG_CLASSES="sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled" \
   -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
-  mmseg_poll \
+  mmseg_predict_poll \
   --model /workspace/output/camvid12-mmseg-pspnet50/latest.pth \
   --config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 ```
+
+**NB:** 
+* The predictions can either be output in *grayscale* (default) or *bluechannel* format (`--prediction_format`).
+* You can view the predictions with the ADAMS *Preview browser* and, e.g., the *SimpleImageSegmentationAnnotationsHandler*
+  (which will overlay the PNG transparently on the JPG; may require some configuring via the `...` button).
