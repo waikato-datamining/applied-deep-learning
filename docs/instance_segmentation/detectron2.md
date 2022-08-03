@@ -64,7 +64,7 @@ what dataset and model were used. So for our first training run, which will use 
 create the following directory in the `output` folder:
 
 ```
-pets-d2-maskrcnn
+pets2-d2-maskrcnn
 ```
 
 Before we can train, we will need to obtain and customize a config file. Within the container,
@@ -88,8 +88,8 @@ docker run \
   d2_dump_config \
   --config_in /opt/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
   --num_classes 2 \
-  --output_dir /workspace/output/pets-d2-maskrcnn \
-  --config_out /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
+  --output_dir /workspace/output/pets2-d2-maskrcnn \
+  --config_out /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
 ```
 
 Edit the `mask_rcnn_R_50_FPN_1x.yaml` file and change the following values (`IMS_PER_BATCH` is reduced to fit 
@@ -117,13 +117,13 @@ docker run \
   -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
   -t waikatodatamining/detectron2:0.6 \
   d2_train_coco \
-  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
   --train_annotations /workspace/data/pets2-coco-split/train/annotations.json \
   --train_images /workspace/data/pets2-coco-split/train/ \
   --test_annotations /workspace/data/pets2-coco-split/val/annotations.json \
   --test_images /workspace/data/pets2-coco-split/val/ \
   --labels /workspace/data/pets2-coco-split/train/labels.txt \
-  --output_dir /workspace/output/pets-d2-maskrcnn
+  --output_dir /workspace/output/pets2-d2-maskrcnn
 ```
 
 
@@ -143,8 +143,8 @@ docker run \
   -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
   -t waikatodatamining/detectron2:0.6 \
   d2_predict \
-  --model /workspace/output/pets-d2-maskrcnn/model_final.pth \
-  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --model /workspace/output/pets2-d2-maskrcnn/model_final.pth \
+  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
   --labels /workspace/data/pets2-coco-split/train/labels.txt \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
