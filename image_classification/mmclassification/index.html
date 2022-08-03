@@ -62,6 +62,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMClassification</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../wai.tfimageclass/">» wai.tfimageclass</a>
                     </li>
@@ -133,7 +135,158 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a href="https://github.com/open-mmlab/mmclassification">MMClassification</a> is a comprehensive and flexible
+framework for image segmentation that offers a wide variety of models. Custom docker
+images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/mmclassification">https://github.com/waikato-datamining/mmclassification</a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/">102 flowers</a>
+dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
+dataset with the flowers already split into categories from which we will use a subset to speed up the training process.</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/102flowers/102flowers-subdir.zip</a></p>
+<p>Once extracted, you can delete all sub-directories apart from:</p>
+<ul>
+<li>alpine_sea_holly</li>
+<li>anthurium</li>
+<li>artichoke</li>
+<li>azalea</li>
+<li>ball_moss</li>
+</ul>
+<p>Rename the <code>subdir</code> directory to <code>5flowers</code> and move it into the <code>data</code> folder of our directory structure 
+outlined. </p>
+<p>Split the data into <em>train</em>, <em>validation</em> and <em>test</em> subsets using 
+<a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-subdir-ic \
+      -i &quot;/workspace/data/5flowers/**/*.jpg&quot; \
+    to-subdir-ic \
+      -o /workspace/data/5flowers-split \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/mmclassification:0.23.1_cuda11.1
+</code></pre>
+<p>If you only have a CPU machine available, then use this one instead:</p>
+<pre><code>waikatodatamining/mmclassification:0.23.1_cpu
+</code></pre>
+<p>The training script is called <code>mmcls_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/mmclassification:0.23.1_cuda11.1 mmcls_train --help   # GPU
+docker run -t waikatodatamining/mmclassification:0.23.1_cpu mmcls_train --help        # CPU
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>5flowers-mmcl-r18
+</code></pre>
+<p>Before we can train, we will need to obtain and customize a config file. Within the container,
+you can find example configurations for various architectures in the following directory:</p>
+<pre><code>/mmclassification/configs
+</code></pre>
+<p>Using the <code>mmseg_config</code> command, we can expand and dump one of these configurations for our
+own purposes:</p>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  mmcls_config \
+  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
+  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
+</code></pre>
+<p>GPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  mmcls_config \
+  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
+  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
+</code></pre>
+<p>Open the <code>resnet18_b32x8_imagenet.py</code> file in a text editor and perform the following operations:</p>
+<ul>
+<li>remove the lines before <code>model = dict(</code></li>
+<li>change <code>num_classes</code> to <code>5</code></li>
+<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
+<li>change <code>dataset_prefix</code> to <code>/workspace/data/5flowers-split/train</code>, <code>../test</code> and <code>../val</code> in the relevant sections</li>
+<li>change <code>ann_file</code> occurrences to <code>None</code></li>
+<li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value</li>
+<li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>  </li>
+</ul>
+<p>GPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) -e USER=$USER \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
+  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  mmcls_train \
+  /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  --work-dir /workspace/output/5flowers-mmcl-r18
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) -e USER=$USER \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
+  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  mmcls_train \
+  /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  --work-dir /workspace/output/5flowers-mmcl-r18
+</code></pre>
+<h3 id="predicting">Predicting</h3>
+<p>Using the <code>mmcls_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<p>GPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) -e USER=$USER \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
+  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  mmcls_predict_poll \
+  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
+  --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) -e USER=$USER \
+  -v `pwd`:/workspace \
+  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
+  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  mmcls_predict_poll \
+  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
+  --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p>E.g., for the <code>image_08085.jpg</code> from the <code>alpine_sea_holly</code> class, we will get a JSON file similar to 
+<a href="../img/image_08085.json">this one</a>:</p>
+<pre><code class="language-json">{
+  &quot;alpine_sea_holly&quot;: 0.9981447458267212,
+  &quot;anthurium&quot;: 1.6010968465707265e-05,
+  &quot;artichoke&quot;: 0.0015235934406518936,
+  &quot;azalea&quot;: 2.2820820504421135e-06,
+  &quot;ball_moss&quot;: 0.00031330727506428957
+}
+</code></pre>
               
             </div>
           </div>
