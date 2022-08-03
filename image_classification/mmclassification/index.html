@@ -287,6 +287,18 @@ as follows (e.g., from our <em>test</em> subset): </p>
   &quot;ball_moss&quot;: 0.00031330727506428957
 }
 </code></pre>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ul>
+<li>
+<p><strong>RuntimeError: selected index k out of range</strong></p>
+<p>This can occur if you have less than 5 class labels.
+You need to update the config file as follows (<a href="https://raw.githubusercontent.com/open-mmlab/mmclassification/master/docs/en/tutorials/MMClassification_python.ipynb">source</a>):</p>
+<ul>
+<li>set <code>model/head/topk</code> to <code>(1, )</code> rather than <code>(1, 5)</code></li>
+<li>add <code>metric_options={'topk': (1, )</code> to the <code>evaluation</code> dictionary </li>
+</ul>
+</li>
+</ul>
               
             </div>
           </div>
