@@ -177,7 +177,7 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>pets-d2-maskrcnn
+<pre><code>pets2-d2-maskrcnn
 </code></pre>
 <p>Before we can train, we will need to obtain and customize a config file. Within the container,
 you can find example configurations for various architectures in the following directory:</p>
@@ -195,8 +195,8 @@ own purposes:</p>
   d2_dump_config \
   --config_in /opt/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
   --num_classes 2 \
-  --output_dir /workspace/output/pets-d2-maskrcnn \
-  --config_out /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
+  --output_dir /workspace/output/pets2-d2-maskrcnn \
+  --config_out /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
 </code></pre>
 <p>Edit the <code>mask_rcnn_R_50_FPN_1x.yaml</code> file and change the following values (<code>IMS_PER_BATCH</code> is reduced to fit 
 in your GPU's memory, the others to limit training time):</p>
@@ -218,13 +218,13 @@ in your GPU's memory, the others to limit training time):</p>
   -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
   -t waikatodatamining/detectron2:0.6 \
   d2_train_coco \
-  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
   --train_annotations /workspace/data/pets2-coco-split/train/annotations.json \
   --train_images /workspace/data/pets2-coco-split/train/ \
   --test_annotations /workspace/data/pets2-coco-split/val/annotations.json \
   --test_images /workspace/data/pets2-coco-split/val/ \
   --labels /workspace/data/pets2-coco-split/train/labels.txt \
-  --output_dir /workspace/output/pets-d2-maskrcnn
+  --output_dir /workspace/output/pets2-d2-maskrcnn
 </code></pre>
 <h3 id="predicting">Predicting</h3>
 <p>Using the <code>d2_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
@@ -239,8 +239,8 @@ as follows (e.g., from our <em>test</em> subset): </p>
   -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
   -t waikatodatamining/detectron2:0.6 \
   d2_predict \
-  --model /workspace/output/pets-d2-maskrcnn/model_final.pth \
-  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --model /workspace/output/pets2-d2-maskrcnn/model_final.pth \
+  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
   --labels /workspace/data/pets2-coco-split/train/labels.txt \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
