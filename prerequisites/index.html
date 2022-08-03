@@ -162,6 +162,8 @@ image classification models can be built in a reasonable amount of time on CPU-o
     |
     +-- data
     |
+    +-- models
+    |
     +-- output
     |
     +-- predictions
@@ -169,6 +171,16 @@ image classification models can be built in a reasonable amount of time on CPU-o
         +-- in
         |
         +-- out
+</code></pre>
+<p>Use this command-line to create the directories:</p>
+<pre><code class="language-bash">mkdir -p \ 
+  applied_deep_learning/cache/torch \
+  applied_deep_learning/cache/iopath_cache \
+  applied_deep_learning/data \
+  applied_deep_learning/models \
+  applied_deep_learning/output \
+  applied_deep_learning/predictions/in \
+  applied_deep_learning/predictions/out
 </code></pre>
 <h3 id="docker-notes">Docker notes</h3>
 <p>To make the Docker commands as easy as possible, they will all get issued from the within

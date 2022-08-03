@@ -75,6 +75,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../mmdetection/">» MMDetection</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">» Yolov5</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
@@ -133,7 +135,128 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a href="https://github.com/ultralytics/yolov5">Yolov5</a> is a family of object detection architectures and models pretrained on 
+the COCO dataset, and represents Ultralytics open-source research into future vision AI methods. 
+Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/pytorch/tree/master/yolov5">https://github.com/waikato-datamining/pytorch/tree/master/yolov5</a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/american-sign-language-letters/">American Sign Language Letters</a>
+dataset, which consists of sets of images of hands, one per letter in the English alphabet (26 labels).</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip</a></p>
+<p>Once extracted, rename the <em>voc</em> directory to <em>sign-voc</em>.</p>
+<p>Now we have to convert the format from <em>VOC XML</em> into <em>YOLO</em>. We can do this by using the 
+<a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
+At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
+<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-voc-od \
+      -i &quot;/workspace/data/sign-voc/*.xml&quot; \
+    to-yolo-od \
+      -o /workspace/data/sign-yolo-split \
+      --labels /workspace/data/sign-yolo-split/labels.txt \
+      --labels-csv /workspace/data/sign-yolo-split/labels.csv \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<p><strong>NB:</strong> At the time of writing, the yolo plugin for wai.annotations still had a bug which 
+creates empty top-level directories when splitting datasets via <code>--split-names</code>. In the 
+<code>sign-yolo-split</code> directory, you can safely remove the <code>train</code>, <code>test</code> and <code>val</code> directories, 
+since the actual splits are below the <code>images</code> and <code>labels</code> directories:</p>
+<pre><code class="language-bash">rm -fR data/sign-yolo-split/train data/sign-yolo-split/test data/sign-yolo-split/val
+</code></pre>
+<p>Finally, download the <a href="../img/dataset.yaml">dataset.yaml</a> file and place it in the <code>sign-yolo-split</code>
+directory. It contains information about the dataset directory, the splits and the class labels.
+Since the labels can come out in a random order, you need to update the labels in the yaml file
+with the ones that got output in the <code>labels.txt</code> file. You can automatically quote the
+comma-separated list using the following command:</p>
+<pre><code class="language-bash">cat data/sign-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
+</code></pre>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1
+</code></pre>
+<p>If you do not have a GPU, you can use the CPU-only image:</p>
+<pre><code>waikatodatamining/pytorch-yolov5:2022-01-21_cpu
+</code></pre>
+<p>The training script is called <code>yolov5_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 yolov5_train --help 
+</code></pre>
+<p>Instead of using config files, we can just tweak parameters via command-line options.</p>
+<p>However, we still need to download a base model to use for training. Yolov5 offers different
+models, which differ in speed and accuracy. We will use the <em>medium</em> one called <code>yolov5m.pt</code>
+from the <code>v6.0</code> release:</p>
+<p><a href="https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5m.pt">https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5m.pt</a></p>
+<p>Download it and place it in the <code>models</code> directory.</p>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>sign-yolov5
+</code></pre>
+<p><strong>NB:</strong> Yolov5 will automatically append a number to the output directory if said
+directory already exists (in order not to overwrite any existing models/outputs).</p>
+<p>Since the image size should be a multiple of 32, we use 416 for this experiment.</p>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  yolov5_train \
+  --img 416 \
+  --batch 16 \
+  --epochs 20 \
+  --data /workspace/data/sign-yolo-split/dataset.yaml \
+  --weights /workspace/models/yolov5m.pt \
+  --project /workspace/output \
+  --name sign-yolov5
+</code></pre>
+<h3 id="exporting-to-onnx">Exporting to ONNX</h3>
+<p>Before we can use our trained model, we will need to export it to <a href="https://onnx.ai/">ONNX format</a>
+using the <code>yolov5_export</code> script:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  yolov5_export \
+  --weights /workspace/output/sign-yolov5/weights/best.pt \
+  --img-size 416 416 \
+  --include onnx
+</code></pre>
+<p>This will create a file called <code>best.onnx</code> in the output directory.</p>
+<h3 id="predicting">Predicting</h3>
+<p>Using the <code>yolov5_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  yolov5_predict_poll \
+  --model /workspace/output/sign-yolov5/weights/best.onnx \
+  --data /workspace/data/sign-yolo-split/dataset.yaml \
+  --image_size 416 \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong> </p>
+<ul>
+<li>The predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.</li>
+<li>You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>ObjectLocationsFromSpreadSheet</em>
+  handler. You need to configure this generic handler via the <code>...</code> button, entering the columns 
+  for the bounding box (<code>x0</code>, <code>y0</code>, <code>x1</code>, <code>y1</code>) and the label (<code>label_str</code>) of the 
+  <code>reader</code> (<code>ObjectLocationsSpreadSheetReader</code>).</li>
+</ul>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e-overlay.png" /> </p>
+<p><img alt="Screenshot" src="../img/C10_jpg.rf.5bcf569d31edc542fb1d103907414379-overlay.png" /></p>
               
             </div>
           </div>
