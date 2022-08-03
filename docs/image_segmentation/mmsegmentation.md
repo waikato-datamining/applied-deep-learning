@@ -18,7 +18,9 @@ Download the dataset from the following URL into the *data* directory and extrac
 
 [https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip](https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip)
 
-Once extracted, we have to convert the format from *grayscale* into *indexed PNG*, which MMSegmentation uses.
+Once extracted, rename the *grayscale* directory to *camvid-grayscale*.
+
+Noe we have to convert the format from *grayscale* into *indexed PNG*, which MMSegmentation uses.
 We can do this by using the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
@@ -30,10 +32,10 @@ docker run -u $(id -u):$(id -g) \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
     from-grayscale-is \
-      -i "/workspace/data/grayscale/*.png" \
+      -i "/workspace/data/camvid-grayscale/*.png" \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-indexed-png-is \
-      -o /workspace/data/indexed-split \
+      -o /workspace/data/camvid-indexed-split \
       --split-names train val test \
       --split-ratios 70 15 15
 ```
@@ -88,7 +90,7 @@ Open the `pspnet_r50.py` file in a text editor and perform the following operati
 
 * change `num_classes` to 12 (background not counted).
 * change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary.
-* change `data_root` occurrences to `/workspace/data/indexed-split` (the directory above the `train` and `val` directories).
+* change `data_root` occurrences to `/workspace/data/camvid-indexed-split` (the directory above the `train` and `val` directories).
 * change `img_dir` occurrences to `img_dir=data_root+'/DIR',` with `DIR` being the appropriate `train`, `val` or `test`
 * do the same with `ann_dir`
 
