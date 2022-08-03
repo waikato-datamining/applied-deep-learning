@@ -65,7 +65,7 @@ docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
+  -v `pwd`/cache:/tmp/tfhub_modules \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
@@ -83,7 +83,7 @@ CPU:
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
+  -v `pwd`/cache:/tmp/tfhub_modules \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-retrain \
   --image_dir /workspace/data/3flowers \
@@ -106,7 +106,7 @@ docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
+  -v `pwd`/cache:/tmp/tfhub_modules \
   -t waikatodatamining/tf_image_classification:1.14 \
   tfic-export \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
@@ -119,7 +119,7 @@ CPU:
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/tmp/tfhub_modules
+  -v `pwd`/cache:/tmp/tfhub_modules \
   -t waikatodatamining/tf_image_classification:1.14_cpu \
   tfic-export \
   --saved_model_dir /workspace/output/3flowers-tf-default/saved_model \
