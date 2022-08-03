@@ -36,6 +36,8 @@ Create the following directory structure for the examples of this tutorial:
     |
     +-- data
     |
+    +-- models
+    |
     +-- output
     |
     +-- predictions
@@ -44,6 +46,20 @@ Create the following directory structure for the examples of this tutorial:
         |
         +-- out
 ```
+
+Use this command-line to create the directories:
+
+```bash
+mkdir -p \ 
+  applied_deep_learning/cache/torch \
+  applied_deep_learning/cache/iopath_cache \
+  applied_deep_learning/data \
+  applied_deep_learning/models \
+  applied_deep_learning/output \
+  applied_deep_learning/predictions/in \
+  applied_deep_learning/predictions/out
+```
+
 
 # Docker notes
 
