@@ -172,6 +172,6 @@ docker run \
 
 **Example prediction**
 
-![Screenshot](img/A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e-overlay.png) 
+![Screenshot](img/yolo-A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e-overlay.png) 
 
-![Screenshot](img/C10_jpg.rf.5bcf569d31edc542fb1d103907414379-overlay.png)
+![Screenshot](img/yolo-C10_jpg.rf.5bcf569d31edc542fb1d103907414379-overlay.png)
