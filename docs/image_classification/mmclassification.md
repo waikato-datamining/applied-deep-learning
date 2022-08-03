@@ -204,3 +204,13 @@ E.g., for the `image_08085.jpg` from the `alpine_sea_holly` class, we will get a
   "ball_moss": 0.00031330727506428957
 }
 ```
+
+# Troubleshooting
+
+* **RuntimeError: selected index k out of range**
+  
+    This can occur if you have less than 5 class labels.
+    You need to update the config file as follows ([source](https://raw.githubusercontent.com/open-mmlab/mmclassification/master/docs/en/tutorials/MMClassification_python.ipynb)):
+
+    * set `model/head/topk` to `(1, )` rather than `(1, 5)`
+    * add `metric_options={'topk': (1, )` to the `evaluation` dictionary 
