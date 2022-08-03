@@ -153,3 +153,7 @@ docker run \
 **Notes**
 
 * The predictions are in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi)
+
+**Example prediction**
+
+![Screenshot](img/Abyssinian_110.png) ![Screenshot](img/Abyssinian_110-overlay.png)
