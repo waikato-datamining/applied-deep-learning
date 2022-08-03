@@ -17,7 +17,9 @@ Download the dataset from the following URL into the *data* directory and extrac
 
 [https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip](https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip)
 
-Once extracted, we have to convert the format from *grayscale* into *blue channel*, which the framework uses.
+Once extracted, rename the *grayscale* directory to *camvid-grayscale*.
+
+Now we have to convert the format from *grayscale* into *blue channel*, which the framework uses.
 We can do this by using the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
@@ -29,10 +31,10 @@ docker run -u $(id -u):$(id -g) \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
     from-grayscale-is \
-      -i "/workspace/data/grayscale/*.png" \
+      -i "/workspace/data/camvid-grayscale/*.png" \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-blue-channel-is \
-      -o /workspace/data/bluechannel-split \
+      -o /workspace/data/camvid-bluechannel-split \
       --split-names train val test \
       --split-ratios 70 15 15
 ```
@@ -82,10 +84,10 @@ docker run \
   -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 \
   keras_seg_train \
   --checkpoints_path /workspace/output/camvid12-keras-unet50/ \
-  --train_images /workspace/data/bluechannel-split/train \
-  --train_annotations /workspace/data/bluechannel-split/train \
-  --val_images /workspace/data/bluechannel-split/val \
-  --val_annotations /workspace/data/bluechannel-split/val \
+  --train_images /workspace/data/camvid-bluechannel-split/train \
+  --train_annotations /workspace/data/camvid-bluechannel-split/train \
+  --val_images /workspace/data/camvid-bluechannel-split/val \
+  --val_annotations /workspace/data/camvid-bluechannel-split/val \
   --epochs 10 \
   --n_classes 13 \
   --input_height 384 \
