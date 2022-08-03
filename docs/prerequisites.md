@@ -31,6 +31,8 @@ Create the following directory structure for the examples of this tutorial:
     +-- cache
     |   |
     |   +-- torch
+    |   |
+    |   +-- iopath_cache
     |
     +-- data
     |
