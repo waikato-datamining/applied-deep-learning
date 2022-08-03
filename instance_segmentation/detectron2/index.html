@@ -84,6 +84,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">» Detectron2</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
@@ -133,7 +135,120 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a href="https://github.com/facebookresearch/detectron2">Detectron2</a> is a platform for object detection, segmentation and 
+other visual recognition tasks. Custom docker images for <em>instance segmentation</em> with additional 
+tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/pytorch/tree/master/detectron2">https://github.com/waikato-datamining/pytorch/tree/master/detectron2</a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/oxford-pets/">Oxford Pets</a>
+dataset, which consists of 37 different categories of cats and dogs.</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip</a></p>
+<p>Rename the <code>adams</code> directory to <code>pets-adams</code>. </p>
+<p>To speed up training, we only use two labels: <code>cat:abyssinian</code> and <code>dog:yorkshire_terrier</code>.
+The label filtering and splitting it into <em>train</em>, <em>validation</em> and <em>test</em> subsets is done 
+using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-adams-od \
+      -i &quot;/workspace/data/pets-adams/*.report&quot; \
+    filter-labels \
+      --labels cat:abyssinian dog:yorkshire_terrier \
+    discard-negatives \
+    coerce-mask \
+    to-coco-od \
+      -o /workspace/data/pets2-coco-split/annotations.json \
+      --sort-categories \
+      --category-output-file labels.txt \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/detectron2:0.6
+</code></pre>
+<p>The training script is called <code>d2_train_coco</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/detectron2:0.6 d2_train_coco --help 
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>pets-d2-maskrcnn
+</code></pre>
+<p>Before we can train, we will need to obtain and customize a config file. Within the container,
+you can find example configurations for various architectures in the following directory:</p>
+<pre><code>/opt/detectron2/configs/COCO-InstanceSegmentation
+</code></pre>
+<p>Using the <code>d2_dump_config</code> command, we can expand and dump one of these configurations for our
+own purposes:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/detectron2:0.6 \
+  d2_dump_config \
+  --config_in /opt/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
+  --num_classes 2 \
+  --output_dir /workspace/output/pets-d2-maskrcnn \
+  --config_out /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
+</code></pre>
+<p>Edit the <code>mask_rcnn_R_50_FPN_1x.yaml</code> file and change the following values (<code>IMS_PER_BATCH</code> is reduced to fit 
+in your GPU's memory, the others to limit training time):</p>
+<pre><code class="language-yaml">SOLVER:
+  IMS_PER_BATCH: 4
+  MAX_ITER: 15000
+  STEPS:
+  - 5000
+  - 10000
+</code></pre>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
+  -t waikatodatamining/detectron2:0.6 \
+  d2_train_coco \
+  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --train_annotations /workspace/data/pets2-coco-split/train/annotations.json \
+  --train_images /workspace/data/pets2-coco-split/train/ \
+  --test_annotations /workspace/data/pets2-coco-split/val/annotations.json \
+  --test_images /workspace/data/pets2-coco-split/val/ \
+  --labels /workspace/data/pets2-coco-split/train/labels.txt \
+  --output_dir /workspace/output/pets-d2-maskrcnn
+</code></pre>
+<h3 id="predicting">Predicting</h3>
+<p>Using the <code>d2_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
+  -t waikatodatamining/detectron2:0.6 \
+  d2_predict \
+  --model /workspace/output/pets-d2-maskrcnn/model_final.pth \
+  --config /workspace/output/pets-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
+  --labels /workspace/data/pets2-coco-split/train/labels.txt \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>The predictions are in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a></li>
+</ul>
               
             </div>
           </div>
