@@ -1,6 +1,8 @@
 # Applied Deep Learning
 Website for applied deep learning, using our publicly available annotation/conversion tools and docker images.
 
+https://www.data-mining.co.nz/applied-deep-learning/
+
 ## Local
 
 ### Installation
