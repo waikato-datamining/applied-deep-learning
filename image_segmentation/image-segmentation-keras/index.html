@@ -145,7 +145,8 @@ based image segmentation framework. Custom docker images with additional tools a
 dataset, which consists of still images from dashcam videos from a city environment (12 different labels).</p>
 <p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
 <p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip</a></p>
-<p>Once extracted, we have to convert the format from <em>grayscale</em> into <em>blue channel</em>, which the framework uses.
+<p>Once extracted, rename the <em>grayscale</em> directory to <em>camvid-grayscale</em>.</p>
+<p>Now we have to convert the format from <em>grayscale</em> into <em>blue channel</em>, which the framework uses.
 We can do this by using the <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
 At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
@@ -154,10 +155,10 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
     from-grayscale-is \
-      -i &quot;/workspace/data/grayscale/*.png&quot; \
+      -i &quot;/workspace/data/camvid-grayscale/*.png&quot; \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-blue-channel-is \
-      -o /workspace/data/bluechannel-split \
+      -o /workspace/data/camvid-bluechannel-split \
       --split-names train val test \
       --split-ratios 70 15 15
 </code></pre>
@@ -193,10 +194,10 @@ instead:</p>
   -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 \
   keras_seg_train \
   --checkpoints_path /workspace/output/camvid12-keras-unet50/ \
-  --train_images /workspace/data/bluechannel-split/train \
-  --train_annotations /workspace/data/bluechannel-split/train \
-  --val_images /workspace/data/bluechannel-split/val \
-  --val_annotations /workspace/data/bluechannel-split/val \
+  --train_images /workspace/data/camvid-bluechannel-split/train \
+  --train_annotations /workspace/data/camvid-bluechannel-split/train \
+  --val_images /workspace/data/camvid-bluechannel-split/val \
+  --val_annotations /workspace/data/camvid-bluechannel-split/val \
   --epochs 10 \
   --n_classes 13 \
   --input_height 384 \

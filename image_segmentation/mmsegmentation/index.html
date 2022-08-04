@@ -146,7 +146,8 @@ images with additional tools are available from here:</p>
 dataset, which consists of still images from dashcam videos from a city environment (12 different labels).</p>
 <p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
 <p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip</a></p>
-<p>Once extracted, we have to convert the format from <em>grayscale</em> into <em>indexed PNG</em>, which MMSegmentation uses.
+<p>Once extracted, rename the <em>grayscale</em> directory to <em>camvid-grayscale</em>.</p>
+<p>Noe we have to convert the format from <em>grayscale</em> into <em>indexed PNG</em>, which MMSegmentation uses.
 We can do this by using the <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
 At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
@@ -155,10 +156,10 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
     from-grayscale-is \
-      -i &quot;/workspace/data/grayscale/*.png&quot; \
+      -i &quot;/workspace/data/camvid-grayscale/*.png&quot; \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-indexed-png-is \
-      -o /workspace/data/indexed-split \
+      -o /workspace/data/camvid-indexed-split \
       --split-names train val test \
       --split-ratios 70 15 15
 </code></pre>
@@ -195,7 +196,7 @@ own purposes:</p>
 <ul>
 <li>change <code>num_classes</code> to 12 (background not counted).</li>
 <li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary.</li>
-<li>change <code>data_root</code> occurrences to <code>/workspace/data/indexed-split</code> (the directory above the <code>train</code> and <code>val</code> directories).</li>
+<li>change <code>data_root</code> occurrences to <code>/workspace/data/camvid-indexed-split</code> (the directory above the <code>train</code> and <code>val</code> directories).</li>
 <li>change <code>img_dir</code> occurrences to <code>img_dir=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
 <li>do the same with <code>ann_dir</code></li>
 </ul>

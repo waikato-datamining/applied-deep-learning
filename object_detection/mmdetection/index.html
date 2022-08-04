@@ -73,6 +73,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMDetection</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../yolov5/">» Yolov5</a>
                     </li>
@@ -133,7 +135,122 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> is a comprehensive and flexible
+framework for object detection that offers a wide variety of architectures. Custom docker
+images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/mmdetection">https://github.com/waikato-datamining/mmdetection</a></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h3 id="data">Data</h3>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/american-sign-language-letters/">American Sign Language Letters</a>
+dataset, which consists of sets of images of hands, one per letter in the English alphabet (26 labels).</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip</a></p>
+<p>Once extracted, rename the <em>voc</em> directory to <em>sign-voc</em>.</p>
+<p>Now we have to convert the format from <em>VOC XML</em> into <em>MS COCO</em>. We can do this by using the 
+<a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
+At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
+<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-voc-od \
+      -i &quot;/workspace/data/sign-voc/*.xml&quot; \
+    to-coco-od \
+      -o /workspace/data/sign-coco-split/annotations.json \
+      --sort-categories \
+      --category-output-file labels.txt \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<h3 id="training">Training</h3>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/mmdetection:2.24.1_cuda11.1
+</code></pre>
+<p>The training script is called <code>mmdet_train</code>, for which we can invoke the help screen as follows
+(unfortunately, we need to set the <code>MMDET_CLASSES</code> environment variable to avoid an exception):</p>
+<pre><code class="language-bash">docker run \
+  -e MMDET_CLASSES= \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_train --help 
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>sign-mmdet-fr50
+</code></pre>
+<p>Before we can train, we will need to obtain and customize a config file. Within the container,
+you can find example configurations for various architectures in the following directory:</p>
+<pre><code>/mmdetection/configs
+</code></pre>
+<p>Using the <code>mmdet_config</code> command, we can expand and dump one of these configurations for our
+own purposes:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_config \
+  /mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
+  &gt; output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py
+</code></pre>
+<p>Open the <code>faster_rcnn_r50_fpn_1x_coco.py</code> file in a text editor and perform the following operations:</p>
+<ul>
+<li>remove any lines before <code>model = dict(</code></li>
+<li>change <code>num_classes</code> to 26</li>
+<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
+<li>change <code>data_root</code> occurrences to <code>/workspace/data/sign-coco-split</code> (the directory above the <code>train</code> and <code>val</code> directories)</li>
+<li>change <code>img_prefix</code> occurrences to <code>img_prefix=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
+<li>change <code>ann_file</code> occurrences to <code>ann_file=data_root+'/DIR/annotations.json',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
+<li>change <code>max_epochs</code> in <code>runner</code> to an appropriate value, e.g., 5</li>
+<li>change <code>interval</code> in <code>checkpoint_config</code> to a higher value, e.g., 5</li>
+</ul>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -e MMDET_CLASSES=/workspace/data/sign-coco-split/train/labels.txt \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_train \
+  /workspace/output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py \
+  --work-dir /workspace/output/sign-mmdet-fr50
+</code></pre>
+<h3 id="predicting">Predicting</h3>
+<p>Using the <code>mmdet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -e MMDET_CLASSES=/workspace/data/sign-coco-split/train/labels.txt \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_predict \
+  --checkpoint /workspace/output/sign-mmdet-fr50/latest.pth \
+  --config /workspace/output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong> </p>
+<ul>
+<li>The predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.</li>
+<li>You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>ObjectLocationsFromSpreadSheet</em>
+  handler. You need to configure this generic handler via the <code>...</code> button, entering the columns 
+  for the bounding box (<code>x0</code>, <code>y0</code>, <code>x1</code>, <code>y1</code>) and the label (<code>label_str</code>) of the 
+  <code>reader</code> (<code>ObjectLocationsSpreadSheetReader</code>).</li>
+</ul>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/mmdet-A2_jpg.rf.e4d1f7a2679ab0140ad27a794db563c9-overlay.png" /> </p>
+<p><img alt="Screenshot" src="../img/mmdet-I0_jpg.rf.9dc9f090b7475a65889b24265858d240-overlay.png" /></p>
               
             </div>
           </div>
