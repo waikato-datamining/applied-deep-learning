@@ -1,6 +1,7 @@
 site_name: Applied Deep Learning
 site_url: https://www.data-mining.co.nz/applied-deep-learning/
 site_description: Documentation for Applied Deep Learning.
+repo_url: https://github.com/waikato-datamining/applied-deep-learning
 theme:
     name: readthedocs
 plugins:
