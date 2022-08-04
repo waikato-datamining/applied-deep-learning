@@ -16,3 +16,26 @@ The following domains are covered by the examples:
 * [Object detection](object_detection/index.md)
 * [Instance segmentation](instance_segmentation/index.md)
 * [Image segmentation](image_segmentation/index.md)
+
+
+# Redis
+
+To keep things simple, these examples use *file-polling* when making predictions, i.e.,
+looking for images in an input directory and outputting predictions (and original 
+input images in another directory).
+
+However, this may not be optimal when using SSDs, as they can wear out quickly when
+processing large amounts of files on a 24/7 basis. Having model pipelines can acerbate
+things even further.
+
+To alleviate wear and tear on the hardware, these frameworks also allow processing images
+via a [Redis](https://redis.io/) in-memory database backend. In this case, the models
+listen for images being broadcast on a Redis channel, pick them up, make predictions and
+then broadcast the predictions on another Redis channel. This allows for the construction
+of efficient, low-latency processing pipelines.
+
+When using this approach, the predictions are commonly broadcast in a [JSON](https://www.json.org/) 
+format, which can be easily processed in most programming languages.
+
+Redis itself has [clients](https://redis.io/docs/clients/) available in a wide range of programming 
+languages as well.
