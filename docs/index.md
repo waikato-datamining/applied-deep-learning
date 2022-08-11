@@ -17,8 +17,14 @@ The following domains are covered by the examples:
 * [Instance segmentation](instance_segmentation/index.md)
 * [Image segmentation](image_segmentation/index.md)
 
+These tutorials will use shorter training times (i.e., lower epochs/iterations/steps) to
+arrive faster at a model. However, this also means that the quality of the model will be lower. 
+You will need to experiment with the training duration (and probably other hyper parameters)
+to achieve a good performance. The point of these tutorials is to get you going with
+deep learning.
 
-# Redis
+
+# Note on I/O
 
 To keep things simple, these examples use *file-polling* when making predictions, i.e.,
 looking for images in an input directory and outputting predictions (and original 
