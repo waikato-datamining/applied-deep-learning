@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_classification/mmclassification/">
+  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_classification/tf2_make_image_classifier/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>» MMClassification - Applied Deep Learning</title>
+  <title>» tf2_make_image_classifier - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,9 +18,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u00bb MMClassification";
-    var mkdocs_page_input_path = "image_classification/mmclassification.md";
-    var mkdocs_page_url = "/applied-deep-learning/image_classification/mmclassification/";
+    var mkdocs_page_name = "\u00bb tf2_make_image_classifier";
+    var mkdocs_page_input_path = "image_classification/tf2_make_image_classifier.md";
+    var mkdocs_page_url = "/applied-deep-learning/image_classification/tf2_make_image_classifier/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
@@ -61,11 +61,11 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMClassification</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../mmclassification/">» MMClassification</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» tf2_make_image_classifier</a>
     <ul class="current">
     </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../tf2_make_image_classifier/">» tf2_make_image_classifier</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../wai.tfimageclass/">» wai.tfimageclass</a>
                     </li>
@@ -126,10 +126,10 @@
         
       
     
-    <li>» MMClassification</li>
+    <li>» tf2_make_image_classifier</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_classification/mmclassification.md"
+        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_classification/tf2_make_image_classifier.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -140,10 +140,11 @@
           <div role="main">
             <div class="section">
               
-                <p><a href="https://github.com/open-mmlab/mmclassification">MMClassification</a> is a comprehensive and flexible
-framework for image segmentation that offers a wide variety of models. Custom docker
-images with additional tools are available from here:</p>
-<p><a href="https://github.com/waikato-datamining/mmclassification">https://github.com/waikato-datamining/mmclassification</a></p>
+                <p>The <a href="https://github.com/tensorflow/hub/tree/master/tensorflow_hub/tools/make_image_classifier">make_image_classifier</a> 
+Python library can be used for training various TensorFlow 2 image classification models that are available from 
+<a href="https://tfhub.dev/">Tensorflow Hub</a>.</p>
+<p>Code for the Docker images and additional Python code is available from here:</p>
+<p><a href="https://github.com/waikato-datamining/tensorflow/tree/master/image_classification2">https://github.com/waikato-datamining/tensorflow/tree/master/image_classification2</a></p>
 <h3 id="prerequisites">Prerequisites</h3>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
 <h3 id="data">Data</h3>
@@ -157,116 +158,70 @@ dataset with the flowers already split into categories from which we will use a 
 <li>alpine_sea_holly</li>
 <li>anthurium</li>
 <li>artichoke</li>
-<li>azalea</li>
-<li>ball_moss</li>
 </ul>
-<p>Rename the <code>subdir</code> directory to <code>5flowers</code> and move it into the <code>data</code> folder of our directory structure 
+<p>Rename the <code>subdir</code> directory to <code>3flowers</code> and move it into the <code>data</code> folder of our directory structure 
 outlined. </p>
-<p>Split the data into <em>train</em>, <em>validation</em> and <em>test</em> subsets using 
-<a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
-<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
-  wai-annotations convert \
-    from-subdir-ic \
-      -i &quot;/workspace/data/5flowers/**/*.jpg&quot; \
-    to-subdir-ic \
-      -o /workspace/data/5flowers-split \
-      --split-names train val test \
-      --split-ratios 70 15 15
-</code></pre>
 <h3 id="training">Training</h3>
 <p>For training, we will use the following docker image:</p>
-<pre><code>waikatodatamining/mmclassification:0.23.1_cuda11.1
+<pre><code>waikatodatamining/tf_image_classification2:2.9.1_cuda11.1
 </code></pre>
 <p>If you only have a CPU machine available, then use this one instead:</p>
-<pre><code>waikatodatamining/mmclassification:0.23.1_cpu
+<pre><code>waikatodatamining/tf_image_classification2:2.9.1_cpu
 </code></pre>
-<p>The training script is called <code>mmcls_train</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/mmclassification:0.23.1_cuda11.1 mmcls_train --help   # GPU
-docker run -t waikatodatamining/mmclassification:0.23.1_cpu mmcls_train --help        # CPU
+<p>The training script is called <code>make_image_classifier</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 make_image_classifier --helpfull   # GPU
+docker run -t waikatodatamining/tf_image_classification2:2.9.1_cpu make_image_classifier --helpfull        # CPU
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>5flowers-mmcl-r18
+<pre><code>3flowers-tf2-default
 </code></pre>
-<p>Before we can train, we will need to obtain and customize a config file. Within the container,
-you can find example configurations for various architectures in the following directory:</p>
-<pre><code>/mmclassification/configs
-</code></pre>
-<p>Using the <code>mmseg_config</code> command, we can expand and dump one of these configurations for our
-own purposes:</p>
-<p>CPU:</p>
-<pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
-  mmcls_config \
-  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
-  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
-</code></pre>
-<p>GPU:</p>
-<pre><code class="language-bash">docker run \
-  -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
-  mmcls_config \
-  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
-  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
-</code></pre>
-<p>Open the <code>resnet18_b32x8_imagenet.py</code> file in a text editor and perform the following operations:</p>
-<ul>
-<li>remove the lines before <code>model = dict(</code></li>
-<li>change <code>num_classes</code> to <code>5</code></li>
-<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
-<li>change <code>dataset_prefix</code> to <code>/workspace/data/5flowers-split/train</code>, <code>../test</code> and <code>../val</code> in the relevant sections</li>
-<li>change <code>ann_file</code> occurrences to <code>None</code></li>
-<li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value</li>
-<li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>  </li>
-</ul>
+<p>The following command will train an <a href="https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_ft1k_b0/feature_vector/2">EfficientNet b0</a> 
+model for 10 epochs:</p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
-  mmcls_train \
-  /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
-  --work-dir /workspace/output/5flowers-mmcl-r18
+  -v `pwd`/cache:/tmp/tfhub_modules \
+  -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 \
+  make_image_classifier \
+  --image_dir /workspace/data/3flowers \
+  --image_size 224 \
+  --saved_model_dir /workspace/output/3flowers-tf2-default \
+  --labels_output_file /workspace/output/3flowers-tf2-default/labels.txt \
+  --tflite_output_file /workspace/output/3flowers-tf2-default/model.tflite \
+  --tfhub_module https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_ft1k_b0/feature_vector/2 \
+  --train_epochs 10
 </code></pre>
 <p>CPU:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
-  mmcls_train \
-  /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
-  --work-dir /workspace/output/5flowers-mmcl-r18
+  -v `pwd`/cache:/tmp/tfhub_modules \
+  -t waikatodatamining/tf_image_classification2:2.9.1_cpu \
+  make_image_classifier \
+  make_image_classifier \
+  --image_dir /workspace/data/3flowers \
+  --image_size 224 \
+  --saved_model_dir /workspace/output/3flowers-tf2-default \
+  --labels_output_file /workspace/output/3flowers-tf2-default/labels.txt \
+  --tflite_output_file /workspace/output/3flowers-tf2-default/model.tflite \
+  --tfhub_module https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_ft1k_b0/feature_vector/2 \
+  --train_epochs 10
 </code></pre>
 <h3 id="predicting">Predicting</h3>
-<p>Using the <code>mmcls_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
-as follows (e.g., from our <em>test</em> subset): </p>
+<p>For making predictions for a single image, you can use the script <code>label_image</code>.</p>
+<p>Since we will want to batch predict multiple images, will use the script <code>predict_poll</code> instead: </p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
-  --gpus=all \
   -v `pwd`:/workspace \
-  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
-  mmcls_predict_poll \
-  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
-  --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 \
+  predict_poll \
+  --model /workspace/output/3flowers-tf2-default/model.tflite \
+  --labels /workspace/output/3flowers-tf2-default/labels.txt \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
@@ -274,36 +229,21 @@ as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
-  -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
-  mmcls_predict_poll \
-  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
-  --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
+  -t waikatodatamining/tf_image_classification2:2.9.1_cpu \
+  predict_poll \
+  --model /workspace/output/3flowers-tf2-default/model.tflite \
+  --labels /workspace/output/3flowers-tf2-default/labels.txt \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
-<p>E.g., for the <code>image_08085.jpg</code> from the <code>alpine_sea_holly</code> class, we will get a JSON file similar to 
-<a href="../img/image_08085.json">this one</a>:</p>
+<p>E.g., for the <code>image_02048.jpg</code> from the <code>anthurium</code> class, we will get a JSON file similar to 
+<a href="../img/image_02048.json">this one</a>:</p>
 <pre><code class="language-json">{
-  &quot;alpine_sea_holly&quot;: 0.9981447458267212,
-  &quot;anthurium&quot;: 1.6010968465707265e-05,
-  &quot;artichoke&quot;: 0.0015235934406518936,
-  &quot;azalea&quot;: 2.2820820504421135e-06,
-  &quot;ball_moss&quot;: 0.00031330727506428957
+  &quot;anthurium&quot;: 0.8697358965873718,
+  &quot;alpine_sea_holly&quot;: 0.06686040759086609,
+  &quot;artichoke&quot;: 0.0634036660194397
 }
 </code></pre>
-<h3 id="troubleshooting">Troubleshooting</h3>
-<ul>
-<li>
-<p><strong>RuntimeError: selected index k out of range</strong></p>
-<p>This can occur if you have less than 5 class labels.
-You need to update the config file as follows (<a href="https://raw.githubusercontent.com/open-mmlab/mmclassification/master/docs/en/tutorials/MMClassification_python.ipynb">source</a>):</p>
-<ul>
-<li>set <code>model/head/topk</code> to <code>(1, )</code> rather than <code>(1, 5)</code></li>
-<li>add <code>metric_options={'topk': (1, )</code> to the <code>evaluation</code> dictionary </li>
-</ul>
-</li>
-</ul>
               
             </div>
           </div>
@@ -311,10 +251,10 @@ You need to update the config file as follows (<a href="https://raw.githubuserco
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../tf2_make_image_classifier/" class="btn btn-neutral float-right" title="» tf2_make_image_classifier">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../wai.tfimageclass/" class="btn btn-neutral float-right" title="» wai.tfimageclass">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../annotate/" class="btn btn-neutral" title="Annotate"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../mmclassification/" class="btn btn-neutral" title="» MMClassification"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -342,10 +282,10 @@ You need to update the config file as follows (<a href="https://raw.githubuserco
           <a href="https://github.com/waikato-datamining/applied-deep-learning/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../annotate/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../mmclassification/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../tf2_make_image_classifier/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../wai.tfimageclass/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
