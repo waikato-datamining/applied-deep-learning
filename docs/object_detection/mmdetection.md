@@ -95,7 +95,7 @@ Open the `faster_rcnn_r50_fpn_1x_coco.py` file in a text editor and perform the 
 
 * remove any lines before `model = dict(`
 * change `num_classes` to 26
-* change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary
+* change `dataset_type` to `Dataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary
 * change `data_root` occurrences to `/workspace/data/sign-coco-split` (the directory above the `train` and `val` directories)
 * change `img_prefix` occurrences to `img_prefix=data_root+'/DIR',` with `DIR` being the appropriate `train`, `val` or `test`
 * change `ann_file` occurrences to `ann_file=data_root+'/DIR/annotations.json',` with `DIR` being the appropriate `train`, `val` or `test`
