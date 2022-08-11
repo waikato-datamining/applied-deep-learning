@@ -21,6 +21,7 @@ nav:
     - 'Introduction': image_classification/index.md
     - 'Annotate': image_classification/annotate.md
     - '» MMClassification': image_classification/mmclassification.md
+    - '» tf2_make_image_classifier': image_classification/tf2_make_image_classifier.md
     - '» wai.tfimageclass': image_classification/wai.tfimageclass.md
   - 'Object detection':
     - 'Introduction': object_detection/index.md

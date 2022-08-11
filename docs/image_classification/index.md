@@ -8,4 +8,5 @@ Before you delve into training models, take a look at how you need to [annotate 
 The following frameworks are available:
 
 * [MMClassification](mmclassification.md)
+* [tf2_make_image_classifier](tf2_make_image_classifier.md)
 * [wai.tfimageclass](wai.tfimageclass.md)
