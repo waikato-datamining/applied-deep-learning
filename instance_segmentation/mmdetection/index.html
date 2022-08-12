@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/detectron2/">
+  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/mmdetection/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>» Detectron2 - Applied Deep Learning</title>
+  <title>» MMDetection - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,9 +18,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u00bb Detectron2";
-    var mkdocs_page_input_path = "instance_segmentation/detectron2.md";
-    var mkdocs_page_url = "/applied-deep-learning/instance_segmentation/detectron2/";
+    var mkdocs_page_name = "\u00bb MMDetection";
+    var mkdocs_page_input_path = "instance_segmentation/mmdetection.md";
+    var mkdocs_page_url = "/applied-deep-learning/instance_segmentation/mmdetection/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
@@ -85,11 +85,11 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» Detectron2</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../detectron2/">» Detectron2</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMDetection</a>
     <ul class="current">
     </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../mmdetection/">» MMDetection</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
@@ -128,10 +128,10 @@
         
       
     
-    <li>» Detectron2</li>
+    <li>» MMDetection</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/detectron2.md"
+        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/mmdetection.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -142,10 +142,10 @@
           <div role="main">
             <div class="section">
               
-                <p><a href="https://github.com/facebookresearch/detectron2">Detectron2</a> is a platform for object detection, segmentation and 
-other visual recognition tasks. Custom docker images for <em>instance segmentation</em> with additional 
-tools are available from here:</p>
-<p><a href="https://github.com/waikato-datamining/pytorch/tree/master/detectron2">https://github.com/waikato-datamining/pytorch/tree/master/detectron2</a></p>
+                <p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> is a comprehensive and flexible
+framework not only for object detection, but also for instance segmentation. Custom docker
+images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/mmdetection">https://github.com/waikato-datamining/mmdetection</a></p>
 <h3 id="prerequisites">Prerequisites</h3>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
 <h3 id="data">Data</h3>
@@ -176,21 +176,25 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
 </code></pre>
 <h3 id="training">Training</h3>
 <p>For training, we will use the following docker image:</p>
-<pre><code>waikatodatamining/detectron2:0.6
+<pre><code>waikatodatamining/mmdetection:2.24.1_cuda11.1
 </code></pre>
-<p>The training script is called <code>d2_train_coco</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/detectron2:0.6 d2_train_coco --help 
+<p>The training script is called <code>mmdet_train</code>, for which we can invoke the help screen as follows
+(unfortunately, we need to set the <code>MMDET_CLASSES</code> environment variable to avoid an exception):</p>
+<pre><code class="language-bash">docker run \
+  -e MMDET_CLASSES= \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_train --help 
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>pets2-d2-maskrcnn
+<pre><code>pets2-mmdet-maskrcnn
 </code></pre>
 <p>Before we can train, we will need to obtain and customize a config file. Within the container,
 you can find example configurations for various architectures in the following directory:</p>
-<pre><code>/opt/detectron2/configs/COCO-InstanceSegmentation
+<pre><code>/mmdetection/configs
 </code></pre>
-<p>Using the <code>d2_dump_config</code> command, we can expand and dump one of these configurations for our
+<p>Using the <code>mmdet_config</code> command, we can expand and dump one of these configurations for our
 own purposes:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
@@ -198,22 +202,23 @@ own purposes:</p>
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/detectron2:0.6 \
-  d2_dump_config \
-  --config_in /opt/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
-  --num_classes 2 \
-  --output_dir /workspace/output/pets2-d2-maskrcnn \
-  --config_out /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_config \
+  /mmdetection/configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py \
+  &gt; output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py
 </code></pre>
-<p>Edit the <code>mask_rcnn_R_50_FPN_1x.yaml</code> file and change the following values (<code>IMS_PER_BATCH</code> is reduced to fit 
-in your GPU's memory, the others to limit training time):</p>
-<pre><code class="language-yaml">SOLVER:
-  IMS_PER_BATCH: 4
-  MAX_ITER: 15000
-  STEPS:
-  - 5000
-  - 10000
-</code></pre>
+<p>Open the <code>mask_rcnn_r50_fpn_1x_coco.py</code> file in a text editor and perform the following operations:</p>
+<ul>
+<li>remove any lines before <code>model = dict(</code></li>
+<li>change all occurrences of <code>num_classes</code> to 2</li>
+<li>change <code>dataset_type</code> to <code>Dataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
+<li>change <code>data_root</code> occurrences to <code>/workspace/data/pets2-coco-split</code> (the directory above the <code>train</code> and <code>val</code> directories)</li>
+<li>change <code>img_prefix</code> occurrences to <code>img_prefix=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
+<li>change <code>ann_file</code> occurrences to <code>ann_file=data_root+'/DIR/annotations.json',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
+<li>change <code>max_epochs</code> in <code>runner</code> to an appropriate value, e.g., 50</li>
+<li>change <code>interval</code> in <code>checkpoint_config</code> to a higher value, e.g., 5</li>
+<li>change <code>lr</code> (learning rate) in <code>optimizer</code> to <code>0.002</code> to avoid NaNs with a learning rate that is too high</li>
+</ul>
 <p>Kick off the training with the following command:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
@@ -222,19 +227,14 @@ in your GPU's memory, the others to limit training time):</p>
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
-  -t waikatodatamining/detectron2:0.6 \
-  d2_train_coco \
-  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
-  --train_annotations /workspace/data/pets2-coco-split/train/annotations.json \
-  --train_images /workspace/data/pets2-coco-split/train/ \
-  --test_annotations /workspace/data/pets2-coco-split/val/annotations.json \
-  --test_images /workspace/data/pets2-coco-split/val/ \
-  --labels /workspace/data/pets2-coco-split/train/labels.txt \
-  --output_dir /workspace/output/pets2-d2-maskrcnn
+  -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_train \
+  /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
+  --work-dir /workspace/output/pets2-mmdet-maskrcnn
 </code></pre>
 <h3 id="predicting">Predicting</h3>
-<p>Using the <code>d2_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+<p>Using the <code>mmdet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
@@ -243,21 +243,24 @@ as follows (e.g., from our <em>test</em> subset): </p>
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -v `pwd`/cache/iopath_cache:/tmp/iopath_cache \
-  -t waikatodatamining/detectron2:0.6 \
-  d2_predict \
-  --model /workspace/output/pets2-d2-maskrcnn/model_final.pth \
-  --config /workspace/output/pets2-d2-maskrcnn/mask_rcnn_R_50_FPN_1x.yaml \
-  --labels /workspace/data/pets2-coco-split/train/labels.txt \
+  -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
+  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  mmdet_predict \
+  --checkpoint /workspace/output/pets2-mmdet-maskrcnn/latest.pth \
+  --config /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
-<p><strong>Notes</strong></p>
+<p><strong>Notes</strong> </p>
 <ul>
-<li>The predictions are in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a></li>
+<li>The predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.</li>
+<li>You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>ObjectLocationsFromSpreadSheet</em>
+  handler. You need to configure this generic handler via the <code>...</code> button, entering the columns 
+  for the bounding box (<code>x0</code>, <code>y0</code>, <code>x1</code>, <code>y1</code>), the polygon coordinates (<code>poly_x</code> and <code>poly_y</code>) and the 
+  label (<code>label_str</code>) of the <code>reader</code> (<code>ObjectLocationsSpreadSheetReader</code>).</li>
 </ul>
 <p><strong>Example prediction</strong></p>
-<p><img alt="Screenshot" src="../img/Abyssinian_110.png" /> <img alt="Screenshot" src="../img/Abyssinian_110-overlay.png" /></p>
+<p><img alt="Screenshot" src="../img/mmdet-Abyssinian_117.png" /> <img alt="Screenshot" src="../img/mmdet-Abyssinian_117-overlay.png" /></p>
               
             </div>
           </div>
@@ -265,10 +268,10 @@ as follows (e.g., from our <em>test</em> subset): </p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../mmdetection/" class="btn btn-neutral float-right" title="» MMDetection">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../image_segmentation/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../annotate/" class="btn btn-neutral" title="Annotate"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../detectron2/" class="btn btn-neutral" title="» Detectron2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -296,10 +299,10 @@ as follows (e.g., from our <em>test</em> subset): </p>
           <a href="https://github.com/waikato-datamining/applied-deep-learning/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../annotate/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../detectron2/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../mmdetection/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../../image_segmentation/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
