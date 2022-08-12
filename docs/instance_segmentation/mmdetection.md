@@ -101,7 +101,7 @@ Open the `mask_rcnn_r50_fpn_1x_coco.py` file in a text editor and perform the fo
 * change `data_root` occurrences to `/workspace/data/pets2-coco-split` (the directory above the `train` and `val` directories)
 * change `img_prefix` occurrences to `img_prefix=data_root+'/DIR',` with `DIR` being the appropriate `train`, `val` or `test`
 * change `ann_file` occurrences to `ann_file=data_root+'/DIR/annotations.json',` with `DIR` being the appropriate `train`, `val` or `test`
-* change `max_epochs` in `runner` to an appropriate value, e.g., 25
+* change `max_epochs` in `runner` to an appropriate value, e.g., 50
 * change `interval` in `checkpoint_config` to a higher value, e.g., 5
 * change `lr` (learning rate) in `optimizer` to `0.002` to avoid NaNs with a learning rate that is too high
 
