@@ -255,6 +255,10 @@ as follows (e.g., from our <em>test</em> subset): </p>
 <p><strong>Notes</strong></p>
 <ul>
 <li>The predictions are in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a></li>
+<li>You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>ObjectLocationsFromSpreadSheet</em>
+  handler. You need to configure this generic handler via the <code>...</code> button, entering the columns 
+  for the bounding box (<code>x0</code>, <code>y0</code>, <code>x1</code>, <code>y1</code>), the polygon coordinates (<code>poly_x</code> and <code>poly_y</code>) and the 
+  label (<code>label_str</code>) of the <code>reader</code> (<code>ObjectLocationsSpreadSheetReader</code>).</li>
 </ul>
 <p><strong>Example prediction</strong></p>
 <p><img alt="Screenshot" src="../img/Abyssinian_110.png" /> <img alt="Screenshot" src="../img/Abyssinian_110-overlay.png" /></p>
