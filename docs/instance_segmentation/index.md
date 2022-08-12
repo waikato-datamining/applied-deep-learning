@@ -9,3 +9,4 @@ Before you delve into training models, take a look at how you need to [annotate 
 The following frameworks are available:
 
 * [Detectron2](detectron2.md)
+* [MMDetection](mmdetection.md)

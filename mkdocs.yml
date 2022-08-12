@@ -32,6 +32,7 @@ nav:
     - 'Introduction': instance_segmentation/index.md
     - 'Annotate': instance_segmentation/annotate.md
     - '» Detectron2': instance_segmentation/detectron2.md
+    - '» MMDetection': instance_segmentation/mmdetection.md
   - 'Image segmentation':
     - 'Introduction': image_segmentation/index.md
     - 'Annotate': image_segmentation/annotate.md
