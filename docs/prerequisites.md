@@ -72,7 +72,14 @@ the `applied_deep_learning` directory. In order to get access to the *data*, *ou
 ```
 
 This will map the `applied_deep_learning` directory onto the `/workspace` directory within
-the container.
+the container. 
+
+If you have spaces in any of the parent directories, you need to use double quotes around
+the part before the `:` (otherwise you will get an error like `docker: invalid reference format.`): 
+
+```
+-v "`pwd`":/workspace
+```
 
 Since Docker usually runs as `root` within the container, we want to make sure that the user
 group of any files that get generated are being owned by the current user. This can be achieved
