@@ -9,7 +9,7 @@
   
   <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/mmdetection/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>» MMDetection - Applied Deep Learning</title>
+  <title>MMDetection (instance segmentation) - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u00bb MMDetection";
+    var mkdocs_page_name = "MMDetection (instance segmentation)";
     var mkdocs_page_input_path = "instance_segmentation/mmdetection.md";
     var mkdocs_page_url = "/applied-deep-learning/instance_segmentation/mmdetection/";
   </script>
@@ -61,11 +61,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../image_classification/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_classification/mmclassification/">» MMClassification</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_classification/tf2_make_image_classifier/">» tf2_make_image_classifier</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_classification/wai.tfimageclass/">» wai.tfimageclass</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_classification/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Object detection</span></p>
@@ -74,22 +70,16 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../object_detection/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/mmdetection/">» MMDetection</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/yolov5/">» Yolov5</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
-                <ul class="current">
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../detectron2/">» Detectron2</a>
-                    </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMDetection</a>
-    <ul class="current">
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
@@ -98,9 +88,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/image-segmentation-keras/">» Image Segmentation Keras</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/mmsegmentation/">» MMSegmentation</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/frameworks/">Frameworks</a>
                     </li>
                 </ul>
       </div>
@@ -123,12 +111,8 @@
     <li><a href="../..">Docs</a> &raquo;</li>
     
       
-        
-          <li>Instance segmentation &raquo;</li>
-        
-      
     
-    <li>» MMDetection</li>
+    <li>MMDetection (instance segmentation)</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/mmdetection.md"
@@ -146,9 +130,9 @@
 framework not only for object detection, but also for instance segmentation. Custom docker
 images with additional tools are available from here:</p>
 <p><a href="https://github.com/waikato-datamining/mmdetection">https://github.com/waikato-datamining/mmdetection</a></p>
-<h3 id="prerequisites">Prerequisites</h3>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
-<h3 id="data">Data</h3>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
 <p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/oxford-pets/">Oxford Pets</a>
 dataset, which consists of 37 different categories of cats and dogs.</p>
 <p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
@@ -174,7 +158,7 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
       --split-names train val test \
       --split-ratios 70 15 15
 </code></pre>
-<h3 id="training">Training</h3>
+<h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
 <pre><code>waikatodatamining/mmdetection:2.24.1_cuda11.1
 </code></pre>
@@ -233,7 +217,7 @@ own purposes:</p>
   /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
   --work-dir /workspace/output/pets2-mmdet-maskrcnn
 </code></pre>
-<h3 id="predicting">Predicting</h3>
+<h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
 <p>Using the <code>mmdet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
@@ -266,15 +250,6 @@ as follows (e.g., from our <em>test</em> subset): </p>
           </div>
           <footer>
   
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../../image_segmentation/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../detectron2/" class="btn btn-neutral" title="» Detectron2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
-  
 
   <hr/>
 
@@ -299,10 +274,6 @@ as follows (e.g., from our <em>test</em> subset): </p>
           <a href="https://github.com/waikato-datamining/applied-deep-learning/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../detectron2/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../../image_segmentation/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

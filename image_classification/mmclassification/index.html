@@ -9,7 +9,7 @@
   
   <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_classification/mmclassification/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>» MMClassification - Applied Deep Learning</title>
+  <title>MMClassification - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u00bb MMClassification";
+    var mkdocs_page_name = "MMClassification";
     var mkdocs_page_input_path = "image_classification/mmclassification.md";
     var mkdocs_page_url = "/applied-deep-learning/image_classification/mmclassification/";
   </script>
@@ -56,18 +56,12 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image classification</span></p>
-                <ul class="current">
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">» MMClassification</a>
-    <ul class="current">
-    </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../tf2_make_image_classifier/">» tf2_make_image_classifier</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../wai.tfimageclass/">» wai.tfimageclass</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Object detection</span></p>
@@ -76,9 +70,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../object_detection/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/mmdetection/">» MMDetection</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/yolov5/">» Yolov5</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
@@ -87,9 +79,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/detectron2/">» Detectron2</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/mmdetection/">» MMDetection</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../instance_segmentation/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
@@ -98,9 +88,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/image-segmentation-keras/">» Image Segmentation Keras</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/mmsegmentation/">» MMSegmentation</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/frameworks/">Frameworks</a>
                     </li>
                 </ul>
       </div>
@@ -123,12 +111,8 @@
     <li><a href="../..">Docs</a> &raquo;</li>
     
       
-        
-          <li>Image classification &raquo;</li>
-        
-      
     
-    <li>» MMClassification</li>
+    <li>MMClassification</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_classification/mmclassification.md"
@@ -146,9 +130,9 @@
 framework for image segmentation that offers a wide variety of models. Custom docker
 images with additional tools are available from here:</p>
 <p><a href="https://github.com/waikato-datamining/mmclassification">https://github.com/waikato-datamining/mmclassification</a></p>
-<h3 id="prerequisites">Prerequisites</h3>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
-<h3 id="data">Data</h3>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
 <p>In this example, we will use the <a href="http://datasets.cms.waikato.ac.nz/ufdl/image_classification/102flowers/">102 flowers</a>
 dataset, which consists of 102 different categories (~ species) of flowers. More precisely, we will download the
 dataset with the flowers already split into categories from which we will use a subset to speed up the training process.</p>
@@ -177,7 +161,7 @@ outlined. </p>
       --split-names train val test \
       --split-ratios 70 15 15
 </code></pre>
-<h3 id="training">Training</h3>
+<h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
 <pre><code>waikatodatamining/mmclassification:0.23.1_cuda11.1
 </code></pre>
@@ -256,7 +240,7 @@ own purposes:</p>
   /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
   --work-dir /workspace/output/5flowers-mmcl-r18
 </code></pre>
-<h3 id="predicting">Predicting</h3>
+<h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
 <p>Using the <code>mmcls_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <p>GPU:</p>
@@ -294,7 +278,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
   &quot;ball_moss&quot;: 0.00031330727506428957
 }
 </code></pre>
-<h3 id="troubleshooting">Troubleshooting</h3>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">#</a></h2>
 <ul>
 <li>
 <p><strong>RuntimeError: selected index k out of range</strong></p>
@@ -310,15 +294,6 @@ You need to update the config file as follows (<a href="https://raw.githubuserco
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../tf2_make_image_classifier/" class="btn btn-neutral float-right" title="» tf2_make_image_classifier">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../annotate/" class="btn btn-neutral" title="Annotate"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -344,10 +319,6 @@ You need to update the config file as follows (<a href="https://raw.githubuserco
           <a href="https://github.com/waikato-datamining/applied-deep-learning/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../annotate/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../tf2_make_image_classifier/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
