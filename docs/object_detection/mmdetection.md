@@ -1,3 +1,7 @@
+---
+title: MMDetection (object detection)
+---
+
 [MMDetection](https://github.com/open-mmlab/mmdetection) is a comprehensive and flexible
 framework for object detection that offers a wide variety of architectures. Custom docker
 images with additional tools are available from here:

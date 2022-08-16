@@ -4,9 +4,7 @@ to image classification which assigns a lable to the whole image. The predicted 
 
 ![Screenshot](img/black_footed_albatross.png) ![Screenshot](img/sign_language.png)
 
-Before you delve into training models, take a look at how you need to [annotate your data](annotate.md).
+What to do next:
 
-The following frameworks are available:
-
-* [MMDetection](mmdetection.md)
-* [Yolov5](yolov5.md)
+* [Annotate your data](annotate.md)
+* [Choose a framework](frameworks.md)

@@ -4,9 +4,7 @@ and more memory hungry.
 
 ![Screenshot](img/dog.jpg) ![Screenshot](img/cat.jpg)
 
-Before you delve into training models, take a look at how you need to [annotate your data](annotate.md).
+What to do next:
 
-The following frameworks are available:
-
-* [Detectron2](detectron2.md)
-* [MMDetection](mmdetection.md)
+* [Annotate your data](annotate.md)
+* [Choose a framework](frameworks.md)

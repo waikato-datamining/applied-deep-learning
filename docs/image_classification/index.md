@@ -3,10 +3,7 @@ assigning them a category.
 
 ![Screenshot](img/alpine_sea_holly.png) ![Screenshot](img/artichoke.png)
 
-Before you delve into training models, take a look at how you need to [annotate your data](annotate.md).
+What to do next:
 
-The following frameworks are available:
-
-* [MMClassification](mmclassification.md)
-* [tf2_make_image_classifier](tf2_make_image_classifier.md)
-* [wai.tfimageclass](wai.tfimageclass.md)
+* [Annotate your data](annotate.md)
+* [Choose a framework](frameworks.md)

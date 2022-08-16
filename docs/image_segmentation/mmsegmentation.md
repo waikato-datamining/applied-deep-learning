@@ -1,3 +1,7 @@
+---
+title: MMSegmentation
+---
+
 [MMSegmentation](https://github.com/open-mmlab/mmsegmentation) is a comprehensive and flexible
 framework for image segmentation that offers a wide variety of architectures. Custom docker
 images with additional tools are available from here:

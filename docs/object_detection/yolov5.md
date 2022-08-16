@@ -1,3 +1,7 @@
+---
+title: Yolov5
+---
+
 [Yolov5](https://github.com/ultralytics/yolov5) is a family of object detection architectures and models pretrained on 
 the COCO dataset, and represents Ultralytics open-source research into future vision AI methods. 
 Custom docker images with additional tools are available from here:

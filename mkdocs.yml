@@ -5,36 +5,32 @@ repo_url: https://github.com/waikato-datamining/applied-deep-learning
 edit_uri: edit/main/docs/
 theme:
     name: readthedocs
+markdown_extensions:
+    - toc:
+        baselevel: 2
+        permalink: "#"
 plugins:
+    - search
     # https://github.com/soulless-viewer/mkdocs-video
     - mkdocs-video
     # https://github.com/timvink/mkdocs-table-reader-plugin
-    - search
     - table-reader
-markdown_extensions:
-    - toc:
-        baselevel: 3
 nav:
   - 'Home': index.md
   - 'Prerequisites': prerequisites.md
   - 'Image classification':
     - 'Introduction': image_classification/index.md
     - 'Annotate': image_classification/annotate.md
-    - '» MMClassification': image_classification/mmclassification.md
-    - '» tf2_make_image_classifier': image_classification/tf2_make_image_classifier.md
-    - '» wai.tfimageclass': image_classification/wai.tfimageclass.md
+    - 'Frameworks': image_classification/frameworks.md
   - 'Object detection':
     - 'Introduction': object_detection/index.md
     - 'Annotate': object_detection/annotate.md
-    - '» MMDetection': object_detection/mmdetection.md
-    - '» Yolov5': object_detection/yolov5.md
+    - 'Frameworks': object_detection/frameworks.md
   - 'Instance segmentation':
     - 'Introduction': instance_segmentation/index.md
     - 'Annotate': instance_segmentation/annotate.md
-    - '» Detectron2': instance_segmentation/detectron2.md
-    - '» MMDetection': instance_segmentation/mmdetection.md
+    - 'Frameworks': instance_segmentation/frameworks.md
   - 'Image segmentation':
     - 'Introduction': image_segmentation/index.md
     - 'Annotate': image_segmentation/annotate.md
-    - '» Image Segmentation Keras': image_segmentation/image-segmentation-keras.md
-    - '» MMSegmentation': image_segmentation/mmsegmentation.md
+    - 'Frameworks': image_segmentation/frameworks.md

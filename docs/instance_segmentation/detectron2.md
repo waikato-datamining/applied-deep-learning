@@ -1,3 +1,7 @@
+---
+title: Detectron2
+---
+
 [Detectron2](https://github.com/facebookresearch/detectron2) is a platform for object detection, segmentation and 
 other visual recognition tasks. Custom docker images for *instance segmentation* with additional 
 tools are available from here:

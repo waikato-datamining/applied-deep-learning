@@ -1,3 +1,7 @@
+---
+title: MMClassification
+---
+
 [MMClassification](https://github.com/open-mmlab/mmclassification) is a comprehensive and flexible
 framework for image segmentation that offers a wide variety of models. Custom docker
 images with additional tools are available from here:

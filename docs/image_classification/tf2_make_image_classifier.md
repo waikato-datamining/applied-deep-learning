@@ -1,3 +1,7 @@
+---
+title: tf2_make_image_classifier
+---
+
 The [make_image_classifier](https://github.com/tensorflow/hub/tree/master/tensorflow_hub/tools/make_image_classifier) 
 Python library can be used for training various TensorFlow 2 image classification models that are available from 
 [Tensorflow Hub](https://tfhub.dev/).

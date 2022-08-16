@@ -1,3 +1,7 @@
+---
+title: wai.tfimageclass
+---
+
 The [wai.tfimageclass](https://github.com/waikato-datamining/tensorflow/tree/master/image_classification) Python library
 ([PyPI](https://pypi.org/project/wai.tfimageclass/)) can be used for training various models that are available from 
 [Tensorflow Hub](https://tfhub.dev/).

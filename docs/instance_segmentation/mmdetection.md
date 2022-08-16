@@ -1,3 +1,7 @@
+---
+title: MMDetection (instance segmentation)
+---
+
 [MMDetection](https://github.com/open-mmlab/mmdetection) is a comprehensive and flexible
 framework not only for object detection, but also for instance segmentation. Custom docker
 images with additional tools are available from here:
