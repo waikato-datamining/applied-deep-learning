@@ -122,6 +122,8 @@ docker run \
   predict_poll \
   --model /workspace/output/3flowers-tf2-default/model.tflite \
   --labels /workspace/output/3flowers-tf2-default/labels.txt \
+  --input_mean 0 \
+  --input_std 255 \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 ```
@@ -136,6 +138,8 @@ docker run \
   predict_poll \
   --model /workspace/output/3flowers-tf2-default/model.tflite \
   --labels /workspace/output/3flowers-tf2-default/labels.txt \
+  --input_mean 0 \
+  --input_std 255 \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 ```
