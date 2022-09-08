@@ -16,6 +16,7 @@ The following domains are covered by the examples:
 * [Object detection](object_detection/index.md)
 * [Instance segmentation](instance_segmentation/index.md)
 * [Image segmentation](image_segmentation/index.md)
+* [Speech-to-text](speech_to_text/index.md)
 
 These tutorials will use shorter training times (i.e., lower epochs/iterations/steps) to
 arrive faster at a model. However, this also means that the quality of the model will be lower. 
