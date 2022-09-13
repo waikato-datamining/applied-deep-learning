@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/mmsegmentation/">
+  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/speech_to_text/coqui_stt/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>MMSegmentation - Applied Deep Learning</title>
+  <title>Coqui STT - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,9 +18,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "MMSegmentation";
-    var mkdocs_page_input_path = "image_segmentation/mmsegmentation.md";
-    var mkdocs_page_url = "/applied-deep-learning/image_segmentation/mmsegmentation/";
+    var mkdocs_page_name = "Coqui STT";
+    var mkdocs_page_input_path = "speech_to_text/coqui_stt.md";
+    var mkdocs_page_url = "/applied-deep-learning/speech_to_text/coqui_stt/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
@@ -84,20 +84,20 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Image segmentation</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/">Introduction</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/annotate/">Annotate</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../image_segmentation/frameworks/">Frameworks</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Speech-to-text</span></p>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
-                    </li>
-                </ul>
-                <p class="caption"><span class="caption-text">Speech-to-text</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/">Introduction</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/annotate/">Annotate</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/frameworks/">Frameworks</a>
                     </li>
                 </ul>
       </div>
@@ -121,10 +121,10 @@
     
       
     
-    <li>MMSegmentation</li>
+    <li>Coqui STT</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_segmentation/mmsegmentation.md"
+        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/speech_to_text/coqui_stt.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -135,110 +135,130 @@
           <div role="main">
             <div class="section">
               
-                <p><a href="https://github.com/open-mmlab/mmsegmentation">MMSegmentation</a> is a comprehensive and flexible
-framework for image segmentation that offers a wide variety of architectures. Custom docker
-images with additional tools are available from here:</p>
-<p><a href="https://github.com/waikato-datamining/mmsegmentation">https://github.com/waikato-datamining/mmsegmentation</a></p>
+                <p><a href="https://github.com/coqui-ai/STT">Coqui STT</a> is a deep learning toolkit for Speech-to-Text. 
+Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/tensorflow/tree/master/coqui/stt">https://github.com/waikato-datamining/tensorflow/tree/master/coqui/stt</a></p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
 <h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
-<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/camvid12/">CamVid-12</a>
-dataset, which consists of still images from dashcam videos from a city environment (12 different labels).</p>
+<p>In this example, we will use the <em>Irish dataset</em> of the <a href="https://datasets.cms.waikato.ac.nz/ufdl/living-audio-datasets/">Living Audio Datasets</a>
+collection.</p>
 <p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
-<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip</a></p>
-<p>Once extracted, rename the <em>grayscale</em> directory to <em>camvid-grayscale</em>.</p>
-<p>Noe we have to convert the format from <em>grayscale</em> into <em>indexed PNG</em>, which MMSegmentation uses.
-We can do this by using the <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
-At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
-<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
-<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
-  wai-annotations convert \
-    from-grayscale-is \
-      -i &quot;/workspace/data/camvid-grayscale/*.png&quot; \
-      --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
-    to-indexed-png-is \
-      -o /workspace/data/camvid-indexed-split \
-      --split-names train val test \
-      --split-ratios 70 15 15
-</code></pre>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/living-audio-datasets/irish-coqui-stt.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/living-audio-datasets/irish-coqui-stt.zip</a></p>
+<p>Rename the <code>coqui-stt</code> directory to <code>lad-irish</code>.</p>
 <h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
-<pre><code>waikatodatamining/mmsegmentation:0.25.0_cuda11.1
+<pre><code>waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0
 </code></pre>
-<p>The training script is called <code>mmseg_train</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 mmseg_train --help 
+<p>At prediction time, we no longer need a GPU and can use this image:</p>
+<pre><code>waikatodatamining/tf_coqui_stt:1.3.0_cpu
 </code></pre>
+<p>The training script is called <code>stt_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 stt_train --help 
+</code></pre>
+<p>Instead of using config files, we can just tweak parameters via 
+<a href="https://stt.readthedocs.io/en/stable/TRAINING_FLAGS.html">command-line options</a>.</p>
+<p>However, we still need to download a base model to use for transfer learning:</p>
+<p><a href="https://github.com/coqui-ai/STT/releases/download/v1.3.0/coqui-stt-1.3.0-checkpoint.tar.gz">https://github.com/coqui-ai/STT/releases/download/v1.3.0/coqui-stt-1.3.0-checkpoint.tar.gz</a> (648MB)</p>
+<p>Download it into the <code>models</code> directory and decompress it (<code>tar -xzf coqui-stt-1.3.0-checkpoint.tar.gz</code>).</p>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>camvid12-mmseg-pspnet50
+<pre><code>lad-irish-coqui
 </code></pre>
-<p>Before we can train, we will need to obtain and customize a config file. Within the container,
-you can find example configurations for various architectures in the following directory:</p>
-<pre><code>/mmsegmentation/configs
-</code></pre>
-<p>Using the <code>mmseg_config</code> command, we can expand and dump one of these configurations for our
-own purposes:</p>
+<p>For generating the alphabet specific to this dataset, use the following command (if necessary, you can 
+supply multiple CSV files to the <code>stt_alphabet</code> script):</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_alphabet \
+  -i /workspace/data/lad-irish/samples.csv \
+  -o /workspace/data/lad-irish/alphabet.txt
+</code></pre>
+<p>Kick off transfer learning with the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
-  mmseg_config \
-  --config /mmsegmentation/configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py \
-  --output_config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_train \
+  --alphabet_config_path /workspace/data/lad-irish/alphabet.txt \
+  --auto_input_dataset /workspace/data/lad-irish/samples.csv \
+  --drop_source_layers 2 \
+  --n_hidden 2048 \
+  --use_allow_growth true \
+  --train_cudnn true \
+  --train_batch_size 16 \
+  --dev_batch_size 16 \
+  --export_batch_size 16 \
+  --epochs 75 \
+  --load_checkpoint_dir /workspace/models/coqui-stt-1.3.0-checkpoint \
+  --save_checkpoint_dir /workspace/output/lad-irish-coqui
 </code></pre>
-<p>Open the <code>pspnet_r50.py</code> file in a text editor and perform the following operations:</p>
+<p><strong>Notes:</strong></p>
 <ul>
-<li>change <code>num_classes</code> to 12 (background not counted).</li>
-<li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary.</li>
-<li>change <code>data_root</code> occurrences to <code>/workspace/data/camvid-indexed-split</code> (the directory above the <code>train</code> and <code>val</code> directories).</li>
-<li>change <code>img_dir</code> occurrences to <code>img_dir=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
-<li>do the same with <code>ann_dir</code></li>
+<li>Coqui STT 1.3.0 has a bug and does not exit after training. Once you see 
+  <code>I FINISHED optimization in 0:25:52.838710</code>, you can safely <code>Ctrl+C</code> the process.</li>
+<li>How many layers you drop when training with a new dataset (<code>--drop_source_layers X</code>) requires some 
+  experimentation, dropping just one does not always work.</li>
+<li><code>--auto_input_dataset</code> will split the single dataset into <code>train.csv</code>, <code>dev.csv</code> and <code>test.csv</code>.
+  If you already have these datasets (e.g., obtained from Common Voice), then you can use the 
+  <code>--train_files</code>, <code>--dev_files</code> and <code>--test_files</code> options to supply them explicitly.</li>
 </ul>
-<p>Kick off the training with the following command:</p>
+<h2 id="evaluating-the-model">Evaluating the model<a class="headerlink" href="#evaluating-the-model" title="Permanent link">#</a></h2>
+<p>Once the model has been built, we can evaluate it using <code>stt_eval</code>. This script
+will use the <em>test</em> set and output the best and worst transcripts (using 
+<a href="https://torchmetrics.readthedocs.io/en/stable/text/char_error_rate.html">CER</a> and
+<a href="https://torchmetrics.readthedocs.io/en/stable/text/word_error_rate.html">WER</a> as metrics). 
+You can run it like this:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_eval \
+  --alphabet_config_path /workspace/data/lad-irish/alphabet.txt \
+  --train_files /workspace/data/lad-irish/train.csv \
+  --dev_files /workspace/data/lad-irish/dev.csv \
+  --test_files /workspace/data/lad-irish/test.csv \
+  --test_batch_size 16 \
+  --export_batch_size 16 \
+  --checkpoint_dir /workspace/output/lad-irish-coqui
+</code></pre>
+<h2 id="exporting-to-tflite">Exporting to tflite<a class="headerlink" href="#exporting-to-tflite" title="Permanent link">#</a></h2>
+<p>Before we can use our trained model, we will need to export it to TensorFlow lite (aka tflite)
+using the <code>stt_export</code> script: </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMSEG_CLASSES=&quot;sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled&quot; \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
-  mmseg_train \
-  /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
-  --work-dir /workspace/output/camvid12-mmseg-pspnet50
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_export \
+  --export_quantize false \
+  --checkpoint_dir /workspace/output/lad-irish-coqui \
+  --export_dir /workspace/output/lad-irish-coqui/export
 </code></pre>
+<p>This will create a file called <code>output_graph.tflite</code> in the <code>export</code> sub-directory of the output directory.</p>
+<p><strong>Notes</strong></p>
+<ul>
+<li><code>--export_quantize false</code> - will create a more accurate but slower model</li>
+<li><code>--export_quantize true</code> - will create a model optimized for speed/memory but less accurate</li>
+</ul>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
-<p>Using the <code>mmseg_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+<p>Using the <code>stt_transcribe_poll</code> script, we can batch-process audio files placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
-  --gpus=all \
   -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMSEG_CLASSES=&quot;sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled&quot; \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
-  mmseg_predict_poll \
-  --model /workspace/output/camvid12-mmseg-pspnet50/latest.pth \
-  --config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_transcribe_poll \
+  --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
-<p><strong>Notes</strong> </p>
-<ul>
-<li>The predictions can either be output in <em>grayscale</em> (default) or <em>bluechannel</em> format (<code>--prediction_format</code>).</li>
-<li>You can view the predictions with the ADAMS <em>Preview browser</em> and, e.g., the <em>SimpleImageSegmentationAnnotationsHandler</em>
-  (which will overlay the PNG transparently on the JPG; may require some configuring via the <code>...</code> button).</li>
-</ul>
-<p><strong>Example prediction</strong></p>
-<p><img alt="Screenshot" src="../img/mmseg-0016E5_05310.png" /> </p>
-<p><img alt="Screenshot" src="../img/mmseg-0016E5_05310-overlay.png" /></p>
               
             </div>
           </div>

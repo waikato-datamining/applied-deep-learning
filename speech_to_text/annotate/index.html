@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/annotate/">
+  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/speech_to_text/annotate/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
   <title>Annotate - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
@@ -19,8 +19,8 @@
   <script>
     // Current page data
     var mkdocs_page_name = "Annotate";
-    var mkdocs_page_input_path = "object_detection/annotate.md";
-    var mkdocs_page_url = "/applied-deep-learning/object_detection/annotate/";
+    var mkdocs_page_input_path = "speech_to_text/annotate.md";
+    var mkdocs_page_url = "/applied-deep-learning/speech_to_text/annotate/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
@@ -65,12 +65,12 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Object detection</span></p>
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/">Introduction</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Annotate</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
@@ -92,12 +92,14 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Speech-to-text</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/">Introduction</a>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/annotate/">Annotate</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Annotate</a>
+    <ul class="current">
+    </ul>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/frameworks/">Frameworks</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
                     </li>
                 </ul>
       </div>
@@ -121,14 +123,14 @@
     
       
         
-          <li>Object detection &raquo;</li>
+          <li>Speech-to-text &raquo;</li>
         
       
     
     <li>Annotate</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/annotate.md"
+        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/speech_to_text/annotate.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -139,18 +141,49 @@
           <div role="main">
             <div class="section">
               
-                <p>You can use the <a href="https://adams.cms.waikato.ac.nz/">ADAMS</a> framework for annotating your images. 
-ADAMS comes pre-bundled in various setups and we need the <em>adams-annotator</em> bundle. You can get either:</p>
+                <h2 id="audio">Audio<a class="headerlink" href="#audio" title="Permanent link">#</a></h2>
+<p>The audio recordings should be sampled with 16kHz, in mono and stored in 
+<a href="https://en.wikipedia.org/wiki/WAV">WAV</a> files.</p>
+<p>You can do this using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>.
+E.g., the following command converts all WAV files in <code>INPUT_DIR</code> and stores them in 
+<code>OUTPUT_DIR</code>:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-audio-files-ac \
+      -i &quot;INPUT_DIR/*.wav&quot; \
+    convert-to-mono \
+    resample-audio \
+      -s 16000 \
+    to-audio-files-ac \
+      -o OUTPUT_DIR
+</code></pre>
+<h2 id="annotations">Annotations<a class="headerlink" href="#annotations" title="Permanent link">#</a></h2>
+<p>The simplest file formats for speech annotations are probably:</p>
 <ul>
-<li><a href="https://adams.cms.waikato.ac.nz/download/snapshot/">snapshot</a></li>
-<li><a href="https://adams.cms.waikato.ac.nz/download/release/">release</a> (21.12.0 or later)</li>
+<li>Festvox </li>
+<li>Coqui TTS</li>
 </ul>
-<p>In the Flow editor (available from the <em>Tools</em> menu in ADAMS), you can load and execute the follow workflow
-(which is part of your ADAMS installation when downloading it as zip file):</p>
-<p><a href="https://github.com/waikato-datamining/adams-base/blob/master/adams-imaging/src/main/flows/adams-imaging-annotate_objects.flow">adams-imaging-annotate_objects.flow</a></p>
-<p>When prompted, use <em>bounding_box</em> as <em>Selection type</em>.</p>
-<p>The following video takes you through the process:</p>
-<p><div class="video-container"><iframe src="https://www.youtube.com/embed/BCmPZ0Dbwmg" style="position: relative; width: 100%; height: 22.172vw" frameborder="0" allowfullscreen></iframe></div></p>
+<h3 id="festvox">Festvox<a class="headerlink" href="#festvox" title="Permanent link">#</a></h3>
+<p>The annotations are stored in a text file, each row for a separated recording,
+using the following format:</p>
+<pre><code>( FILENAME &quot;TRANSCRIPT&quot; )
+</code></pre>
+<ul>
+<li><code>FILENAME</code> - the name of the file <strong>without</strong> extension</li>
+<li><code>TRANSCRIPT</code> - the text associated with the recording </li>
+</ul>
+<p>It is best to store the annotations file alongside the WAV files to avoid paths.</p>
+<h3 id="coqui-tts">Coqui TTS<a class="headerlink" href="#coqui-tts" title="Permanent link">#</a></h3>
+<p>In this <a href="https://stt.readthedocs.io/en/latest/TRAINING_INTRO.html#data-format">format</a>, 
+the annotations are stored in a CSV file with the following columns:</p>
+<ul>
+<li><code>wav_filename</code> - the name of the file <strong>with</strong> extension</li>
+<li><code>wav_filesize</code> - the size of the WAV file in bytes</li>
+<li><code>transcript</code> - the text associated with the recording</li>
+</ul>
+<p>It is best to store the annotations file alongside the WAV files to avoid paths.</p>
               
             </div>
           </div>

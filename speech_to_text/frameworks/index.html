@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/annotate/">
+  <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/speech_to_text/frameworks/">
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>Annotate - Applied Deep Learning</title>
+  <title>Frameworks - Applied Deep Learning</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,9 +18,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Annotate";
-    var mkdocs_page_input_path = "object_detection/annotate.md";
-    var mkdocs_page_url = "/applied-deep-learning/object_detection/annotate/";
+    var mkdocs_page_name = "Frameworks";
+    var mkdocs_page_input_path = "speech_to_text/frameworks.md";
+    var mkdocs_page_url = "/applied-deep-learning/speech_to_text/frameworks/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
@@ -65,12 +65,12 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Object detection</span></p>
-                <ul class="current">
-                    <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/">Introduction</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Annotate</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../frameworks/">Frameworks</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../object_detection/frameworks/">Frameworks</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Instance segmentation</span></p>
@@ -92,12 +92,12 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Speech-to-text</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/">Introduction</a>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/annotate/">Annotate</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../annotate/">Annotate</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../speech_to_text/frameworks/">Frameworks</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Frameworks</a>
                     </li>
                 </ul>
       </div>
@@ -121,14 +121,14 @@
     
       
         
-          <li>Object detection &raquo;</li>
+          <li>Speech-to-text &raquo;</li>
         
       
     
-    <li>Annotate</li>
+    <li>Frameworks</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/annotate.md"
+        <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/speech_to_text/frameworks.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -139,18 +139,10 @@
           <div role="main">
             <div class="section">
               
-                <p>You can use the <a href="https://adams.cms.waikato.ac.nz/">ADAMS</a> framework for annotating your images. 
-ADAMS comes pre-bundled in various setups and we need the <em>adams-annotator</em> bundle. You can get either:</p>
+                <p>The following frameworks are available for <strong>speech-to-text</strong>:</p>
 <ul>
-<li><a href="https://adams.cms.waikato.ac.nz/download/snapshot/">snapshot</a></li>
-<li><a href="https://adams.cms.waikato.ac.nz/download/release/">release</a> (21.12.0 or later)</li>
+<li><a href="../coqui_stt/">Coqui STT</a></li>
 </ul>
-<p>In the Flow editor (available from the <em>Tools</em> menu in ADAMS), you can load and execute the follow workflow
-(which is part of your ADAMS installation when downloading it as zip file):</p>
-<p><a href="https://github.com/waikato-datamining/adams-base/blob/master/adams-imaging/src/main/flows/adams-imaging-annotate_objects.flow">adams-imaging-annotate_objects.flow</a></p>
-<p>When prompted, use <em>bounding_box</em> as <em>Selection type</em>.</p>
-<p>The following video takes you through the process:</p>
-<p><div class="video-container"><iframe src="https://www.youtube.com/embed/BCmPZ0Dbwmg" style="position: relative; width: 100%; height: 22.172vw" frameborder="0" allowfullscreen></iframe></div></p>
               
             </div>
           </div>
@@ -158,10 +150,8 @@ ADAMS comes pre-bundled in various setups and we need the <em>adams-annotator</e
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../frameworks/" class="btn btn-neutral float-right" title="Frameworks">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href="../" class="btn btn-neutral" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../annotate/" class="btn btn-neutral" title="Annotate"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -189,10 +179,8 @@ ADAMS comes pre-bundled in various setups and we need the <em>adams-annotator</e
           <a href="https://github.com/waikato-datamining/applied-deep-learning/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../annotate/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../frameworks/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
