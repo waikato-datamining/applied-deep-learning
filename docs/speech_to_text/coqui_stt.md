@@ -14,56 +14,14 @@ Make sure you have the directory structure created as outlined in the [Prerequis
 
 # Data
 
-In this example, we will use the [Dutch Common Voice](https://datasets.cms.waikato.ac.nz/ufdl/common-voice/)
-dataset.
+In this example, we will use the *Irish dataset* of the [Living Audio Datasets](https://datasets.cms.waikato.ac.nz/ufdl/living-audio-datasets/)
+collection.
 
 Download the dataset from the following URL into the *data* directory and extract it:
 
-[https://datasets.cms.waikato.ac.nz/ufdl/data/common-voice/cv-corpus-10.0-2022-07-04-nl.tar.gz](https://datasets.cms.waikato.ac.nz/ufdl/data/common-voice/cv-corpus-10.0-2022-07-04-nl.tar.gz)
+[https://datasets.cms.waikato.ac.nz/ufdl/data/living-audio-datasets/irish-coqui-stt.zip](https://datasets.cms.waikato.ac.nz/ufdl/data/living-audio-datasets/irish-coqui-stt.zip)
 
-Now we have to convert the format from *Common Voice* into *Coqui STT*. We can do this by using the 
-[wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
-
-From within the `applied_deep_learning` directory, run the following command to process the
-three datasets (train, dev, test):
-
-```bash
-for i in train dev test
-do
-    echo $i
-    docker run -u $(id -u):$(id -g) \
-      -v `pwd`:/workspace \
-      -t waikatoufdl/wai.annotations:latest \
-      wai-annotations convert \
-          from-common-voice-sp \
-             -i "/workspace/data/cv-corpus-10.0-2022-07-04/nl/$i.tsv" \
-             --rel-path ./clips \
-          clean-transcript \
-             --quotes \
-          discard-negatives \
-          convert-to-wav \
-          convert-to-mono \
-          resample-audio \
-             -s 16000 \
-             -t kaiser_fast \
-          to-coqui-stt-sp \
-             -o "/workspace/data/cv-nl/$i.csv"
-done
-```
-
-For generating the alphabet specific to this dataset, use the following command:
-
-```bash
-docker run \
-  -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
-  stt_alphabet \
-  -i /workspace/data/cv-nl/train.csv \
-     /workspace/data/cv-nl/dev.csv \
-     /workspace/data/cv-nl/test.csv \
-  -o /workspace/data/cv-nl/alphabet.txt
-```
+Rename the `coqui-stt` directory to `lad-irish`.
 
 
 # Training
@@ -100,8 +58,22 @@ what dataset and model were used. So for our first training run, which will use 
 create the following directory in the `output` folder:
 
 ```
-cv-nl-coqui
+lad-irish-coqui
 ```
+
+For generating the alphabet specific to this dataset, use the following command (if necessary, you can 
+supply multiple CSV files to the `stt_alphabet` script):
+
+```bash
+docker run \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_alphabet \
+  -i /workspace/data/lad-irish/samples.csv \
+  -o /workspace/data/lad-irish/alphabet.txt
+```
+
 
 Kick off transfer learning with the following command:
 
@@ -113,11 +85,9 @@ docker run \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
   stt_train \
-  --alphabet_config_path /workspace/data/cv-nl/alphabet.txt \
-  --train_files /workspace/data/cv-nl/train.csv \
-  --dev_files /workspace/data/cv-nl/dev.csv \
-  --test_files /workspace/data/cv-nl/test.csv \
-  --drop_source_layers 1 \
+  --alphabet_config_path /workspace/data/lad-irish/alphabet.txt \
+  --auto_input_dataset /workspace/data/lad-irish/samples.csv \
+  --drop_source_layers 2 \
   --n_hidden 2048 \
   --use_allow_growth true \
   --train_cudnn true \
@@ -126,15 +96,27 @@ docker run \
   --export_batch_size 16 \
   --epochs 75 \
   --load_checkpoint_dir /workspace/models/coqui-stt-1.3.0-checkpoint \
-  --save_checkpoint_dir /workspace/output/cv-nl-coqui
+  --save_checkpoint_dir /workspace/output/lad-irish-coqui
 ```
+
+**Notes:**
+
+* Coqui STT 1.3.0 has a bug and does not exit after training. Once you see 
+  `I FINISHED optimization in 0:25:52.838710`, you can safely `Ctrl+C` the process.
+* How many layers you drop when training with a new dataset (`--drop_source_layers X`) requires some 
+  experimentation, dropping just one does not always work.
+* `--auto_input_dataset` will split the single dataset into `train.csv`, `dev.csv` and `test.csv`.
+  If you already have these datasets (e.g., obtained from Common Voice), then you can use the 
+  `--train_files`, `--dev_files` and `--test_files` options to supply them explicitly.
 
 
 # Evaluating the model
 
-Once the model has been built, we can evaluate it using the `stt_eval`. This script
-will use the *test* set and output the best and worst transcripts. You can run 
-it like this:
+Once the model has been built, we can evaluate it using `stt_eval`. This script
+will use the *test* set and output the best and worst transcripts (using 
+[CER](https://torchmetrics.readthedocs.io/en/stable/text/char_error_rate.html) and
+[WER](https://torchmetrics.readthedocs.io/en/stable/text/word_error_rate.html) as metrics). 
+You can run it like this:
 
 ```bash
 docker run \
@@ -144,13 +126,13 @@ docker run \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
   stt_eval \
-  --alphabet_config_path /workspace/data/cv-nl/alphabet.txt \
-  --train_files /workspace/data/cv-nl/train.csv \
-  --dev_files /workspace/data/cv-nl/dev.csv \
-  --test_files /workspace/data/cv-nl/test.csv \
+  --alphabet_config_path /workspace/data/lad-irish/alphabet.txt \
+  --train_files /workspace/data/lad-irish/train.csv \
+  --dev_files /workspace/data/lad-irish/dev.csv \
+  --test_files /workspace/data/lad-irish/test.csv \
   --test_batch_size 16 \
   --export_batch_size 16 \
-  --checkpoint_dir /workspace/output/cv-nl-coqui
+  --checkpoint_dir /workspace/output/lad-irish-coqui
 ```
 
 
@@ -167,8 +149,8 @@ docker run \
   -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
   stt_export \
   --export_quantize false \
-  --checkpoint_dir /workspace/output/cv-nl-coqui \
-  --export_dir /workspace/output/cv-nl-coqui/export
+  --checkpoint_dir /workspace/output/lad-irish-coqui \
+  --export_dir /workspace/output/lad-irish-coqui/export
 ```
 
 This will create a file called `output_graph.tflite` in the `export` sub-directory of the output directory.
@@ -190,7 +172,7 @@ docker run \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
   stt_transcribe_poll \
-  --model /workspace/output/cv-nl-coqui/export/output_graph.tflite \
+  --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 ```
