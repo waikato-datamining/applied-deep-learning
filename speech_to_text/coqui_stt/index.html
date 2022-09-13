@@ -200,7 +200,7 @@ supply multiple CSV files to the <code>stt_alphabet</code> script):</p>
 <p><strong>Notes:</strong></p>
 <ul>
 <li>Coqui STT 1.3.0 has a bug and does not exit after training. Once you see 
-  <code>I FINISHED optimization in 0:25:52.838710</code>, you can safely <code>Ctrl+C</code> the process.</li>
+  <code>I FINISHED optimization in 0:25:52.838710</code>, you can safely stop the process using the <code>kill</code> command.</li>
 <li>How many layers you drop when training with a new dataset (<code>--drop_source_layers X</code>) requires some 
   experimentation, dropping just one does not always work.</li>
 <li><code>--auto_input_dataset</code> will split the single dataset into <code>train.csv</code>, <code>dev.csv</code> and <code>test.csv</code>.
@@ -258,6 +258,29 @@ as follows (e.g., from our <em>test</em> subset): </p>
   --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
+</code></pre>
+<p>If you just want to test with a single audio file, then use <code>stt_transcribe_single</code> instead
+(point to the audio file with <code>--audio</code>):</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_transcribe_single \
+  --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
+  --audio /workspace/data/lad-irish/cll_z0001_018.wav
+</code></pre>
+<p>This will output something like this:</p>
+<pre><code>Loading model from file /workspace/output/lad-irish-coqui/export/output_graph.tflite
+TensorFlow: v2.8.0-8-g06c8fea58fd
+ Coqui STT: v1.3.0-0-g148fa743
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+Loaded model in 0.0431s.
+Running inference.
+Iir scoláira béleidis é eidrsan.
+Inference took 3.284s for 2.464s audio file.
+</code></pre>
+<p>The ground truth for <code>cll_z0001_018.wav</code> is as follows:</p>
+<pre><code>Níor scoláire béaloidis é Pedersen.
 </code></pre>
               
             </div>
