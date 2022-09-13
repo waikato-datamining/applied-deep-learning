@@ -102,7 +102,7 @@ docker run \
 **Notes:**
 
 * Coqui STT 1.3.0 has a bug and does not exit after training. Once you see 
-  `I FINISHED optimization in 0:25:52.838710`, you can safely `Ctrl+C` the process.
+  `I FINISHED optimization in 0:25:52.838710`, you can safely stop the process using the `kill` command.
 * How many layers you drop when training with a new dataset (`--drop_source_layers X`) requires some 
   experimentation, dropping just one does not always work.
 * `--auto_input_dataset` will split the single dataset into `train.csv`, `dev.csv` and `test.csv`.
@@ -175,4 +175,36 @@ docker run \
   --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
+```
+
+If you just want to test with a single audio file, then use `stt_transcribe_single` instead
+(point to the audio file with `--audio`):
+
+```bash
+docker run \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/tf_coqui_stt:1.3.0_cuda11.0 \
+  stt_transcribe_single \
+  --model /workspace/output/lad-irish-coqui/export/output_graph.tflite \
+  --audio /workspace/data/lad-irish/cll_z0001_018.wav
+```
+
+This will output something like this:
+
+```
+Loading model from file /workspace/output/lad-irish-coqui/export/output_graph.tflite
+TensorFlow: v2.8.0-8-g06c8fea58fd
+ Coqui STT: v1.3.0-0-g148fa743
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+Loaded model in 0.0431s.
+Running inference.
+Iir scoláira béleidis é eidrsan.
+Inference took 3.284s for 2.464s audio file.
+```
+
+The ground truth for `cll_z0001_018.wav` is as follows:
+
+```
+Níor scoláire béaloidis é Pedersen.
 ```
