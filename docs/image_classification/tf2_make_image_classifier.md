@@ -95,7 +95,6 @@ docker run \
   -v `pwd`/cache:/tmp/tfhub_modules \
   -t waikatodatamining/tf_image_classification2:2.9.1_cpu \
   make_image_classifier \
-  make_image_classifier \
   --image_dir /workspace/data/3flowers \
   --image_size 224 \
   --saved_model_dir /workspace/output/3flowers-tf2-default \
