@@ -49,7 +49,7 @@ Instead of using config files, we can just tweak parameters via
 
 However, we still need to download a base model to use for transfer learning:
 
-[https://github.com/coqui-ai/STT/releases/download/v1.3.0/coqui-stt-1.3.0-checkpoint.tar.gz](https://github.com/coqui-ai/STT/releases/download/v1.4.0/coqui-stt-1.4.0-checkpoint.tar.gz) (648MB)
+[https://github.com/coqui-ai/STT/releases/download/v1.3.0/coqui-stt-1.3.0-checkpoint.tar.gz](https://github.com/coqui-ai/STT/releases/download/v1.3.0/coqui-stt-1.3.0-checkpoint.tar.gz) (648MB)
 
 Download it into the `models` directory and decompress it (`tar -xzf coqui-stt-1.3.0-checkpoint.tar.gz`).
 
