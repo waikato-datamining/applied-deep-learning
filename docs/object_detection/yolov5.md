@@ -70,7 +70,7 @@ cat data/sign-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\
 For training, we will use the following docker image:
 
 ```
-waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1
+waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1
 ```
 
 If you do not have a GPU, you can use the CPU-only image:
@@ -82,16 +82,16 @@ waikatodatamining/pytorch-yolov5:2022-01-21_cpu
 The training script is called `yolov5_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 yolov5_train --help 
+docker run -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 yolov5_train --help 
 ```
 
 Instead of using config files, we can just tweak parameters via command-line options.
 
 However, we still need to download a base model to use for training. Yolov5 offers different
 models, which differ in speed and accuracy. We will use the *medium* one called `yolov5m.pt`
-from the `v6.0` release:
+from the `v6.2` release:
 
-[https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5m.pt](https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5m.pt)
+[https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5m.pt](https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5m.pt)
 
 Download it and place it in the `models` directory.
 
@@ -116,7 +116,7 @@ docker run \
   --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
   yolov5_train \
   --img 416 \
   --batch 16 \
@@ -137,7 +137,7 @@ docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
   yolov5_export \
   --weights /workspace/output/sign-yolov5/weights/best.pt \
   --img-size 416 416 \
@@ -157,7 +157,7 @@ docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-05-31_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
   yolov5_predict_poll \
   --model /workspace/output/sign-yolov5/weights/best.onnx \
   --data /workspace/data/sign-yolo-split/dataset.yaml \
