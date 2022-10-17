@@ -104,6 +104,7 @@ Kick off the training with the following command:
 ```bash
 docker run \
   -u $(id -u):$(id -g) \
+  --shm-size=8g \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
@@ -124,6 +125,7 @@ as follows (e.g., from our *test* subset):
 ```bash
 docker run \
   -u $(id -u):$(id -g) \
+  --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
