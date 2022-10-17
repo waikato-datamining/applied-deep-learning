@@ -203,6 +203,7 @@ own purposes:</p>
 <p>Kick off the training with the following command:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
+  --shm-size=8g \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
@@ -218,6 +219,7 @@ own purposes:</p>
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) \
+  --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
