@@ -226,11 +226,12 @@ own purposes:</p>
 <li>if we want to perform transfer learning, we can re-use a pretrained model from the <a href="https://mmclassification.readthedocs.io/en/latest/model_zoo.html">model zoo</a> 
   and just need to specify it in the <code>backbone</code> dictionary, by inserting the following before the <code>style='pytorch'</code> setting:</li>
 </ul>
-<p><code>init_cfg=dict(
+<pre><code>        init_cfg=dict(
             type='Pretrained',
             checkpoint='https://download.openmmlab.com/mmclassification/v0/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth',
             prefix='backbone',
-        ),</code></p>
+        ),
+</code></pre>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
