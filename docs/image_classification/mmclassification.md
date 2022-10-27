@@ -125,8 +125,18 @@ Open the `resnet18_b32x8_imagenet.py` file in a text editor and perform the foll
 * change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary
 * change `dataset_prefix` to `/workspace/data/5flowers-split/train`, `../test` and `../val` in the relevant sections
 * change `ann_file` occurrences to `None`
-* change `max_epochs` in the `runner` to a suitable value
-* change the `interval` of the `checkpoint_config` to a value that makes sense with `max_epochs`  
+* change `max_epochs` in the `runner` to a suitable value, e.g., `10`
+* change the `interval` of the `checkpoint_config` to a value that makes sense with `max_epochs`, e.g., `5`  
+* if we want to perform transfer learning, we can re-use a pretrained model from the [model zoo](https://mmclassification.readthedocs.io/en/latest/model_zoo.html) 
+  and just need to specify it in the `backbone` dictionary, by inserting the following before the `style='pytorch'` setting:
+
+  ```
+        init_cfg=dict(
+            type='Pretrained',
+            checkpoint='https://download.openmmlab.com/mmclassification/v0/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth',
+            prefix='backbone',
+        ),
+  ```
 
 GPU:
 
