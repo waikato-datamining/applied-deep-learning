@@ -224,7 +224,8 @@ own purposes:</p>
 <li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value, e.g., <code>10</code></li>
 <li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>, e.g., <code>5</code>  </li>
 <li>if we want to perform transfer learning, we can re-use a pretrained model from the <a href="https://mmclassification.readthedocs.io/en/latest/model_zoo.html">model zoo</a> 
-  and just need to specify it in the <code>backbone</code> dictionary, by inserting the following before the <code>style='pytorch'</code> setting:</li>
+  and just need to specify it in the <code>backbone</code> dictionary, by inserting the following before the <code>style='pytorch'</code> setting (see also 
+  <a href="https://mmclassification.readthedocs.io/en/latest/tutorials/finetune.html">documentation</a>):</li>
 </ul>
 <pre><code>        init_cfg=dict(
             type='Pretrained',
