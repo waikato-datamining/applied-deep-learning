@@ -130,13 +130,13 @@ Open the `resnet18_b32x8_imagenet.py` file in a text editor and perform the foll
 * if we want to perform transfer learning, we can re-use a pretrained model from the [model zoo](https://mmclassification.readthedocs.io/en/latest/model_zoo.html) 
   and just need to specify it in the `backbone` dictionary, by inserting the following before the `style='pytorch'` setting:
 
-  ```
+```
         init_cfg=dict(
             type='Pretrained',
             checkpoint='https://download.openmmlab.com/mmclassification/v0/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth',
             prefix='backbone',
         ),
-  ```
+```
 
 GPU:
 
