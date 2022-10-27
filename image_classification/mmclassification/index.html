@@ -221,9 +221,16 @@ own purposes:</p>
 <li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
 <li>change <code>dataset_prefix</code> to <code>/workspace/data/5flowers-split/train</code>, <code>../test</code> and <code>../val</code> in the relevant sections</li>
 <li>change <code>ann_file</code> occurrences to <code>None</code></li>
-<li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value</li>
-<li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>  </li>
+<li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value, e.g., <code>10</code></li>
+<li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>, e.g., <code>5</code>  </li>
+<li>if we want to perform transfer learning, we can re-use a pretrained model from the <a href="https://mmclassification.readthedocs.io/en/latest/model_zoo.html">model zoo</a> 
+  and just need to specify it in the <code>backbone</code> dictionary, by inserting the following before the <code>style='pytorch'</code> setting:</li>
 </ul>
+<p><code>init_cfg=dict(
+            type='Pretrained',
+            checkpoint='https://download.openmmlab.com/mmclassification/v0/resnet/resnet18_batch256_imagenet_20200708-34ab8f90.pth',
+            prefix='backbone',
+        ),</code></p>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
