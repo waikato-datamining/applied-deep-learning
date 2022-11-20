@@ -179,3 +179,13 @@ docker run \
 ![Screenshot](img/yolo-A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e-overlay.png) 
 
 ![Screenshot](img/yolo-C10_jpg.rf.5bcf569d31edc542fb1d103907414379-overlay.png)
+
+
+# Troubleshooting
+
+* If you are re-using a dataset that was used by another YolovX framework, you
+  may get strange error messages when reading the data. This can be due to 
+  incompatible cache files that get generated to speed up loading the data. 
+  Make sure to remove all files in the `labels` directory that have a `.cache` 
+  extension.
+  
