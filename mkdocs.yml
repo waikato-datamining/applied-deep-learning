@@ -4,7 +4,7 @@ site_description: Documentation for Applied Deep Learning.
 repo_url: https://github.com/waikato-datamining/applied-deep-learning
 edit_uri: edit/main/docs/
 theme:
-    name: readthedocs
+    name: material
 markdown_extensions:
     - toc:
         baselevel: 2
