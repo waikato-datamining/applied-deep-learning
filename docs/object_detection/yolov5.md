@@ -103,9 +103,6 @@ create the following directory in the `output` folder:
 sign-yolov5
 ```
 
-**NB:** Yolov5 will automatically append a number to the output directory if said
-directory already exists (in order not to overwrite any existing models/outputs).
-
 Since the image size should be a multiple of 32, we use 416 for this experiment.
 
 Kick off the training with the following command:
