@@ -171,3 +171,9 @@ E.g., for the `image_01965.jpg` from the `anthurium` class, we will get a CSV fi
 [this one](img/image_01965.csv):
 
 {{ read_csv('docs/image_classification/img/image_01965.csv') }}
+
+**Notes**
+
+* You can view the predictions with the ADAMS *Preview browser*:
+  
+    * [Image classification (CSV)](../../previewing_predictions/#csv)

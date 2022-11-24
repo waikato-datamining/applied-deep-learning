@@ -118,6 +118,13 @@ docker run \
   --prediction_out /workspace/predictions/out
 ```
 
+**Notes** 
+
+* The predictions are output in *Indexed PNG* format.
+* You can view the predictions with the ADAMS *Preview browser*:
+  
+    * [Indexed PNG](../../previewing_predictions/#indexed-png-format)
+
 **Example prediction**
 
 ![Screenshot](img/isk-0016E5_05310.png) 

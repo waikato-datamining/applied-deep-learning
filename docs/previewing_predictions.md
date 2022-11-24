@@ -14,6 +14,18 @@ these handlers can be applied as follows:
 
 ## Image classification
 
+### CSV
+
+```
+adams.gui.tools.previewbrowser.ImageClassificationHandler -image-reader adams.data.io.input.JAIImageReader -reader "adams.data.io.input.ImageClassificationSpreadSheetReportReader -input ${HOME}/temp/preview/image_01965.csv -reader \"adams.data.io.input.CsvSpreadSheetReader -data-row-type adams.data.spreadsheet.DenseDataRow -spreadsheet-type adams.data.spreadsheet.DefaultSpreadSheet\"" -format "$ ({score|.2})"
+```
+
+Example:
+
+![Preview browser: Image classification](img/pb_imageclassification_csv.png)
+
+### JSON
+
 The following content handler overlays the label and score on the image:
 
 ```
@@ -22,7 +34,7 @@ adams.gui.tools.previewbrowser.ImageClassificationHandler -image-reader adams.da
 
 Example:
 
-![Preview browser: Image classification](img/pb_image_classification.png)
+![Preview browser: Image classification](img/pb_imageclassification_json.png)
 
 
 ## Object detection
@@ -65,6 +77,8 @@ Example:
 ## Image segmentation
 
 ### Indexed PNG format
+
+The following handler works for indexed PNGs and for grayscale ones:
 
 ```
 adams.gui.tools.previewbrowser.SimpleImageSegmentationAnnotationsHandler -reader adams.data.io.input.JAIImageReader -overlay-reader "adams.data.io.input.PNGImageReader -color-provider adams.gui.visualization.core.DefaultColorProvider" -colorizer "adams.data.image.transformer.GrayOrIndexedColorizer -color-provider adams.gui.visualization.core.DefaultColorProvider"

@@ -173,15 +173,10 @@ docker run \
   But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
   by adding `--prediction_format opex --prediction_suffix .json` to the command.
 
-* You can view the predictions with the ADAMS *Preview browser* using the 
-  *ObjectLocationsFromReport* handler. Depending on the prediction output that
-  you generate, you need to configure this generic handler via the `...` button:
+* You can view the predictions with the ADAMS *Preview browser*:
   
-  * ROIS CSV: Use `ObjectLocationsSpreadSheetReader` as reader Etering the columns 
-    for the bounding box (`x0`, `y0`, `x1`, `y1`) and the label (`label_str`) of the 
-  `reader` (`ObjectLocationsSpreadSheetReader`).
-    
-  * OPEX JSON: Use `OpexObjectLocationsReader` with default options as the `reader`. 
+    * [ROIS CSV](../../previewing_predictions/#rois-csv-format)
+    * [OPEX](../../previewing_predictions/#opex-format)
 
 **Example prediction**
 

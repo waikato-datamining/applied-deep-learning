@@ -153,3 +153,9 @@ E.g., for the `image_02048.jpg` from the `anthurium` class, we will get a JSON f
   "artichoke": 0.0634036660194397
 }
 ```
+
+**Notes**
+
+* You can view the predictions with the ADAMS *Preview browser*:
+  
+    * [Image classification (JSON)](../../previewing_predictions/#json)

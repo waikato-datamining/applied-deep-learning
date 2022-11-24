@@ -153,10 +153,9 @@ docker run \
 **Notes** 
 
 * The predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
-* You can view the predictions with the ADAMS *Preview browser* and, e.g., the *ObjectLocationsFromSpreadSheet*
-  handler. You need to configure this generic handler via the `...` button, entering the columns 
-  for the bounding box (`x0`, `y0`, `x1`, `y1`), the polygon coordinates (`poly_x` and `poly_y`) and the 
-  label (`label_str`) of the `reader` (`ObjectLocationsSpreadSheetReader`).
+* You can view the predictions with the ADAMS *Preview browser*:
+  
+    * [ROIS CSV](../../previewing_predictions/#rois-csv-format_1)
 
 **Example prediction**
 

@@ -220,6 +220,13 @@ E.g., for the `image_08085.jpg` from the `alpine_sea_holly` class, we will get a
 }
 ```
 
+**Notes**
+
+* You can view the predictions with the ADAMS *Preview browser*:
+  
+    * [Image classification (JSON)](../../previewing_predictions/#json)
+
+
 # Troubleshooting
 
 * **RuntimeError: selected index k out of range**
