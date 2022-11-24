@@ -2,18 +2,19 @@ The following prerequisites apply to most data domains:
 
 # Annotations
 In order to annotate data (e.g., for object detection, instance segmentation or image segmentation), you should 
-download the *ADAMS Annotator* application (you only need [Java 11 installed](https://adoptopenjdk.net/)):
+download the *ADAMS Annotator* application (you only need [Java 11 or 17 installed](https://adoptium.net/)):
 
   * [Snapshot](https://adams.cms.waikato.ac.nz/download/snapshot/)
-  * [Release 2021.12.0 or later](https://adams.cms.waikato.ac.nz/download/release/)  
+
 
 # Format conversions
-For turning annotations from one format into another, you need to install the *wai.annotations* Python library: 
+For turning annotations from one format into another, we will utilize the *wai.annotations* Python library: 
 
   * [wai.annotations project](https://github.com/waikato-ufdl/wai-annotations)
   * [wai.annotations manual](https://ufdl.cms.waikato.ac.nz/wai-annotations-manual)
 
-**NB:** it is recommended to install it in a virtual environment to avoid any conflicts with the host system.
+Since we will use this library through Docker images, there is no need to install anything.
+If you should decide to install it locally, it is recommended to do so in a virtual environment
 
 
 # Hardware
