@@ -70,19 +70,19 @@ cat data/sign-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\
 For training, we will use the following docker image:
 
 ```
-waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1
+waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1
 ```
 
 If you do not have a GPU, you can use the CPU-only image:
 
 ```
-waikatodatamining/pytorch-yolov5:2022-01-21_cpu
+waikatodatamining/pytorch-yolov5:2022-11-05_cpu
 ```
 
 The training script is called `yolov5_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 yolov5_train --help 
+docker run -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
 ```
 
 Instead of using config files, we can just tweak parameters via command-line options.
@@ -116,7 +116,7 @@ docker run \
   --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 \
   yolov5_train \
   --img 416 \
   --batch 16 \
@@ -124,7 +124,8 @@ docker run \
   --data /workspace/data/sign-yolo-split/dataset.yaml \
   --weights /workspace/models/yolov5m.pt \
   --project /workspace/output \
-  --name sign-yolov5
+  --name sign-yolov5 \
+  --exist-ok
 ```
 
 # Exporting to ONNX
@@ -137,7 +138,7 @@ docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 \
   yolov5_export \
   --weights /workspace/output/sign-yolov5/weights/best.pt \
   --img-size 416 416 \
@@ -157,7 +158,7 @@ docker run \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
-  -t waikatodatamining/pytorch-yolov5:2022-09-29_cuda11.1 \
+  -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 \
   yolov5_predict_poll \
   --model /workspace/output/sign-yolov5/weights/best.onnx \
   --data /workspace/data/sign-yolo-split/dataset.yaml \
@@ -168,11 +169,19 @@ docker run \
 
 **Notes** 
 
-* The predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
-* You can view the predictions with the ADAMS *Preview browser* and, e.g., the *ObjectLocationsFromSpreadSheet*
-  handler. You need to configure this generic handler via the `...` button, entering the columns 
-  for the bounding box (`x0`, `y0`, `x1`, `y1`) and the label (`label_str`) of the 
+* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+  But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
+  by adding `--prediction_format opex --prediction_suffix .json` to the command.
+
+* You can view the predictions with the ADAMS *Preview browser* using the 
+  *ObjectLocationsFromReport* handler. Depending on the prediction output that
+  you generate, you need to configure this generic handler via the `...` button:
+  
+  * ROIS CSV: Use `ObjectLocationsSpreadSheetReader` as reader Etering the columns 
+    for the bounding box (`x0`, `y0`, `x1`, `y1`) and the label (`label_str`) of the 
   `reader` (`ObjectLocationsSpreadSheetReader`).
+    
+  * OPEX JSON: Use `OpexObjectLocationsReader` with default options as the `reader`. 
 
 **Example prediction**
 
