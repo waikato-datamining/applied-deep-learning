@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/frameworks/">
+        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/yolov5/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Frameworks - Applied Deep Learning</title>
+        <title>Yolov5 - Applied Deep Learning</title>
       
     
     
@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#prerequisites" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -94,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Frameworks
+              Yolov5
             
           </span>
         </div>
@@ -399,14 +404,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
@@ -455,19 +458,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../frameworks/" class="md-nav__link">
         Frameworks
       </a>
-      
     </li>
   
 
@@ -649,6 +644,49 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training" class="md-nav__link">
+    Training
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predicting" class="md-nav__link">
+    Predicting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -661,19 +699,146 @@
                 
                   
 
-  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/frameworks.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/yolov5.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>Frameworks</h1>
+  <h1>Yolov5</h1>
 
-<p>The following frameworks are available for <strong>instance segmentation</strong>:</p>
+<p><a href="https://github.com/ultralytics/yolov5">Yolov5</a> is a family of object detection architectures and models pretrained on 
+the COCO dataset, and represents Ultralytics open-source research into future vision AI methods.
+Later releases also added support for instance segmentation.
+Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/pytorch/tree/master/yolov5">https://github.com/waikato-datamining/pytorch/tree/master/yolov5</a></p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/oxford-pets/">Oxford Pets</a>
+dataset, which consists of 37 different categories of cats and dogs.</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip</a></p>
+<p>Rename the <code>adams</code> directory to <code>pets-adams</code>. </p>
+<p>To speed up training, we only use two labels: <code>cat:abyssinian</code> and <code>dog:yorkshire_terrier</code>.
+The label filtering and splitting it into <em>train</em>, <em>validation</em> and <em>test</em> subsets is done 
+using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
+<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatoufdl/wai.annotations:latest \
+  wai-annotations convert \
+    from-adams-od \
+      -i &quot;/workspace/data/pets-adams/*.report&quot; \
+    filter-labels \
+      --labels cat:abyssinian dog:yorkshire_terrier \
+    discard-negatives \
+    coerce-mask \
+    to-yolo-od \
+      -o /workspace/data/pets-yolo-split \
+      --labels /workspace/data/pets-yolo-split/labels.txt \
+      --labels-csv /workspace/data/pets-yolo-split/labels.csv \
+      --use-polygon-format \
+      --split-names train val test \
+      --split-ratios 70 15 15
+</code></pre>
+<p><strong>NB:</strong> At the time of writing, the yolo plugin for wai.annotations still had a bug which 
+creates empty top-level directories when splitting datasets via <code>--split-names</code>. In the 
+<code>pets-yolo-split</code> directory, you can safely remove the <code>train</code>, <code>test</code> and <code>val</code> directories, 
+since the actual splits are below the <code>images</code> and <code>labels</code> directories:</p>
+<pre><code class="language-bash">rm -fR data/pets-yolo-split/train data/pets-yolo-split/test data/pets-yolo-split/val
+</code></pre>
+<p>Finally, download the <a href="../img/dataset.yaml">dataset.yaml</a> file and place it in the <code>pets-yolo-split</code>
+directory. It contains information about the dataset directory, the splits and the class labels.
+Since the labels can come out in a random order, you need to update the labels in the yaml file
+with the ones that got output in the <code>labels.txt</code> file. You can automatically quote the
+comma-separated list using the following command:</p>
+<pre><code class="language-bash">cat data/pets-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
+</code></pre>
+<h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1
+</code></pre>
+<p>If you do not have a GPU, you can use the CPU-only image:</p>
+<pre><code>waikatodatamining/pytorch-yolov5:2022-11-05_cpu
+</code></pre>
+<p>The training script is called <code>yolov5_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
+</code></pre>
+<p>Instead of using config files, we can just tweak parameters via command-line options.</p>
+<p>However, we still need to download a base model to use for training. Yolov5 offers different
+models, which differ in speed and accuracy. We will use the <em>medium</em> one called <code>yolov5m-seg.pt</code>
+from the <code>v6.2</code> release:</p>
+<p><a href="https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5m-seg.pt">https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5m-seg.pt</a></p>
+<p>Download it and place it in the <code>models</code> directory.</p>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>pets-yolov5
+</code></pre>
+<p>Since the image size should be a multiple of 32, we use 416 for this experiment.</p>
+<p>Download the <code>yolov5m-seg.yaml</code> parameter file into the <code>output/pets-yolov5</code> folder: </p>
+<p><a href="https://github.com/ultralytics/yolov5/blob/master/models/segment/yolov5m-seg.yaml">https://github.com/ultralytics/yolov5/blob/master/models/segment/yolov5m-seg.yaml</a></p>
+<p>Once downloaded, change the number of classes (<code>nc</code>) to 2.</p>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 \
+  yolov5seg_train \
+  --img 640 \
+  --workers 1 \
+  --device 0 \
+  --batch 16 \
+  --epochs 10 \
+  --cfg /workspace/output/pets-yolov5/yolov5m-seg.yaml \
+  --data /workspace/data/pets-yolo-split/dataset.yaml \
+  --weights /workspace/models/yolov5m-seg.pt \
+  --project /workspace/output/ \
+  --name pets-yolov5 \
+  --exist-ok
+</code></pre>
+<h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
+<p>Using the <code>yolov5_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 \
+  yolov5seg_predict_poll \
+  --model /workspace/output/pets-yolov5/weights/best.pt \
+  --data /workspace/data/pets-yolo-split/dataset.yaml \
+  --image_size 416 \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong> </p>
 <ul>
-<li><a href="../detectron2/">Detectron2</a></li>
-<li><a href="../mmdetection/">MMDetection</a></li>
-<li><a href="../yolov5/">Yolov5</a></li>
+<li>
+<p>By default, the predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.
+  But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
+  by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
+</li>
+<li>
+<p>You can view the predictions with the ADAMS <em>Preview browser</em>:</p>
+<ul>
+<li><a href="../../previewing_predictions/#insseg_rois">ROIS CSV</a></li>
+<li><a href="../../previewing_predictions/#insseg_opex">OPEX</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/yolov5-Abyssinian_102.png" /> </p>
+<p><img alt="Screenshot" src="../img/yolov5-yorkshire_terrier_2.png" /></p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">#</a></h2>
+<ul>
+<li>If you are re-using a dataset that was used by another YolovX framework, you
+  may get strange error messages when reading the data. This can be due to 
+  incompatible cache files that get generated to speed up loading the data. 
+  Make sure to remove all files in the <code>labels</code> directory that have a <code>.cache</code> 
+  extension.</li>
 </ul>
 
 
@@ -690,42 +855,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../annotate/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Annotate" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Annotate
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../image_segmentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Introduction
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

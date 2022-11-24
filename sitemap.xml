@@ -96,6 +96,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/yolov5/</loc>
+         <lastmod>2022-11-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/</loc>
          <lastmod>2022-11-24</lastmod>
          <changefreq>daily</changefreq>
