@@ -144,7 +144,7 @@ docker run \
 * The predictions can either be output in *grayscale* (default) or *bluechannel* format (`--prediction_format`).
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [Indexed PNG](../../previewing_predictions/#indexed-png-format)
+    * [Indexed PNG](../../previewing_predictions/#imgseg_indexed)
 
 **Example prediction**
 

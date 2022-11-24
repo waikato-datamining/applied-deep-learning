@@ -123,7 +123,7 @@ docker run \
 * The predictions are output in *Indexed PNG* format.
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [Indexed PNG](../../previewing_predictions/#indexed-png-format)
+    * [Indexed PNG](../../previewing_predictions/#imgseg_indexed)
 
 **Example prediction**
 

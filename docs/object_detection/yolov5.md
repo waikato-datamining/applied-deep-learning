@@ -175,8 +175,8 @@ docker run \
 
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [ROIS CSV](../../previewing_predictions/#rois-csv-format)
-    * [OPEX](../../previewing_predictions/#opex-format)
+    * [ROIS CSV](../../previewing_predictions/#objdet_rois)
+    * [OPEX](../../previewing_predictions/#objdet_opex)
 
 **Example prediction**
 

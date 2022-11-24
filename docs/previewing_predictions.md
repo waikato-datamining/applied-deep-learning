@@ -14,7 +14,7 @@ these handlers can be applied as follows:
 
 ## Image classification
 
-### CSV
+### CSV {: #imgcls_csv }
 
 ```
 adams.gui.tools.previewbrowser.ImageClassificationHandler -image-reader adams.data.io.input.JAIImageReader -reader "adams.data.io.input.ImageClassificationSpreadSheetReportReader -input ${HOME}/temp/preview/image_01965.csv -reader \"adams.data.io.input.CsvSpreadSheetReader -data-row-type adams.data.spreadsheet.DenseDataRow -spreadsheet-type adams.data.spreadsheet.DefaultSpreadSheet\"" -format "$ ({score|.2})"
@@ -24,7 +24,7 @@ Example:
 
 ![Preview browser: Image classification](img/pb_imageclassification_csv.png)
 
-### JSON
+### JSON {: #imgcls_json }
 
 The following content handler overlays the label and score on the image:
 
@@ -39,7 +39,7 @@ Example:
 
 ## Object detection
 
-### ROIs CSV format
+### ROIs CSV format {: #objdet_rois }
 
 ```
 adams.gui.tools.previewbrowser.ObjectAnnotationsHandler -image-reader adams.data.io.input.JAIImageReader -file-suffix -rois.csv -reader "adams.data.io.input.ObjectLocationsSpreadSheetReader -input ${HOME}/temp/preview/A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e-rois.csv -reader \"adams.data.io.input.CsvSpreadSheetReader -data-row-type adams.data.spreadsheet.DenseDataRow -spreadsheet-type adams.data.spreadsheet.DefaultSpreadSheet\" -row-finder adams.data.spreadsheet.rowfinder.AllFinder -col-left x0 -col-top y0 -col-right x1 -col-bottom y1 -col-polygon-x poly_x -col-polygon-y poly_y -col-type label_str -range-meta-data score" -cleaner "adams.gui.visualization.object.objectannotations.cleaning.OverlapRemoval -finder adams.data.objectfinder.AllFinder -overlap-detection adams.data.objectoverlap.AreaRatio -overlap-removal \"adams.data.overlappingobjectremoval.KeepHighestMetaDataValue -score-key score\"" -shape-plotter adams.gui.visualization.object.objectannotations.shape.NoShape -shape-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -outline-plotter adams.gui.visualization.object.objectannotations.outline.PolygonOutline -outline-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -label-plotter "adams.gui.visualization.object.objectannotations.label.Anchored -format \"$ ({score|.2})\"" -label-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -show-object-panel true
@@ -49,7 +49,7 @@ Example:
 
 ![Preview browser: Object detection (ROIs CSV)](img/pb_objectdetection_rois.png)
 
-### OPEX format
+### OPEX format {: #objdet_opex }
 
 ```
 adams.gui.tools.previewbrowser.ObjectAnnotationsHandler -image-reader adams.data.io.input.JAIImageReader -file-suffix .json -reader "adams.data.io.input.OpexObjectLocationsReader -input ${HOME}/temp/preview/A11_jpg.rf.ff2610c21c7f6d0a793cb58efc3bd96e.json" -cleaner "adams.gui.visualization.object.objectannotations.cleaning.OverlapRemoval -finder adams.data.objectfinder.AllFinder -overlap-detection adams.data.objectoverlap.AreaRatio -overlap-removal \"adams.data.overlappingobjectremoval.KeepHighestMetaDataValue -score-key score\"" -shape-plotter adams.gui.visualization.object.objectannotations.shape.NoShape -shape-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -outline-plotter adams.gui.visualization.object.objectannotations.outline.PolygonOutline -outline-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -label-plotter "adams.gui.visualization.object.objectannotations.label.Anchored -format \"$ ({score|.2})\"" -label-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -show-object-panel true
@@ -63,7 +63,7 @@ Example:
 
 ## Instance segmentation
 
-### ROIs CSV format
+### ROIs CSV format {: #insseg_rois }
 
 ```
 adams.gui.tools.previewbrowser.ObjectAnnotationsHandler -image-reader adams.data.io.input.JAIImageReader -file-suffix -rois.csv -reader "adams.data.io.input.ObjectLocationsSpreadSheetReader -input ${HOME}/temp/preview/Abyssinian_10-rois.csv -reader \"adams.data.io.input.CsvSpreadSheetReader -data-row-type adams.data.spreadsheet.DenseDataRow -spreadsheet-type adams.data.spreadsheet.DefaultSpreadSheet\" -row-finder adams.data.spreadsheet.rowfinder.AllFinder -col-left x0 -col-top y0 -col-right x1 -col-bottom y1 -col-polygon-x poly_x -col-polygon-y poly_y -col-type label_str -range-meta-data score" -cleaner "adams.gui.visualization.object.objectannotations.cleaning.OverlapRemoval -finder adams.data.objectfinder.AllFinder -overlap-detection adams.data.objectoverlap.AreaRatio -overlap-removal \"adams.data.overlappingobjectremoval.KeepHighestMetaDataValue -score-key score\"" -shape-plotter "adams.gui.visualization.object.objectannotations.shape.FilledPolygon -bounding-box-fallback-ratio 0.1" -shape-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider \"adams.gui.visualization.core.TranslucentColorProvider -alpha 64 -provider adams.gui.visualization.core.DefaultColorProvider\"" -outline-plotter adams.gui.visualization.object.objectannotations.outline.PolygonOutline -outline-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -label-plotter "adams.gui.visualization.object.objectannotations.label.Anchored -format \"$ ({score|.2})\"" -label-color "adams.gui.visualization.object.objectannotations.colors.PerType -color-provider adams.gui.visualization.core.DefaultColorProvider" -show-object-panel true
@@ -76,7 +76,7 @@ Example:
 
 ## Image segmentation
 
-### Indexed PNG format
+### Indexed PNG format {: #imgseg_indexed }
 
 The following handler works for indexed PNGs and for grayscale ones:
 
@@ -89,7 +89,7 @@ Example:
 ![Preview browser: Image segmentation (indexed PNG)](img/pb_imagesegmentation_indexed.png)
 
 
-## Speech-to-text
+## Speech-to-text {: #stt }
 
 Use the [plain text](#plain-text) preview handler for viewing the generated
 text files.
@@ -97,7 +97,7 @@ text files.
 
 # Generic
 
-## Plain text
+## Plain text {: #generic_plaintext }
 
 Any text file can be viewed with this handler:
 
@@ -105,7 +105,7 @@ Any text file can be viewed with this handler:
 adams.gui.tools.previewbrowser.PlainTextHandler
 ```
 
-## JSON
+## JSON {: #generic_json }
 
 This handler displays JSON in a *pretty printed* way:
 

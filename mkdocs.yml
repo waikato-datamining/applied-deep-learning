@@ -9,6 +9,7 @@ markdown_extensions:
     - toc:
         baselevel: 2
         permalink: "#"
+    - attr_list
 plugins:
     - search
     # https://github.com/soulless-viewer/mkdocs-video

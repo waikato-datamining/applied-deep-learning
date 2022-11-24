@@ -161,7 +161,7 @@ docker run \
 * The predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [ROIS CSV](../../previewing_predictions/#rois-csv-format)
+    * [ROIS CSV](../../previewing_predictions/#objdet_rois)
 
 **Example prediction**
 
