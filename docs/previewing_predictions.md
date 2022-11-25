@@ -91,8 +91,12 @@ Example:
 
 ## Speech-to-text {: #stt }
 
-Use the [plain text](#plain-text) preview handler for viewing the generated
-text files.
+The following preview handler allows the playback of the WAV/MP3 file while
+displaying the content of the associated `.txt` file: 
+
+```
+adams.gui.tools.previewbrowser.SpeechPlaybackHandler
+```
 
 
 # Generic
