@@ -16,40 +16,40 @@ instructions of getting Docker working under [WSL2](https://learn.microsoft.com/
 * Configure the default user and password when asked for during the installation
 * Get your system ready
 
-  ```bash
-  sudo apt update && sudo apt upgrade`
-  sudo apt install --no-install-recommends apt-transport-https ca-certificates curl gnupg2
-  ```
+    ```bash
+    sudo apt update && sudo apt upgrade`
+    sudo apt install --no-install-recommends apt-transport-https ca-certificates curl gnupg2
+    ```
   
 * Change *iptables* to `legacy`:
   
-  ```bash
-  sudo update-alternatives --config iptables
-  ```
+    ```bash
+    sudo update-alternatives --config iptables
+    ```
 
 * Install Docker
 
-  ```bash
-  . /etc/os-release
-  curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
-  echo "deb [arch=amd64] https://download.docker.com/linux/${ID} ${VERSION_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list
-  sudo apt update
-  sudo apt install docker-ce docker-ce-cli containerd.io
-  sudo usermod -aG docker $USER
-  ```
+    ```bash
+    . /etc/os-release
+    curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
+    echo "deb [arch=amd64] https://download.docker.com/linux/${ID} ${VERSION_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list
+    sudo apt update
+    sudo apt install docker-ce docker-ce-cli containerd.io
+    sudo usermod -aG docker $USER
+    ```
   
 * Close the WSL2 window and open a new one for the changes to take effect
 * Test your Docker installation by running:
   
-  ```bash
-  sudo dockerd
-  ```
+    ```bash
+    sudo dockerd
+    ```
   
 * After a lot of output of Docker starting up, you should see the following:
 
-  ```
-  API listen on /var/run/docker.sock
-  ```
+    ```
+    API listen on /var/run/docker.sock
+    ```
 
 (The above instructions were taken from [this post](https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9) by Jonathan Bowman)
 
@@ -78,33 +78,33 @@ The following commands test the inference of a Yolov7 model on the GPU:
 
 * Create a test directory:
 
-  ```bash
-  mkdir gpu-test
-  cd gpu-test
-  ```
+    ```bash
+    mkdir gpu-test
+    cd gpu-test
+    ```
 
 * Download the pre-trained model and a test image:
 
-  ```bash
-  wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt
-  wget "https://raw.githubusercontent.com/waikato-datamining/adams-addons/master/adams-docker/src/main/flows/data/2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg"
-  ```
+    ```bash
+    wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt
+    wget "https://raw.githubusercontent.com/waikato-datamining/adams-addons/master/adams-docker/src/main/flows/data/2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg"
+    ```
 
 * Perform inference:
 
-  ```bash
-  docker run -u $(id -u):$(id -g) \
-    -v `pwd`:/workspace \
-    -w /workspace \
-    --gpus=all \
-    -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 \
-    yolov7_detect \
-    --weights ./yolov7_training.pt \
-    --source ./'2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg' \
-    --no-trace \
-    --conf-thres 0.8 \
-    --device 0
-  ```
+    ```bash
+    docker run -u $(id -u):$(id -g) \
+      -v `pwd`:/workspace \
+      -w /workspace \
+      --gpus=all \
+      -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 \
+      yolov7_detect \
+      --weights ./yolov7_training.pt \
+      --source ./'2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg' \
+      --no-trace \
+      --conf-thres 0.8 \
+      --device 0
+    ```
 
 * In directory `gpu-test/runs/detect/exp` you will find the image with the
   detected objects overlaid.
