@@ -734,7 +734,7 @@ sudo usermod -aG docker $USER
 </ul>
 <pre><code>API listen on /var/run/docker.sock
 </code></pre>
-<p>(The above instructions were taken from <a href="https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9">this post</a> by Jonathan Bowman)</p>
+<p><em>(The above instructions were taken from <a href="https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9">this post</a> by Jonathan Bowman)</em></p>
 <h2 id="installing-nvidia-docker">Installing NVIDIA Docker<a class="headerlink" href="#installing-nvidia-docker" title="Permanent link">#</a></h2>
 <p>Since our CUDA dependencies are packaged within the Docker images, we only need
 to worry about installing <a href="https://github.com/NVIDIA/libnvidia-container">NVIDIA Docker</a>
@@ -745,7 +745,7 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.li
 sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit
 </code></pre>
 <p>Due to installing a new runtime, we need to restart our <code>dockerd</code> daemon, of course.</p>
-<p>(The above instructions were taken from <a href="https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab">this post</a> by Frank Chung)</p>
+<p><em>(The above instructions were taken from <a href="https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab">this post</a> by Frank Chung)</em></p>
 <h2 id="testing-the-gpu">Testing the GPU<a class="headerlink" href="#testing-the-gpu" title="Permanent link">#</a></h2>
 <p>The following commands test the inference of a Yolov7 model on the GPU: </p>
 <ul>
