@@ -46,3 +46,10 @@ format, which can be easily processed in most programming languages.
 
 Redis itself has [clients](https://redis.io/docs/clients/) available in a wide range of programming 
 languages as well.
+
+
+# Note on Windows
+
+The instructions in these tutorials were written for and executed on a Linux
+machine. However, you should be able to replicate these on Windows as well.
+Check out [these instructions](windows.md) to get you set up.
