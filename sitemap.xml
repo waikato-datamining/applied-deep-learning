@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.data-mining.co.nz/applied-deep-learning/windows/</loc>
+         <lastmod>2023-01-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/</loc>
          <lastmod>2023-01-16</lastmod>
          <changefreq>daily</changefreq>
