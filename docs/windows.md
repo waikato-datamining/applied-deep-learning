@@ -51,7 +51,7 @@ sudo dockerd
 API listen on /var/run/docker.sock
 ```
 
-(The above instructions were taken from [this post](https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9) by Jonathan Bowman)
+*(The above instructions were taken from [this post](https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9) by Jonathan Bowman)*
 
 
 # Installing NVIDIA Docker
@@ -69,7 +69,7 @@ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 
 Due to installing a new runtime, we need to restart our `dockerd` daemon, of course.
 
-(The above instructions were taken from [this post](https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab) by Frank Chung)
+*(The above instructions were taken from [this post](https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab) by Frank Chung)*
 
 
 # Testing the GPU
