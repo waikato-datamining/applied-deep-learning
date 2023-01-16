@@ -6,7 +6,7 @@ title: Docker on Windows
 
 One way of installing Docker on Windows is using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 However, the terms for using Docker Desktop changed on August 31st, 2022 and it may no
-longer be free for you (e.g., when working at a larger research organizations or company).
+longer be free for you (e.g., when working at a larger research organization or company).
 
 However, if you are not afraid of running a few commands in the terminal and
 having a terminal open while working with Docker, then you can follow these
@@ -69,7 +69,7 @@ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 
 Due to installing a new runtime, we need to restart our `dockerd` daemon, of course.
 
-(The above instructions were taken from [this post](https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab)) by Frank Chung)
+(The above instructions were taken from [this post](https://medium.com/htc-research-engineering-blog/nvidia-docker-on-wsl2-f891dfe34ab) by Frank Chung)
 
 
 # Testing the GPU
