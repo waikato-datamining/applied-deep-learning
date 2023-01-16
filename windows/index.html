@@ -703,36 +703,40 @@ instructions of getting Docker working under <a href="https://learn.microsoft.co
 <ul>
 <li>Get <strong>Ubuntu 20.04.5</strong> from the Windows store</li>
 <li>Configure the default user and password when asked for during the installation</li>
-<li>Get your system ready</li>
-</ul>
+<li>
+<p>Get your system ready</p>
 <p><code>bash
-  sudo apt update &amp;&amp; sudo apt upgrade`
-  sudo apt install --no-install-recommends apt-transport-https ca-certificates curl gnupg2</code></p>
-<ul>
-<li>Change <em>iptables</em> to <code>legacy</code>:</li>
-</ul>
+sudo apt update &amp;&amp; sudo apt upgrade`
+sudo apt install --no-install-recommends apt-transport-https ca-certificates curl gnupg2</code></p>
+</li>
+<li>
+<p>Change <em>iptables</em> to <code>legacy</code>:</p>
 <p><code>bash
-  sudo update-alternatives --config iptables</code></p>
-<ul>
-<li>Install Docker</li>
-</ul>
+sudo update-alternatives --config iptables</code></p>
+</li>
+<li>
+<p>Install Docker</p>
 <p><code>bash
-  . /etc/os-release
-  curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
-  echo "deb [arch=amd64] https://download.docker.com/linux/${ID} ${VERSION_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list
-  sudo apt update
-  sudo apt install docker-ce docker-ce-cli containerd.io
-  sudo usermod -aG docker $USER</code></p>
-<ul>
-<li>Close the WSL2 window and open a new one for the changes to take effect</li>
-<li>Test your Docker installation by running:</li>
-</ul>
+. /etc/os-release
+curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
+echo "deb [arch=amd64] https://download.docker.com/linux/${ID} ${VERSION_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $USER</code></p>
+</li>
+<li>
+<p>Close the WSL2 window and open a new one for the changes to take effect</p>
+</li>
+<li>
+<p>Test your Docker installation by running:</p>
 <p><code>bash
-  sudo dockerd</code></p>
-<ul>
-<li>After a lot of output of Docker starting up, you should see the following:</li>
-</ul>
+sudo dockerd</code></p>
+</li>
+<li>
+<p>After a lot of output of Docker starting up, you should see the following:</p>
 <p><code>API listen on /var/run/docker.sock</code></p>
+</li>
+</ul>
 <p>(The above instructions were taken from <a href="https://dev.to/bowmanjd/install-docker-on-windows-wsl-without-docker-desktop-34m9">this post</a> by Jonathan Bowman)</p>
 <h2 id="installing-nvidia-docker">Installing NVIDIA Docker<a class="headerlink" href="#installing-nvidia-docker" title="Permanent link">#</a></h2>
 <p>Since our CUDA dependencies are packaged within the Docker images, we only need
@@ -748,35 +752,37 @@ sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit
 <h2 id="testing-the-gpu">Testing the GPU<a class="headerlink" href="#testing-the-gpu" title="Permanent link">#</a></h2>
 <p>The following commands test the inference of a Yolov7 model on the GPU: </p>
 <ul>
-<li>Create a test directory:</li>
-</ul>
+<li>
+<p>Create a test directory:</p>
 <p><code>bash
-  mkdir gpu-test
-  cd gpu-test</code></p>
-<ul>
-<li>Download the pre-trained model and a test image:</li>
-</ul>
+mkdir gpu-test
+cd gpu-test</code></p>
+</li>
+<li>
+<p>Download the pre-trained model and a test image:</p>
 <p><code>bash
-  wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt
-  wget "https://raw.githubusercontent.com/waikato-datamining/adams-addons/master/adams-docker/src/main/flows/data/2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg"</code></p>
-<ul>
-<li>Perform inference:</li>
-</ul>
+wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt
+wget "https://raw.githubusercontent.com/waikato-datamining/adams-addons/master/adams-docker/src/main/flows/data/2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg"</code></p>
+</li>
+<li>
+<p>Perform inference:</p>
 <p><code>bash
-  docker run -u $(id -u):$(id -g) \
-    -v `pwd`:/workspace \
-    -w /workspace \
-    --gpus=all \
-    -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 \
-    yolov7_detect \
-    --weights ./yolov7_training.pt \
-    --source ./'2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg' \
-    --no-trace \
-    --conf-thres 0.8 \
-    --device 0</code></p>
-<ul>
-<li>In directory <code>gpu-test/runs/detect/exp</code> you will find the image with the
-  detected objects overlaid.</li>
+docker run -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -w /workspace \
+  --gpus=all \
+  -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 \
+  yolov7_detect \
+  --weights ./yolov7_training.pt \
+  --source ./'2021_Toyota_GR_Yaris_Circuit_4WD_1.6_(1).jpg' \
+  --no-trace \
+  --conf-thres 0.8 \
+  --device 0</code></p>
+</li>
+<li>
+<p>In directory <code>gpu-test/runs/detect/exp</code> you will find the image with the
+  detected objects overlaid.</p>
+</li>
 </ul>
 
 
