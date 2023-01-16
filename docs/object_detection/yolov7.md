@@ -76,7 +76,7 @@ waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1
 If you do not have a GPU, you can use the CPU-only image:
 
 ```
-waikatodatamining/pytorch-yolov7:2022-01-21_cpu
+waikatodatamining/pytorch-yolov7:2022-10-08_cpu
 ```
 
 The training script is called `yolov7_train`, for which we can invoke the help screen as follows:
