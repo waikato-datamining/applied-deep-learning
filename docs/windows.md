@@ -1,3 +1,7 @@
+---
+title: Docker on Windows
+---
+
 # Installing Docker
 
 One way of installing Docker on Windows is using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
