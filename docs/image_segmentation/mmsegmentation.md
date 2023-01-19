@@ -50,13 +50,20 @@ docker run --rm -u $(id -u):$(id -g) \
 For training, we will use the following docker image:
 
 ```
-waikatodatamining/mmsegmentation:0.25.0_cuda11.1
+waikatodatamining/mmsegmentation:0.30.0_cuda11.1
+```
+
+Training and inference are possible on just a CPU as well (though much, much slower).
+For utilizing a CPU you can use the following docker image:
+
+```
+waikatodatamining/mmsegmentation:0.30.0_cpu
 ```
 
 The training script is called `mmseg_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run --rm -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 mmseg_train --help 
+docker run --rm -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 mmseg_train --help 
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -84,7 +91,7 @@ docker run --rm \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
+  -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 \
   mmseg_config \
   --config /mmsegmentation/configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py \
   --output_config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py
@@ -110,7 +117,7 @@ docker run --rm \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMSEG_CLASSES="sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled" \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
+  -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 \
   mmseg_train \
   /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
   --work-dir /workspace/output/camvid12-mmseg-pspnet50
@@ -131,7 +138,7 @@ docker run --rm \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMSEG_CLASSES="sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled" \
-  -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 \
+  -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 \
   mmseg_predict_poll \
   --model /workspace/output/camvid12-mmseg-pspnet50/latest.pth \
   --config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
