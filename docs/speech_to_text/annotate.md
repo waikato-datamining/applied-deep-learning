@@ -8,7 +8,7 @@ E.g., the following command converts all WAV files in `INPUT_DIR` and stores the
 `OUTPUT_DIR`:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \

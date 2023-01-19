@@ -93,7 +93,7 @@ wget "https://raw.githubusercontent.com/waikato-datamining/adams-addons/master/a
 * Perform inference:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -w /workspace \
   --gpus=all \

@@ -41,7 +41,7 @@ waikatodatamining/tf_coqui_stt:1.15.2_0.10.0a10_cpu
 The training script is called `stt_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 stt_train --help 
+docker run --rm -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 stt_train --help 
 ```
 
 Instead of using config files, we can just tweak parameters via 
@@ -65,7 +65,7 @@ For generating the alphabet specific to this dataset, use the following command 
 supply multiple CSV files to the `stt_alphabet` script):
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \
@@ -78,7 +78,7 @@ docker run \
 Kick off transfer learning with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -120,7 +120,7 @@ will use the *test* set and output the best and worst transcripts (using
 You can run it like this:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -143,7 +143,7 @@ Before we can use our trained model, we will need to export it to [TensorFlow li
 (aka tflite) using the `stt_export` script: 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -168,7 +168,7 @@ Using the `stt_transcribe_poll` script, we can batch-process audio files placed 
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \
@@ -182,7 +182,7 @@ If you just want to test with a single audio file, then use `stt_transcribe_sing
 (point to the audio file with `--audio`):
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \

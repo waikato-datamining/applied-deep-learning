@@ -31,7 +31,7 @@ At the same time, we can split the dataset into *train*, *validation* and *test*
 From within the `applied_deep_learning` directory, run the following command:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -82,7 +82,7 @@ waikatodatamining/pytorch-yolov7:2022-10-08_cpu
 The training script is called `yolov7_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 yolov7_train --help 
+docker run --rm -t waikatodatamining/pytorch-yolov7:2022-10-08_cuda11.1 yolov7_train --help 
 ```
 
 Since we will be performing transfer larning, we need to download a base model to use for training. 
@@ -116,7 +116,7 @@ Since the image size should be a multiple of 32, we use 416 for this experiment.
 Kick off the training with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -144,7 +144,7 @@ Using the `yolov7_predict_poll` script, we can batch-process images placed in th
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -176,7 +176,7 @@ Before we can use our trained model, we will need to export it to [ONNX format](
 using the `yolov7_export` script:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \

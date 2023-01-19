@@ -29,7 +29,7 @@ The label filtering and splitting it into *train*, *validation* and *test* subse
 using [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -60,7 +60,7 @@ waikatodatamining/detectron2:0.6
 The training script is called `d2_train_coco`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/detectron2:0.6 d2_train_coco --help 
+docker run --rm -t waikatodatamining/detectron2:0.6 d2_train_coco --help 
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -82,7 +82,7 @@ Using the `d2_dump_config` command, we can expand and dump one of these configur
 own purposes:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -111,7 +111,7 @@ SOLVER:
 Kick off the training with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -137,7 +137,7 @@ Using the `d2_predict` script, we can batch-process images placed in the `predic
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \

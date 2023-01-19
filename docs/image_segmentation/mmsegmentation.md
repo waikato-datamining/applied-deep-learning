@@ -31,7 +31,7 @@ At the same time, we can split the dataset into *train*, *validation* and *test*
 From within the `applied_deep_learning` directory, run the following command:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -56,7 +56,7 @@ waikatodatamining/mmsegmentation:0.25.0_cuda11.1
 The training script is called `mmseg_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 mmseg_train --help 
+docker run --rm -t waikatodatamining/mmsegmentation:0.25.0_cuda11.1 mmseg_train --help 
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -78,7 +78,7 @@ Using the `mmseg_config` command, we can expand and dump one of these configurat
 own purposes:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -102,7 +102,7 @@ Open the `pspnet_r50.py` file in a text editor and perform the following operati
 Kick off the training with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size=8g \
   --gpus=all \
@@ -123,7 +123,7 @@ Using the `mmseg_predict_poll` script, we can batch-process images placed in the
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \

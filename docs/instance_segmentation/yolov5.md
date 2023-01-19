@@ -30,7 +30,7 @@ The label filtering and splitting it into *train*, *validation* and *test* subse
 using [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -86,7 +86,7 @@ waikatodatamining/pytorch-yolov5:2022-11-05_cpu
 The training script is called `yolov5_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
+docker run --rm -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
 ```
 
 Instead of using config files, we can just tweak parameters via command-line options.
@@ -118,7 +118,7 @@ Once downloaded, change the number of classes (`nc`) to 2.
 Kick off the training with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -145,7 +145,7 @@ Using the `yolov5_predict_poll` script, we can batch-process images placed in th
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \

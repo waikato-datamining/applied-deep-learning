@@ -30,7 +30,7 @@ At the same time, we can split the dataset into *train*, *validation* and *test*
 From within the `applied_deep_learning` directory, run the following command:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -55,7 +55,7 @@ waikatodatamining/image-segmentation-keras:1.14.0_0.3.0
 The training script is called `keras_seg_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 keras_seg_train --help 
+docker run --rm -t waikatodatamining/image-segmentation-keras:1.14.0_0.3.0 keras_seg_train --help 
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -80,7 +80,7 @@ instead:
 Kick off the training of a U-Net with a ResNet50 backend using the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -106,7 +106,7 @@ Using the `keras_seg_poll` script, we can batch-process images placed in the `pr
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \

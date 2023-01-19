@@ -37,7 +37,7 @@ Split the data into *train*, *validation* and *test* subsets using
 [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -67,8 +67,8 @@ waikatodatamining/mmclassification:0.25.0_cpu
 The training script is called `mmcls_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/mmclassification:0.25.0_cuda11.1 mmcls_train --help   # GPU
-docker run -t waikatodatamining/mmclassification:0.25.0_cpu mmcls_train --help        # CPU
+docker run --rm -t waikatodatamining/mmclassification:0.25.0_cuda11.1 mmcls_train --help   # GPU
+docker run --rm -t waikatodatamining/mmclassification:0.25.0_cpu mmcls_train --help        # CPU
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -93,7 +93,7 @@ own purposes:
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
@@ -107,7 +107,7 @@ docker run \
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
@@ -142,7 +142,7 @@ Open the `resnet18_b32x8_imagenet.py` file in a text editor and perform the foll
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --shm-size 8G \
   --gpus=all \
@@ -159,7 +159,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --shm-size 8G \
   -v `pwd`:/workspace \
@@ -181,7 +181,7 @@ as follows (e.g., from our *test* subset):
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --shm-size 8G \
   --gpus=all \
@@ -198,7 +198,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --shm-size 8G \
   -v `pwd`:/workspace \

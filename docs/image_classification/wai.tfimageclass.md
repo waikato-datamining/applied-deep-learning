@@ -47,8 +47,8 @@ waikatodatamining/tf_image_classification:1.14_cpu
 The training script is called `tfic-retrain`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
-docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
+docker run --rm -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
+docker run --rm -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -65,7 +65,7 @@ model for 500 steps:
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -84,7 +84,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules \
@@ -106,7 +106,7 @@ Before we can use the model, we need to export it to *Tensorflow lite* or *tflit
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -120,7 +120,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules \
@@ -140,7 +140,7 @@ Since we will want to batch predict multiple images, will use the script `tfic-p
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
@@ -155,7 +155,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \

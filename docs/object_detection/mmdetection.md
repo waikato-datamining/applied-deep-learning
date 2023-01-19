@@ -31,7 +31,7 @@ At the same time, we can split the dataset into *train*, *validation* and *test*
 From within the `applied_deep_learning` directory, run the following command:
 
 ```bash
-docker run -u $(id -u):$(id -g) \
+docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -58,7 +58,7 @@ The training script is called `mmdet_train`, for which we can invoke the help sc
 (unfortunately, we need to set the `MMDET_CLASSES` environment variable to avoid an exception):
 
 ```bash
-docker run \
+docker run --rm \
   -e MMDET_CLASSES= \
   -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
   mmdet_train --help 
@@ -83,7 +83,7 @@ Using the `mmdet_config` command, we can expand and dump one of these configurat
 own purposes:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -110,7 +110,7 @@ Open the `faster_rcnn_r50_fpn_1x_coco.py` file in a text editor and perform the 
 Kick off the training with the following command:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -131,7 +131,7 @@ Using the `mmdet_predict` script, we can batch-process images placed in the `pre
 as follows (e.g., from our *test* subset): 
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \

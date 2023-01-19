@@ -52,8 +52,8 @@ waikatodatamining/tf_image_classification2:2.9.1_cpu
 The training script is called `make_image_classifier`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 make_image_classifier --helpfull   # GPU
-docker run -t waikatodatamining/tf_image_classification2:2.9.1_cpu make_image_classifier --helpfull        # CPU
+docker run --rm -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 make_image_classifier --helpfull   # GPU
+docker run --rm -t waikatodatamining/tf_image_classification2:2.9.1_cpu make_image_classifier --helpfull        # CPU
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -70,7 +70,7 @@ model for 10 epochs:
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -89,7 +89,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules \
@@ -114,7 +114,7 @@ Since we will want to batch predict multiple images, will use the script `predic
 GPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification2:2.9.1_cuda11.1 \
@@ -130,7 +130,7 @@ docker run \
 CPU:
 
 ```bash
-docker run \
+docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification2:2.9.1_cpu \
