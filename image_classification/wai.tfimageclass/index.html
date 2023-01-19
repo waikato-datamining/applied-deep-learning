@@ -734,8 +734,8 @@ outlined. </p>
 <pre><code>waikatodatamining/tf_image_classification:1.14_cpu
 </code></pre>
 <p>The training script is called <code>tfic-retrain</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
-docker run -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
+<pre><code class="language-bash">docker run --rm -t waikatodatamining/tf_image_classification:1.14 tfic-retrain --help      # GPU
+docker run --rm -t waikatodatamining/tf_image_classification:1.14_cpu tfic-retrain --help  # CPU
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
@@ -745,7 +745,7 @@ create the following directory in the <code>output</code> folder:</p>
 <p>The following command will train an <a href="https://tfhub.dev/google/imagenet/inception_v3/feature_vector/3">Inception v3</a> 
 model for 500 steps:</p>
 <p>GPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -761,7 +761,7 @@ model for 500 steps:</p>
   --training_steps 500
 </code></pre>
 <p>CPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules \
@@ -778,7 +778,7 @@ model for 500 steps:</p>
 <h2 id="exporting-model">Exporting model<a class="headerlink" href="#exporting-model" title="Permanent link">#</a></h2>
 <p>Before we can use the model, we need to export it to <em>Tensorflow lite</em> or <em>tflite</em>:</p>
 <p>GPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -789,7 +789,7 @@ model for 500 steps:</p>
   --tflite_model /workspace/output/3flowers-tf-default/graph.tflite
 </code></pre>
 <p>CPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/tmp/tfhub_modules \
@@ -802,7 +802,7 @@ model for 500 steps:</p>
 <p>For making predictions for a single image, you can use the script <code>tfic-labelimage</code>.</p>
 <p>Since we will want to batch predict multiple images, will use the script <code>tfic-poll</code> instead: </p>
 <p>GPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14 \
@@ -814,7 +814,7 @@ model for 500 steps:</p>
   --out_dir /workspace/predictions/out
 </code></pre>
 <p>CPU:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) -e USER=$USER \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_image_classification:1.14_cpu \

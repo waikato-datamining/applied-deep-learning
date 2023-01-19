@@ -763,7 +763,7 @@ wget &quot;https://raw.githubusercontent.com/waikato-datamining/adams-addons/mas
 <ul>
 <li>Perform inference:</li>
 </ul>
-<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+<pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -w /workspace \
   --gpus=all \

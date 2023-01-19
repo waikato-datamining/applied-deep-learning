@@ -733,7 +733,7 @@ collection.</p>
 <pre><code>waikatodatamining/tf_coqui_stt:1.15.2_0.10.0a10_cpu
 </code></pre>
 <p>The training script is called <code>stt_train</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 stt_train --help 
+<pre><code class="language-bash">docker run --rm -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 stt_train --help 
 </code></pre>
 <p>Instead of using config files, we can just tweak parameters via 
 <a href="https://stt.readthedocs.io/en/stable/TRAINING_FLAGS.html">command-line options</a>.</p>
@@ -747,7 +747,7 @@ create the following directory in the <code>output</code> folder:</p>
 </code></pre>
 <p>For generating the alphabet specific to this dataset, use the following command (if necessary, you can 
 supply multiple CSV files to the <code>stt_alphabet</code> script):</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \
@@ -756,7 +756,7 @@ supply multiple CSV files to the <code>stt_alphabet</code> script):</p>
   -o /workspace/data/lad-irish/alphabet.txt
 </code></pre>
 <p>Kick off transfer learning with the following command:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -793,7 +793,7 @@ will use the <em>test</em> set and output the best and worst transcripts (using
 <a href="https://torchmetrics.readthedocs.io/en/stable/text/char_error_rate.html">CER</a> and
 <a href="https://torchmetrics.readthedocs.io/en/stable/text/word_error_rate.html">WER</a> as metrics). 
 You can run it like this:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -811,7 +811,7 @@ You can run it like this:</p>
 <h2 id="exporting-to-tflite">Exporting to tflite<a class="headerlink" href="#exporting-to-tflite" title="Permanent link">#</a></h2>
 <p>Before we can use our trained model, we will need to export it to <a href="https://www.tensorflow.org/lite/">TensorFlow lite</a>
 (aka tflite) using the <code>stt_export</code> script: </p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -830,7 +830,7 @@ You can run it like this:</p>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
 <p>Using the <code>stt_transcribe_poll</code> script, we can batch-process audio files placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \
@@ -841,7 +841,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
 </code></pre>
 <p>If you just want to test with a single audio file, then use <code>stt_transcribe_single</code> instead
 (point to the audio file with <code>--audio</code>):</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/tf_coqui_stt:1.4.0_cuda11.6 \

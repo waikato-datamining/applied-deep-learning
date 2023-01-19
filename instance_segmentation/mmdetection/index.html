@@ -715,7 +715,7 @@ dataset, which consists of 37 different categories of cats and dogs.</p>
 <p>To speed up training, we only use two labels: <code>cat:abyssinian</code> and <code>dog:yorkshire_terrier</code>.
 The label filtering and splitting it into <em>train</em>, <em>validation</em> and <em>test</em> subsets is done 
 using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
-<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+<pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -738,7 +738,7 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
 </code></pre>
 <p>The training script is called <code>mmdet_train</code>, for which we can invoke the help screen as follows
 (unfortunately, we need to set the <code>MMDET_CLASSES</code> environment variable to avoid an exception):</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -e MMDET_CLASSES= \
   -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
   mmdet_train --help 
@@ -754,7 +754,7 @@ you can find example configurations for various architectures in the following d
 </code></pre>
 <p>Using the <code>mmdet_config</code> command, we can expand and dump one of these configurations for our
 own purposes:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -778,7 +778,7 @@ own purposes:</p>
 <li>change <code>lr</code> (learning rate) in <code>optimizer</code> to <code>0.002</code> to avoid NaNs with a learning rate that is too high</li>
 </ul>
 <p>Kick off the training with the following command:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -794,7 +794,7 @@ own purposes:</p>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
 <p>Using the <code>mmdet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \

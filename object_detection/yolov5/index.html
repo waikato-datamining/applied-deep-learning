@@ -730,7 +730,7 @@ dataset, which consists of sets of images of hands, one per letter in the Englis
 <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
 At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
-<pre><code class="language-bash">docker run -u $(id -u):$(id -g) \
+<pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatoufdl/wai.annotations:latest \
   wai-annotations convert \
@@ -764,7 +764,7 @@ comma-separated list using the following command:</p>
 <pre><code>waikatodatamining/pytorch-yolov5:2022-11-05_cpu
 </code></pre>
 <p>The training script is called <code>yolov5_train</code>, for which we can invoke the help screen as follows:</p>
-<pre><code class="language-bash">docker run -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
+<pre><code class="language-bash">docker run --rm -t waikatodatamining/pytorch-yolov5:2022-11-05_cuda11.1 yolov5_train --help 
 </code></pre>
 <p>Instead of using config files, we can just tweak parameters via command-line options.</p>
 <p>However, we still need to download a base model to use for training. Yolov5 offers different
@@ -779,7 +779,7 @@ create the following directory in the <code>output</code> folder:</p>
 </code></pre>
 <p>Since the image size should be a multiple of 32, we use 416 for this experiment.</p>
 <p>Kick off the training with the following command:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
@@ -798,7 +798,7 @@ create the following directory in the <code>output</code> folder:</p>
 <h2 id="exporting-to-onnx">Exporting to ONNX<a class="headerlink" href="#exporting-to-onnx" title="Permanent link">#</a></h2>
 <p>Before we can use our trained model, we will need to export it to <a href="https://onnx.ai/">ONNX format</a>
 using the <code>yolov5_export</code> script:</p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
@@ -812,7 +812,7 @@ using the <code>yolov5_export</code> script:</p>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
 <p>Using the <code>yolov5_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
-<pre><code class="language-bash">docker run \
+<pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
