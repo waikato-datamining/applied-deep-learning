@@ -55,20 +55,20 @@ docker run -u $(id -u):$(id -g) \
 For training, we will use the following docker image:
 
 ```
-waikatodatamining/mmclassification:0.23.1_cuda11.1
+waikatodatamining/mmclassification:0.25.0_cuda11.1
 ```
 
 If you only have a CPU machine available, then use this one instead:
 
 ```
-waikatodatamining/mmclassification:0.23.1_cpu
+waikatodatamining/mmclassification:0.25.0_cpu
 ```
 
 The training script is called `mmcls_train`, for which we can invoke the help screen as follows:
 
 ```bash
-docker run -t waikatodatamining/mmclassification:0.23.1_cuda11.1 mmcls_train --help   # GPU
-docker run -t waikatodatamining/mmclassification:0.23.1_cpu mmcls_train --help        # CPU
+docker run -t waikatodatamining/mmclassification:0.25.0_cuda11.1 mmcls_train --help   # GPU
+docker run -t waikatodatamining/mmclassification:0.25.0_cpu mmcls_train --help        # CPU
 ```
 
 It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -98,7 +98,7 @@ docker run \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_config \
   /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
   > `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
@@ -112,7 +112,7 @@ docker run \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
   mmcls_config \
   /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
   > `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
@@ -144,12 +144,13 @@ GPU:
 ```bash
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
+  --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
   mmcls_train \
   /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
   --work-dir /workspace/output/5flowers-mmcl-r18
@@ -160,11 +161,12 @@ CPU:
 ```bash
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
+  --shm-size 8G \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_train \
   /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
   --work-dir /workspace/output/5flowers-mmcl-r18
@@ -181,10 +183,11 @@ GPU:
 ```bash
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
+  --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cuda11.1 \
+  -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
   mmcls_predict_poll \
   --model /workspace/output/5flowers-mmcl-r18/latest.pth \
   --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
@@ -197,9 +200,10 @@ CPU:
 ```bash
 docker run \
   -u $(id -u):$(id -g) -e USER=$USER \
+  --shm-size 8G \
   -v `pwd`:/workspace \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
-  -t waikatodatamining/mmclassification:0.23.1_cpu \
+  -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_predict_poll \
   --model /workspace/output/5flowers-mmcl-r18/latest.pth \
   --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
