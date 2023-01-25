@@ -53,7 +53,7 @@ docker run --rm -u $(id -u):$(id -g) \
 For training, we will use the following docker image:
 
 ```
-waikatodatamining/mmdetection:2.24.1_cuda11.1
+waikatodatamining/mmdetection:2.27.0_cuda11.1
 ```
 
 The training script is called `mmdet_train`, for which we can invoke the help screen as follows
@@ -62,7 +62,7 @@ The training script is called `mmdet_train`, for which we can invoke the help sc
 ```bash
 docker run --rm \
   -e MMDET_CLASSES= \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_train --help 
 ```
 
@@ -91,7 +91,7 @@ docker run --rm \
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_config \
   /mmdetection/configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py \
   > output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py
@@ -121,7 +121,7 @@ docker run --rm \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_train \
   /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
   --work-dir /workspace/output/pets2-mmdet-maskrcnn
@@ -142,7 +142,7 @@ docker run --rm \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_predict \
   --checkpoint /workspace/output/pets2-mmdet-maskrcnn/latest.pth \
   --config /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
