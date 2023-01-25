@@ -158,10 +158,15 @@ docker run --rm \
 
 **Notes** 
 
-* The predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+  But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
+  by adding `--prediction_format opex --prediction_suffix .json` to the command.
+
 * You can view the predictions with the ADAMS *Preview browser*:
   
     * [ROIS CSV](../../previewing_predictions/#objdet_rois)
+    * [OPEX](../../previewing_predictions/#objdet_opex)
+
 
 **Example prediction**
 
