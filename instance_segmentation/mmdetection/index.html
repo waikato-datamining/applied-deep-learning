@@ -734,13 +734,13 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
 </code></pre>
 <h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
-<pre><code>waikatodatamining/mmdetection:2.24.1_cuda11.1
+<pre><code>waikatodatamining/mmdetection:2.27.0_cuda11.1
 </code></pre>
 <p>The training script is called <code>mmdet_train</code>, for which we can invoke the help screen as follows
 (unfortunately, we need to set the <code>MMDET_CLASSES</code> environment variable to avoid an exception):</p>
 <pre><code class="language-bash">docker run --rm \
   -e MMDET_CLASSES= \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_train --help 
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
@@ -760,7 +760,7 @@ own purposes:</p>
   -v `pwd`:/workspace \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_config \
   /mmdetection/configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py \
   &gt; output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py
@@ -786,7 +786,7 @@ own purposes:</p>
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_train \
   /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
   --work-dir /workspace/output/pets2-mmdet-maskrcnn
@@ -802,7 +802,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.24.1_cuda11.1 \
+  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_predict \
   --checkpoint /workspace/output/pets2-mmdet-maskrcnn/latest.pth \
   --config /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
@@ -811,11 +811,16 @@ as follows (e.g., from our <em>test</em> subset): </p>
 </code></pre>
 <p><strong>Notes</strong> </p>
 <ul>
-<li>The predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.</li>
+<li>
+<p>By default, the predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.
+  But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
+  by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
+</li>
 <li>
 <p>You can view the predictions with the ADAMS <em>Preview browser</em>:</p>
 <ul>
-<li><a href="../../previewing_predictions/#insseg_rois">ROIS CSV</a></li>
+<li><a href="../../previewing_predictions/#objdet_rois">ROIS CSV</a></li>
+<li><a href="../../previewing_predictions/#objdet_opex">OPEX</a></li>
 </ul>
 </li>
 </ul>

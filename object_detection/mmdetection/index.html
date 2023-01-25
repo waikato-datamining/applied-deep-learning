@@ -811,11 +811,16 @@ as follows (e.g., from our <em>test</em> subset): </p>
 </code></pre>
 <p><strong>Notes</strong> </p>
 <ul>
-<li>The predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.</li>
+<li>
+<p>By default, the predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.
+  But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
+  by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
+</li>
 <li>
 <p>You can view the predictions with the ADAMS <em>Preview browser</em>:</p>
 <ul>
 <li><a href="../../previewing_predictions/#objdet_rois">ROIS CSV</a></li>
+<li><a href="../../previewing_predictions/#objdet_opex">OPEX</a></li>
 </ul>
 </li>
 </ul>
