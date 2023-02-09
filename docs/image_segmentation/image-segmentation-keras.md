@@ -1,5 +1,5 @@
 ---
-title: Image Segmenation Keras
+title: Image Segmentation Keras
 ---
 
 [Image Segmenation Keras](https://github.com/divamgupta/image-segmentation-keras) is a Keras/Tensorflow
