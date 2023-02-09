@@ -2,7 +2,7 @@
 title: Image Segmentation Keras
 ---
 
-[Image Segmenation Keras](https://github.com/divamgupta/image-segmentation-keras) is a Keras/Tensorflow
+[Image Segmentation Keras](https://github.com/divamgupta/image-segmentation-keras) is a Keras/Tensorflow
 based image segmentation framework. Custom docker images with additional tools are available from here:
 
 [https://github.com/waikato-datamining/tensorflow/tree/master/image-segmentation-keras](https://github.com/waikato-datamining/tensorflow/tree/master/image-segmentation-keras)
