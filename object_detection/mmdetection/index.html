@@ -718,7 +718,7 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
 <pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
+  -t waikatoufdl/wai.annotations:0.8.0 \
   wai-annotations convert \
     from-voc-od \
       -i &quot;/workspace/data/sign-voc/*.xml&quot; \
