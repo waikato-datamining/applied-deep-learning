@@ -32,7 +32,7 @@ using [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
+  -t waikatoufdl/wai.annotations:0.8.0 \
   wai-annotations convert \
     from-adams-od \
       -i "/workspace/data/pets-adams/*.report" \

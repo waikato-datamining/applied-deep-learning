@@ -10,7 +10,7 @@ E.g., the following command converts all WAV files in `INPUT_DIR` and stores the
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
+  -t waikatoufdl/wai.annotations:0.8.0 \
   wai-annotations convert \
     from-audio-files-ac \
       -i "INPUT_DIR/*.wav" \

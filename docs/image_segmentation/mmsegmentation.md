@@ -33,7 +33,7 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
+  -t waikatoufdl/wai.annotations:0.8.0 \
   wai-annotations convert \
     from-grayscale-is \
       -i "/workspace/data/camvid-grayscale/*.png" \

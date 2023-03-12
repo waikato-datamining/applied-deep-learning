@@ -39,7 +39,7 @@ Split the data into *train*, *validation* and *test* subsets using
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:latest \
+  -t waikatoufdl/wai.annotations:0.8.0 \
   wai-annotations convert \
     from-subdir-ic \
       -i "/workspace/data/5flowers/**/*.jpg" \
