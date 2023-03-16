@@ -123,7 +123,7 @@ Open the `resnet18_b32x8_imagenet.py` file in a text editor and perform the foll
 * remove the lines before `model = dict(`
 * change `num_classes` to `5`
 * change `dataset_type` to `ExternalDataset` and any occurrences of `type` in the `train`, `test`, `val` sections of the `data` dictionary
-* change `dataset_prefix` to `/workspace/data/5flowers-split/train`, `../test` and `../val` in the relevant sections
+* change `data_prefix` to `/workspace/data/5flowers-split/train`, `../test` and `../val` in the relevant sections
 * change `ann_file` occurrences to `None`
 * change `max_epochs` in the `runner` to a suitable value, e.g., `10`
 * change the `interval` of the `checkpoint_config` to a value that makes sense with `max_epochs`, e.g., `5`  
