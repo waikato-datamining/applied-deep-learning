@@ -791,7 +791,7 @@ own purposes:</p>
 <li>remove the lines before <code>model = dict(</code></li>
 <li>change <code>num_classes</code> to <code>5</code></li>
 <li>change <code>dataset_type</code> to <code>ExternalDataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
-<li>change <code>dataset_prefix</code> to <code>/workspace/data/5flowers-split/train</code>, <code>../test</code> and <code>../val</code> in the relevant sections</li>
+<li>change <code>data_prefix</code> to <code>/workspace/data/5flowers-split/train</code>, <code>../test</code> and <code>../val</code> in the relevant sections</li>
 <li>change <code>ann_file</code> occurrences to <code>None</code></li>
 <li>change <code>max_epochs</code> in the <code>runner</code> to a suitable value, e.g., <code>10</code></li>
 <li>change the <code>interval</code> of the <code>checkpoint_config</code> to a value that makes sense with <code>max_epochs</code>, e.g., <code>5</code>  </li>
