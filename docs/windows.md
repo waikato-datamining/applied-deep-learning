@@ -17,7 +17,7 @@ instructions of getting Docker working under [WSL2](https://learn.microsoft.com/
 * Get your system ready
 
 ```bash
-sudo apt update && sudo apt upgrade`
+sudo apt update && sudo apt upgrade
 sudo apt install --no-install-recommends apt-transport-https ca-certificates curl gnupg2
 ```
   
