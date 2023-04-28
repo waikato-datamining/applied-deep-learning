@@ -47,6 +47,12 @@ format, which can be easily processed in most programming languages.
 Redis itself has [clients](https://redis.io/docs/clients/) available in a wide range of programming 
 languages as well.
 
+Of course, you can run a Redis server also in a docker container:
+
+```bash
+docker run --net=host --name redis-server -d redis
+```
+
 
 # Note on Windows
 
