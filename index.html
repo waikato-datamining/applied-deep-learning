@@ -769,6 +769,9 @@ of efficient, low-latency processing pipelines.</p>
 format, which can be easily processed in most programming languages.</p>
 <p>Redis itself has <a href="https://redis.io/docs/clients/">clients</a> available in a wide range of programming 
 languages as well.</p>
+<p>Of course, you can run a Redis server also in a docker container:</p>
+<pre><code class="language-bash">docker run --net=host --name redis-server -d redis
+</code></pre>
 <h2 id="note-on-windows">Note on Windows<a class="headerlink" href="#note-on-windows" title="Permanent link">#</a></h2>
 <p>The instructions in these tutorials were written for and executed on a Linux
 machine. However, you should be able to replicate these on Windows as well.
