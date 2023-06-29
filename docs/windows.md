@@ -5,9 +5,6 @@ title: Docker on Windows
 # Installing Docker
 
 One way of installing Docker on Windows is using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-However, the terms for using Docker Desktop changed on August 31st, 2022 and it may no
-longer be free for you (e.g., when working at a larger research organization or company).
-
 However, if you are not afraid of running a few commands in the terminal and
 having a terminal open while working with Docker, then you can follow these
 instructions of getting Docker working under [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
