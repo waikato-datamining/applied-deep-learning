@@ -9,7 +9,7 @@ However, if you are not afraid of running a few commands in the terminal and
 having a terminal open while working with Docker, then you can follow these
 instructions of getting Docker working under [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-* Get **Ubuntu 20.04.5** from the Windows store
+* Get **Ubuntu 20.04.x** or **Ubuntu 22.04.x** from the Windows store
 * Configure the default user and password when asked for during the installation
 * Get your system ready
 
