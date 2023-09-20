@@ -2,12 +2,23 @@
 title: Docker on Windows
 ---
 
-# Installing Docker
-
 One way of installing Docker on Windows is using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 However, if you are not afraid of running a few commands in the terminal and
 having a terminal open while working with Docker, then you can follow these
 instructions of getting Docker working under [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+# WSL2
+
+**NB:** The following WSL commands are to be executed in a Windows command-prompt. 
+
+* Make sure that WSL is up to date: `wsl --update`
+* You can switch to version 2 of WSL by default with: `wsl --set-default-version 2`
+* To check what version any current images are running under, use: `wsl --list -v`
+* For converting an existing image called `Ubuntu-22.04` to WSL 2 use: `wsl --set-version Ubuntu-22.04 2`
+
+Source: [stackoverflow.com/a/73164601](https://stackoverflow.com/a/73164601)
+
+# Installing Docker
 
 * Get **Ubuntu 20.04.x** or **Ubuntu 22.04.x** from the Windows store
 * Configure the default user and password when asked for during the installation
