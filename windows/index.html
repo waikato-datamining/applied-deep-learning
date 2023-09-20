@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installing-docker" class="md-skip">
+        <a href="#wsl2" class="md-skip">
           Skip to content
         </a>
       
@@ -651,6 +651,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#wsl2" class="md-nav__link">
+    WSL2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installing-docker" class="md-nav__link">
     Installing Docker
   </a>
@@ -693,11 +700,20 @@
 
   <h1>Docker on Windows</h1>
 
-<h2 id="installing-docker">Installing Docker<a class="headerlink" href="#installing-docker" title="Permanent link">#</a></h2>
 <p>One way of installing Docker on Windows is using <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a>.
 However, if you are not afraid of running a few commands in the terminal and
 having a terminal open while working with Docker, then you can follow these
 instructions of getting Docker working under <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL2</a>.</p>
+<h2 id="wsl2">WSL2<a class="headerlink" href="#wsl2" title="Permanent link">#</a></h2>
+<p><strong>NB:</strong> The following WSL commands are to be executed in a Windows command-prompt. </p>
+<ul>
+<li>Make sure that WSL is up to date: <code>wsl --update</code></li>
+<li>You can switch to version 2 of WSL by default with: <code>wsl --set-default-version 2</code></li>
+<li>To check what version any current images are running under, use: <code>wsl --list -v</code></li>
+<li>For converting an existing image called <code>Ubuntu-22.04</code> to WSL 2 use: <code>wsl --set-version Ubuntu-22.04 2</code></li>
+</ul>
+<p>Source: <a href="https://stackoverflow.com/a/73164601">stackoverflow.com/a/73164601</a></p>
+<h2 id="installing-docker">Installing Docker<a class="headerlink" href="#installing-docker" title="Permanent link">#</a></h2>
 <ul>
 <li>Get <strong>Ubuntu 20.04.x</strong> or <strong>Ubuntu 22.04.x</strong> from the Windows store</li>
 <li>Configure the default user and password when asked for during the installation</li>
