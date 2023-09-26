@@ -18,6 +18,9 @@ instructions of getting Docker working under [WSL2](https://learn.microsoft.com/
 
 Source: [stackoverflow.com/a/73164601](https://stackoverflow.com/a/73164601)
 
+For more information on how to configure WSL2, please see 
+[here](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).
+
 # Installing Docker
 
 * Get **Ubuntu 20.04.x** or **Ubuntu 22.04.x** from the Windows store
