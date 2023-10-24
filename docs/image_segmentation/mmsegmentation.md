@@ -24,7 +24,7 @@ Download the dataset from the following URL into the *data* directory and extrac
 
 Once extracted, rename the *grayscale* directory to *camvid-grayscale*.
 
-Noe we have to convert the format from *grayscale* into *indexed PNG*, which MMSegmentation uses.
+Now we have to convert the format from *grayscale* into *indexed PNG*, which MMSegmentation uses.
 We can do this by using the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
