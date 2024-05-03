@@ -38,7 +38,3 @@ nav:
     - 'Introduction': image_segmentation/index.md
     - 'Annotate': image_segmentation/annotate.md
     - 'Frameworks': image_segmentation/frameworks.md
-  - 'Speech-to-text':
-    - 'Introduction': speech_to_text/index.md
-    - 'Annotate': speech_to_text/annotate.md
-    - 'Frameworks': speech_to_text/frameworks.md

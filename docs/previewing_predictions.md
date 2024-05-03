@@ -89,16 +89,6 @@ Example:
 ![Preview browser: Image segmentation (indexed PNG)](img/pb_imagesegmentation_indexed.png)
 
 
-## Speech-to-text {: #stt }
-
-The following preview handler allows the playback of the WAV/MP3 file while
-displaying the content of the associated `.txt` file: 
-
-```
-adams.gui.tools.previewbrowser.SpeechPlaybackHandler
-```
-
-
 # Generic
 
 ## Plain text {: #generic_plaintext }
