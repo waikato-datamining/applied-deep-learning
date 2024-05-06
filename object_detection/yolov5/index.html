@@ -548,82 +548,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_8">
-          Speech-to-text
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Speech-to-text" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
-          <span class="md-nav__icon md-icon"></span>
-          Speech-to-text
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/" class="md-nav__link">
-        Introduction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/annotate/" class="md-nav__link">
-        Annotate
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/frameworks/" class="md-nav__link">
-        Frameworks
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -725,27 +649,22 @@ dataset, which consists of sets of images of hands, one per letter in the Englis
 <p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip</a></p>
 <p>Once extracted, rename the <em>voc</em> directory to <em>sign-voc</em>.</p>
 <p>Now we have to convert the format from <em>VOC XML</em> into <em>YOLO</em>. We can do this by using the 
-<a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a> library. 
+<a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a> library. 
 At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
 <pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:0.0.1 \
+  idc-convert \
+    -l INFO \
     from-voc-od \
       -i &quot;/workspace/data/sign-voc/*.xml&quot; \
     to-yolo-od \
       -o /workspace/data/sign-yolo-split \
       --labels /workspace/data/sign-yolo-split/labels.txt \
-      --labels-csv /workspace/data/sign-yolo-split/labels.csv \
-      --split-names train val test \
-      --split-ratios 70 15 15
-</code></pre>
-<p><strong>NB:</strong> At the time of writing, the yolo plugin for wai.annotations still had a bug which 
-creates empty top-level directories when splitting datasets via <code>--split-names</code>. In the 
-<code>sign-yolo-split</code> directory, you can safely remove the <code>train</code>, <code>test</code> and <code>val</code> directories, 
-since the actual splits are below the <code>images</code> and <code>labels</code> directories:</p>
-<pre><code class="language-bash">rm -fR data/sign-yolo-split/train data/sign-yolo-split/test data/sign-yolo-split/val
+      --labels_csv /workspace/data/sign-yolo-split/labels.csv \
+      --split_names train val test \
+      --split_ratios 70 15 15
 </code></pre>
 <p>Finally, download the <a href="../img/dataset.yaml">dataset.yaml</a> file and place it in the <code>sign-yolo-split</code>
 directory. It contains information about the dataset directory, the splits and the class labels.
@@ -786,7 +705,7 @@ create the following directory in the <code>output</code> folder:</p>
   yolov5_train \
   --img 416 \
   --batch 16 \
-  --epochs 20 \
+  --epochs 50 \
   --data /workspace/data/sign-yolo-split/dataset.yaml \
   --weights /workspace/models/yolov5m.pt \
   --project /workspace/output \
@@ -825,7 +744,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
 <p><strong>Notes</strong> </p>
 <ul>
 <li>
-<p>By default, the predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.
+<p>By default, the predictions get output in <a href="https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md">ROI CSV format</a>.
   But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
   by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
 </li>

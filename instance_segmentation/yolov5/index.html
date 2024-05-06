@@ -548,82 +548,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_8">
-          Speech-to-text
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Speech-to-text" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
-          <span class="md-nav__icon md-icon"></span>
-          Speech-to-text
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/" class="md-nav__link">
-        Introduction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/annotate/" class="md-nav__link">
-        Annotate
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../speech_to_text/frameworks/" class="md-nav__link">
-        Frameworks
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -720,11 +644,12 @@ dataset, which consists of 37 different categories of cats and dogs.</p>
 <p>Rename the <code>adams</code> directory to <code>pets-adams</code>. </p>
 <p>To speed up training, we only use two labels: <code>cat:abyssinian</code> and <code>dog:yorkshire_terrier</code>.
 The label filtering and splitting it into <em>train</em>, <em>validation</em> and <em>test</em> subsets is done 
-using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations</a>:</p>
+using <a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a>:</p>
 <pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:0.0.1 \
+  idc-convert \
+    -l INFO \
     from-adams-od \
       -i &quot;/workspace/data/pets-adams/*.report&quot; \
     filter-labels \
@@ -734,16 +659,10 @@ using <a href="https://github.com/waikato-ufdl/wai-annotations">wai.annotations<
     to-yolo-od \
       -o /workspace/data/pets-yolo-split \
       --labels /workspace/data/pets-yolo-split/labels.txt \
-      --labels-csv /workspace/data/pets-yolo-split/labels.csv \
-      --use-polygon-format \
-      --split-names train val test \
-      --split-ratios 70 15 15
-</code></pre>
-<p><strong>NB:</strong> At the time of writing, the yolo plugin for wai.annotations still had a bug which 
-creates empty top-level directories when splitting datasets via <code>--split-names</code>. In the 
-<code>pets-yolo-split</code> directory, you can safely remove the <code>train</code>, <code>test</code> and <code>val</code> directories, 
-since the actual splits are below the <code>images</code> and <code>labels</code> directories:</p>
-<pre><code class="language-bash">rm -fR data/pets-yolo-split/train data/pets-yolo-split/test data/pets-yolo-split/val
+      --labels_csv /workspace/data/pets-yolo-split/labels.csv \
+      --use_polygon_format \
+      --split_names train val test \
+      --split_ratios 70 15 15
 </code></pre>
 <p>Finally, download the <a href="../img/dataset.yaml">dataset.yaml</a> file and place it in the <code>pets-yolo-split</code>
 directory. It contains information about the dataset directory, the splits and the class labels.
@@ -815,7 +734,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
 <p><strong>Notes</strong> </p>
 <ul>
 <li>
-<p>By default, the predictions get output in <a href="https://github.com/waikato-ufdl/wai-annotations-roi">ROI CSV format</a>.
+<p>By default, the predictions get output in <a href="https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md">ROI CSV format</a>.
   But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
   by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
 </li>
