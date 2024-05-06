@@ -26,13 +26,14 @@ Rename the `adams` directory to `pets-adams`.
 
 To speed up training, we only use two labels: `cat:abyssinian` and `dog:yorkshire_terrier`.
 The label filtering and splitting it into *train*, *validation* and *test* subsets is done 
-using [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
+using [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter):
 
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-adams-od \
       -i "/workspace/data/pets-adams/*.report" \
     filter-labels \
@@ -40,11 +41,11 @@ docker run --rm -u $(id -u):$(id -g) \
     discard-negatives \
     coerce-mask \
     to-coco-od \
-      -o /workspace/data/pets2-coco-split/annotations.json \
-      --sort-categories \
-      --category-output-file labels.txt \
-      --split-names train val test \
-      --split-ratios 70 15 15
+      -o /workspace/data/pets2-coco-split \
+      --sort_categories \
+      --category_output_file labels.txt \
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 
@@ -124,7 +125,7 @@ docker run --rm \
   -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_train \
   /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
-  --work-dir /workspace/output/pets2-mmdet-maskrcnn
+  --work-dir /workspace/output/pets2-mmdet-maskrcnn/runs
 ```
 
 
@@ -144,7 +145,7 @@ docker run --rm \
   -e MMDET_CLASSES=/workspace/data/pets2-coco-split/train/labels.txt \
   -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
   mmdet_predict \
-  --checkpoint /workspace/output/pets2-mmdet-maskrcnn/latest.pth \
+  --checkpoint /workspace/output/pets2-mmdet-maskrcnn/runs/latest.pth \
   --config /workspace/output/pets2-mmdet-maskrcnn/mask_rcnn_r50_fpn_1x_coco.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
@@ -152,7 +153,7 @@ docker run --rm \
 
 **Notes** 
 
-* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md).
   But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
   by adding `--prediction_format opex --prediction_suffix .json` to the command.
 

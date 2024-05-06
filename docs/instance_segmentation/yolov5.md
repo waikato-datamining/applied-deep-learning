@@ -27,13 +27,14 @@ Rename the `adams` directory to `pets-adams`.
 
 To speed up training, we only use two labels: `cat:abyssinian` and `dog:yorkshire_terrier`.
 The label filtering and splitting it into *train*, *validation* and *test* subsets is done 
-using [wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
+using [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter):
 
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-adams-od \
       -i "/workspace/data/pets-adams/*.report" \
     filter-labels \
@@ -43,19 +44,10 @@ docker run --rm -u $(id -u):$(id -g) \
     to-yolo-od \
       -o /workspace/data/pets-yolo-split \
       --labels /workspace/data/pets-yolo-split/labels.txt \
-      --labels-csv /workspace/data/pets-yolo-split/labels.csv \
-      --use-polygon-format \
-      --split-names train val test \
-      --split-ratios 70 15 15
-```
-
-**NB:** At the time of writing, the yolo plugin for wai.annotations still had a bug which 
-creates empty top-level directories when splitting datasets via `--split-names`. In the 
-`pets-yolo-split` directory, you can safely remove the `train`, `test` and `val` directories, 
-since the actual splits are below the `images` and `labels` directories:
-
-```bash
-rm -fR data/pets-yolo-split/train data/pets-yolo-split/test data/pets-yolo-split/val
+      --labels_csv /workspace/data/pets-yolo-split/labels.csv \
+      --use_polygon_format \
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 Finally, download the [dataset.yaml](img/dataset.yaml) file and place it in the `pets-yolo-split`
@@ -160,7 +152,7 @@ docker run --rm \
 
 **Notes** 
 
-* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md).
   But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
   by adding `--prediction_format opex --prediction_suffix .json` to the command.
 

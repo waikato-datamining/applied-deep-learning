@@ -8,10 +8,10 @@ download the *ADAMS Annotator* application (you only need [Java 11 or 17 install
 
 
 # Format conversions
-For turning annotations from one format into another, we will utilize the *wai.annotations* Python library: 
+For turning annotations from one format into another, we will utilize the *image-dataset-converter* Python library: 
 
-  * [wai.annotations project](https://github.com/waikato-ufdl/wai-annotations)
-  * [wai.annotations manual](https://ufdl.cms.waikato.ac.nz/wai-annotations-manual)
+  * [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter)
+  * [image-dataset-converter examples](https://waikato-datamining.github.io/image-dataset-converter-examples/)
 
 Since we will use this library through Docker images, there is no need to install anything.
 If you should decide to install it locally, it is recommended to do so in a virtual environment

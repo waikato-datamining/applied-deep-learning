@@ -25,7 +25,7 @@ Download the dataset from the following URL into the *data* directory and extrac
 Once extracted, rename the *voc* directory to *sign-voc*.
 
 Now we have to convert the format from *VOC XML* into *YOLO*. We can do this by using the 
-[wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
+[image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
 From within the `applied_deep_learning` directory, run the following command:
@@ -33,25 +33,17 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-voc-od \
       -i "/workspace/data/sign-voc/*.xml" \
     to-yolo-od \
       -o /workspace/data/sign-yolo-split \
       --labels /workspace/data/sign-yolo-split/labels.txt \
-      --labels-csv /workspace/data/sign-yolo-split/labels.csv \
-      --split-names train val test \
-      --split-ratios 70 15 15
-```
-
-**NB:** At the time of writing, the yolo plugin for wai.annotations still had a bug which 
-creates empty top-level directories when splitting datasets via `--split-names`. In the 
-`sign-yolo-split` directory, you can safely remove the `train`, `test` and `val` directories, 
-since the actual splits are below the `images` and `labels` directories:
-
-```bash
-rm -fR data/sign-yolo-split/train data/sign-yolo-split/test data/sign-yolo-split/val
+      --labels_csv /workspace/data/sign-yolo-split/labels.csv \
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 Finally, download the [dataset.yaml](img/dataset.yaml) file and place it in the `sign-yolo-split`
@@ -117,7 +109,7 @@ docker run --rm \
   yolov5_train \
   --img 416 \
   --batch 16 \
-  --epochs 20 \
+  --epochs 50 \
   --data /workspace/data/sign-yolo-split/dataset.yaml \
   --weights /workspace/models/yolov5m.pt \
   --project /workspace/output \
@@ -166,7 +158,7 @@ docker run --rm \
 
 **Notes** 
 
-* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-ufdl/wai-annotations-roi).
+* By default, the predictions get output in [ROI CSV format](https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md).
   But you can also output them in the [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format) 
   by adding `--prediction_format opex --prediction_suffix .json` to the command.
 

@@ -25,7 +25,7 @@ Download the dataset from the following URL into the *data* directory and extrac
 Once extracted, rename the *grayscale* directory to *camvid-grayscale*.
 
 Now we have to convert the format from *grayscale* into *indexed PNG*, which MMSegmentation uses.
-We can do this by using the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
+We can do this by using the [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
 From within the `applied_deep_learning` directory, run the following command:
@@ -33,15 +33,16 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-grayscale-is \
       -i "/workspace/data/camvid-grayscale/*.png" \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-indexed-png-is \
       -o /workspace/data/camvid-indexed-split \
-      --split-names train val test \
-      --split-ratios 70 15 15
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 
@@ -120,7 +121,7 @@ docker run --rm \
   -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 \
   mmseg_train \
   /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
-  --work-dir /workspace/output/camvid12-mmseg-pspnet50
+  --work-dir /workspace/output/camvid12-mmseg-pspnet50/runs
 ```
 
 
@@ -140,7 +141,7 @@ docker run --rm \
   -e MMSEG_CLASSES="sky,building,pole,road,pavement,tree,signsymbol,fence,car,pedestrian,bicyclist,unlabelled" \
   -t waikatodatamining/mmsegmentation:0.30.0_cuda11.1 \
   mmseg_predict_poll \
-  --model /workspace/output/camvid12-mmseg-pspnet50/latest.pth \
+  --model /workspace/output/camvid12-mmseg-pspnet50/runs/latest.pth \
   --config /workspace/output/camvid12-mmseg-pspnet50/pspnet_r50.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out

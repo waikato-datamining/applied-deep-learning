@@ -24,7 +24,7 @@ Download the dataset from the following URL into the *data* directory and extrac
 Once extracted, rename the *grayscale* directory to *camvid-grayscale*.
 
 Now we have to convert the format from *grayscale* into *blue channel*, which the framework uses.
-We can do this by using the [wai.annotations](https://github.com/waikato-ufdl/wai-annotations) library. 
+We can do this by using the [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter) library. 
 At the same time, we can split the dataset into *train*, *validation* and *test* subsets.
 
 From within the `applied_deep_learning` directory, run the following command:
@@ -32,15 +32,16 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-grayscale-is \
       -i "/workspace/data/camvid-grayscale/*.png" \
       --labels sky building pole road pavement tree signsymbol fence car pedestrian bicyclist unlabelled \
     to-blue-channel-is \
       -o /workspace/data/camvid-bluechannel-split \
-      --split-names train val test \
-      --split-ratios 70 15 15
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 

@@ -34,19 +34,20 @@ Rename the `subdir` directory to `5flowers` and move it into the `data` folder o
 outlined. 
 
 Split the data into *train*, *validation* and *test* subsets using 
-[wai.annotations](https://github.com/waikato-ufdl/wai-annotations):
+[image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter):
 
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatoufdl/wai.annotations:0.8.0 \
-  wai-annotations convert \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
     from-subdir-ic \
-      -i "/workspace/data/5flowers/**/*.jpg" \
+      -i "/workspace/data/5flowers/" \
     to-subdir-ic \
       -o /workspace/data/5flowers-split \
-      --split-names train val test \
-      --split-ratios 70 15 15
+      --split_names train val test \
+      --split_ratios 70 15 15
 ```
 
 
@@ -153,7 +154,7 @@ docker run --rm \
   -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
   mmcls_train \
   /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
-  --work-dir /workspace/output/5flowers-mmcl-r18
+  --work-dir /workspace/output/5flowers-mmcl-r18/runs
 ```
 
 CPU:
@@ -169,7 +170,7 @@ docker run --rm \
   -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_train \
   /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
-  --work-dir /workspace/output/5flowers-mmcl-r18
+  --work-dir /workspace/output/5flowers-mmcl-r18/runs
 ```
 
 
@@ -189,7 +190,7 @@ docker run --rm \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
   -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
   mmcls_predict_poll \
-  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
+  --model /workspace/output/5flowers-mmcl-r18/runs/latest.pth \
   --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
@@ -205,7 +206,7 @@ docker run --rm \
   -e MMCLS_CLASSES=alpine_sea_holly,anthurium,artichoke,azalea,ball_moss \
   -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_predict_poll \
-  --model /workspace/output/5flowers-mmcl-r18/latest.pth \
+  --model /workspace/output/5flowers-mmcl-r18/runs/latest.pth \
   --config /workspace/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
