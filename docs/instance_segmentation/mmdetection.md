@@ -31,7 +31,7 @@ using [image-dataset-converter](https://github.com/waikato-datamining/image-data
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatodatamining/image-dataset-converter:latest \
+  -t waikatodatamining/image-dataset-converter:0.0.1 \
   idc-convert \
     -l INFO \
     from-adams-od \
