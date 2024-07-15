@@ -33,7 +33,7 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatodatamining/image-dataset-converter:0.0.1 \
+  -t waikatodatamining/image-dataset-converter:0.0.3 \
   idc-convert \
     -l INFO \
     from-grayscale-is \
