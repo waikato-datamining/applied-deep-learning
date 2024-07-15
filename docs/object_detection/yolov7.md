@@ -97,7 +97,7 @@ Next, we need to download two more configuration files into our output directory
 
 * [yolov7.yaml](https://raw.githubusercontent.com/WongKinYiu/yolov7/072f76c72c641c7a1ee482e39f604f6f8ef7ee92/cfg/training/yolov7.yaml) (architecture)
 
-    adjust the `nc` parameter and just 26 instead of 80
+    adjust the `nc` parameter to just 26 instead of 80
 
 * [hyp.scratch.custom.yaml](https://raw.githubusercontent.com/WongKinYiu/yolov7/072f76c72c641c7a1ee482e39f604f6f8ef7ee92/data/hyp.scratch.custom.yaml) 
 
