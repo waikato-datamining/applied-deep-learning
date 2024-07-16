@@ -647,7 +647,7 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
       -i &quot;/workspace/data/sign-voc/*.xml&quot; \
     to-coco-od \
       -o /workspace/data/sign-coco-split/ \
-      --sort_categories \
+      --categories cat:abyssinian dog:yorkshire_terrier \
       --category_output_file labels.txt \
       --split_names train val test \
       --split_ratios 70 15 15
