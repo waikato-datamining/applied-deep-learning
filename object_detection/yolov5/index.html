@@ -654,24 +654,23 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
 <p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
 <pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatodatamining/image-dataset-converter:0.0.1 \
+  -t waikatodatamining/image-dataset-converter:0.0.4 \
   idc-convert \
     -l INFO \
     from-voc-od \
       -i &quot;/workspace/data/sign-voc/*.xml&quot; \
     to-yolo-od \
       -o /workspace/data/sign-yolo-split \
-      --labels /workspace/data/sign-yolo-split/labels.txt \
-      --labels_csv /workspace/data/sign-yolo-split/labels.csv \
+      --labels labels.txt \
+      --labels_csv labels.csv \
       --split_names train val test \
       --split_ratios 70 15 15
 </code></pre>
 <p>Finally, download the <a href="../img/dataset.yaml">dataset.yaml</a> file and place it in the <code>sign-yolo-split</code>
-directory. It contains information about the dataset directory, the splits and the class labels.
-Since the labels can come out in a random order, you need to update the labels in the yaml file
-with the ones that got output in the <code>labels.txt</code> file. You can automatically quote the
-comma-separated list using the following command:</p>
-<pre><code class="language-bash">cat data/sign-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
+directory. It contains information about the dataset directory, the splits and the class labels.</p>
+<p>If you want to adapt this configuration for different labels, then you can automatically 
+transform the <code>labels.txt</code> file into a quoted list using the following command:</p>
+<pre><code class="language-bash">cat labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
 </code></pre>
 <h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
