@@ -39,7 +39,7 @@ Split the data into *train*, *validation* and *test* subsets using
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatodatamining/image-dataset-converter:0.0.3 \
+  -t waikatodatamining/image-dataset-converter:0.0.4 \
   idc-convert \
     -l INFO \
     from-subdir-ic \

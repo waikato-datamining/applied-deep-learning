@@ -33,27 +33,27 @@ From within the `applied_deep_learning` directory, run the following command:
 ```bash
 docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
-  -t waikatodatamining/image-dataset-converter:0.0.3 \
+  -t waikatodatamining/image-dataset-converter:0.0.4 \
   idc-convert \
     -l INFO \
     from-voc-od \
       -i "/workspace/data/sign-voc/*.xml" \
     to-yolo-od \
       -o /workspace/data/sign-yolo-split \
-      --labels /workspace/data/sign-yolo-split/labels.txt \
-      --labels_csv /workspace/data/sign-yolo-split/labels.csv \
+      --labels labels.txt \
+      --labels_csv labels.csv \
       --split_names train val test \
       --split_ratios 70 15 15
 ```
 
 Finally, download the [dataset.yaml](img/dataset.yaml) file and place it in the `sign-yolo-split`
 directory. It contains information about the dataset directory, the splits and the class labels.
-Since the labels can come out in a random order, you need to update the labels in the yaml file
-with the ones that got output in the `labels.txt` file. You can automatically quote the
-comma-separated list using the following command:
+
+If you want to adapt this configuration for different labels, then you can automatically 
+transform the `labels.txt` file into a quoted list using the following command:
 
 ```bash
-cat data/sign-yolo-split/labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
+cat labels.txt | sed s/,/\',\'/g | sed s/^/\'/g | sed s/$/\'/g
 ```
 
 
