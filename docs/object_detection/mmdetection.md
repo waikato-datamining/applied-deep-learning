@@ -40,7 +40,7 @@ docker run --rm -u $(id -u):$(id -g) \
       -i "/workspace/data/sign-voc/*.xml" \
     to-coco-od \
       -o /workspace/data/sign-coco-split/ \
-      --sort_categories \
+      --categories cat:abyssinian dog:yorkshire_terrier \
       --category_output_file labels.txt \
       --split_names train val test \
       --split_ratios 70 15 15

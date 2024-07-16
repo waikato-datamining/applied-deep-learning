@@ -42,7 +42,7 @@ docker run --rm -u $(id -u):$(id -g) \
     coerce-mask \
     to-coco-od \
       -o /workspace/data/pets2-coco-split \
-      --sort_categories \
+      --categories cat:abyssinian dog:yorkshire_terrier \
       --category_output_file labels.txt \
       --split_names train val test \
       --split_ratios 70 15 15
