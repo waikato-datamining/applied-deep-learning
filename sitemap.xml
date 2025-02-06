@@ -2,142 +2,147 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/prerequisites/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/previewing_predictions/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/windows/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/annotate/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/frameworks/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/mmclassification/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/tf2_make_image_classifier/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_classification/wai.tfimageclass/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/annotate/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/frameworks/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/image-segmentation-keras/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/mmsegmentation/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/paddleseg/</loc>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/annotate/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/detectron2/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/frameworks/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/mmdetection/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/yolov5/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/annotate/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/frameworks/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/mmdetection/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/yolov10/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/yolov5/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.data-mining.co.nz/applied-deep-learning/object_detection/yolov7/</loc>
-         <lastmod>2024-07-16</lastmod>
+         <lastmod>2025-02-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

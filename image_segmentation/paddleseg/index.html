@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/frameworks/">
+        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/image_segmentation/paddleseg/">
       
       <link rel="icon" href="../../favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Frameworks - Applied Deep Learning</title>
+        <title>PaddleSeg - Applied Deep Learning</title>
       
     
     
@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#prerequisites" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -93,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Frameworks
+              PaddleSeg
             
           </span>
         </div>
@@ -473,14 +478,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
       
       
@@ -529,19 +532,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../frameworks/" class="md-nav__link">
         Frameworks
       </a>
-      
     </li>
   
 
@@ -571,6 +566,42 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training" class="md-nav__link">
+    Training
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predicting" class="md-nav__link">
+    Predicting
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -583,20 +614,130 @@
                 
                   
 
-  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_segmentation/frameworks.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/image_segmentation/paddleseg.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>Frameworks</h1>
+  <h1>PaddleSeg</h1>
 
-<p>The following frameworks are available for <strong>image segmentation</strong>:</p>
+<p><a href="https://github.com/PaddlePaddle/PaddleSeg">PaddleSeg</a> is an easy-to-use image segmentation library with 
+a large pre-trained model zoo, supporting wide-range of practical tasks in Semantic Segmentation, Interactive 
+Segmentation, Panoptic Segmentation, Image Matting, 3D Segmentation, etc.  Custom docker images with 
+additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/paddleseg">https://github.com/waikato-datamining/paddleseg</a></p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/camvid12/">CamVid-12</a>
+dataset, which consists of still images from dashcam videos from a city environment (12 different labels).</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/camvid12/camvid12-grayscale.zip</a></p>
+<p>Once extracted, rename the <em>grayscale</em> directory to <em>camvid-grayscale</em>.</p>
+<p>Now we have to convert the format from <em>grayscale</em> into <em>indexed PNG</em>, which PaddleSeg uses.
+We can do this by using the <a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a> library. 
+At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
+<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/image-dataset-converter:latest \
+  idc-convert \
+    -l INFO \
+    from-grayscale-is \
+      -i &quot;/workspace/data/camvid-grayscale/*.png&quot; \
+      --labels unlabelled sky building pole road pavement tree signsymbol fence car pedestrian bicyclist \
+      --background 11 \
+    to-paddle-is \
+      -o /workspace/data/camvid-paddleseg-split \
+      --split_names train val test \
+      --split_ratios 70 15 15
+</code></pre>
+<h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/paddleseg:2.10.0_cuda11.8
+</code></pre>
+<p>Training and inference are possible on just a CPU as well (though much, much slower).
+For utilizing a CPU you can use the following docker image:</p>
+<pre><code>waikatodatamining/paddleseg:2.10.0_cpu
+</code></pre>
+<p>The training script is called <code>paddleseg_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run --rm -t waikatodatamining/paddleseg:2.10.0_cuda11.8 paddleseg_train --help 
+</code></pre>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>camvid12-paddleseg-unet
+</code></pre>
+<p>Before we can train, we will need to obtain and customize a config file. Within the container,
+you can find example configurations for various architectures in the following directory:</p>
+<pre><code>/opt/PaddleSeg/configs
+</code></pre>
+<p>Using the <code>paddleseg_export_config</code> command, we can expand and dump one of these configurations for our
+own purposes:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.paddleseg \
+  -v `pwd`/cache/visualdl:/.visualdl \
+  -t waikatodatamining/paddleseg:2.10.0_cuda11.8 \
+  paddleseg_export_config \
+  -i /opt/PaddleSeg/configs/unet/unet_cityscapes_1024x512_160k.yml \
+  -o /workspace/output/camvid12-paddleseg-unet/unet_cityscapes_1024x512_160k.yml \
+  -c 12 \
+  -t /workspace/data/camvid-paddleseg-split/data-train.txt \
+  -v /workspace/data/camvid-paddleseg-split/data-val.txt
+</code></pre>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --shm-size=8g \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.paddleseg \
+  -v `pwd`/cache/visualdl:/.visualdl \
+  -t waikatodatamining/paddleseg:2.10.0_cuda11.8 \
+  paddleseg_train \
+  --config /workspace/output/camvid12-paddleseg-unet/unet_cityscapes_1024x512_160k.yml \
+  --save_interval 500 \
+  --do_eval \
+  --save_dir /workspace/output/camvid12-paddleseg-unet \
+  --iters 1000
+</code></pre>
+<p><strong>NB:</strong> You may want to increase the number of iterations to produce a more accurate model.</p>
+<h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
+<p>Using the <code>paddleseg_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.paddleseg \
+  -v `pwd`/cache/visualdl:/.visualdl \
+  -t waikatodatamining/paddleseg:2.10.0_cuda11.8 \
+  paddleseg_predict_poll \
+  --model /workspace/output/camvid12-paddleseg-unet/best_model/model.pdparams \
+  --config /workspace/output/camvid12-paddleseg-unet/unet_cityscapes_1024x512_160k.yml \
+  --labels /workspace/data/camvid-paddleseg-split/labels.txt \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong> </p>
 <ul>
-<li><a href="../image-segmentation-keras/">Image Segmentation Keras</a></li>
-<li><a href="../mmsegmentation/">MMSegmentation</a></li>
-<li><a href="../paddleseg/">PaddleSeg</a></li>
+<li>The predictions can either be output in <em>grayscale</em> (default), <em>bluechannel</em> format,
+  <em>indexed PNG</em> or <em>OPEX JSON</em> (<code>--prediction_format</code>).</li>
+<li>
+<p>You can view the predictions with the ADAMS <em>Preview browser</em>:</p>
+<ul>
+<li><a href="../../previewing_predictions.md/#imgseg_indexed">Indexed PNG</a></li>
 </ul>
+</li>
+</ul>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/paddleseg-0016E5_05310.png" /> </p>
+<p><img alt="Screenshot" src="../img/paddleseg-0016E5_05310-overlay.png" /></p>
 
 
 
@@ -612,27 +753,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../annotate/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Annotate" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Annotate
-            </div>
-          </div>
-        </a>
-      
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
