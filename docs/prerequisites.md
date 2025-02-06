@@ -34,6 +34,8 @@ Create the following directory structure for the examples of this tutorial:
     |   +-- torch
     |   |
     |   +-- iopath_cache
+    |   |
+    |   +-- visualdl
     |
     +-- data
     |
@@ -54,6 +56,7 @@ Use this command-line to create the directories:
 mkdir -p \
   applied_deep_learning/cache/torch \
   applied_deep_learning/cache/iopath_cache \
+  applied_deep_learning/cache/visualdl \
   applied_deep_learning/data \
   applied_deep_learning/models \
   applied_deep_learning/output \
