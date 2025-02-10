@@ -91,20 +91,6 @@ you can find example configurations for various architectures in the following d
 Using the `mmcls_config` command, we can expand and dump one of these configurations for our
 own purposes:
 
-CPU:
-
-```bash
-docker run --rm \
-  -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.25.0_cpu \
-  mmcls_config \
-  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
-  > `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
-```
-
 GPU:
 
 ```bash
@@ -114,6 +100,20 @@ docker run --rm \
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
+  mmcls_config \
+  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
+  > `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
+```
+
+CPU:
+
+```bash
+docker run --rm \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_config \
   /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
   > `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
