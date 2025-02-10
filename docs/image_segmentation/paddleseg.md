@@ -98,7 +98,7 @@ docker run --rm \
   paddleseg_export_config \
   -i /opt/PaddleSeg/configs/unet/unet_cityscapes_1024x512_160k.yml \
   -o /workspace/output/camvid12-paddleseg-unet/unet_cityscapes_1024x512_160k.yml \
-  -c 12 \
+  -c `cat data/camvid-paddleseg-split/labels.txt | wc -l` \
   -t /workspace/data/camvid-paddleseg-split/data-train.txt \
   -v /workspace/data/camvid-paddleseg-split/data-val.txt
 ```
