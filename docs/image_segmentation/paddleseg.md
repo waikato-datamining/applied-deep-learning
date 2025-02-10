@@ -141,7 +141,7 @@ docker run --rm \
   -v `pwd`/cache/visualdl:/.visualdl \
   -t waikatodatamining/paddleseg:2.10.0_cuda11.8 \
   paddleseg_predict_poll \
-  --model /workspace/output/camvid12-paddleseg-unet/best_model/model.pdparams \
+  --model_path /workspace/output/camvid12-paddleseg-unet/best_model/model.pdparams \
   --config /workspace/output/camvid12-paddleseg-unet/unet_cityscapes_1024x512_160k.yml \
   --labels /workspace/data/camvid-paddleseg-split/labels.txt \
   --prediction_in /workspace/predictions/in \
