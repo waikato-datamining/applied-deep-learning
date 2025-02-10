@@ -88,7 +88,7 @@ you can find example configurations for various architectures in the following d
 /mmclassification/configs
 ```
 
-Using the `mmseg_config` command, we can expand and dump one of these configurations for our
+Using the `mmcls_config` command, we can expand and dump one of these configurations for our
 own purposes:
 
 CPU:
