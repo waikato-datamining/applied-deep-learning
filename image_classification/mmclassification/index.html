@@ -685,19 +685,8 @@ create the following directory in the <code>output</code> folder:</p>
 you can find example configurations for various architectures in the following directory:</p>
 <pre><code>/mmclassification/configs
 </code></pre>
-<p>Using the <code>mmseg_config</code> command, we can expand and dump one of these configurations for our
+<p>Using the <code>mmcls_config</code> command, we can expand and dump one of these configurations for our
 own purposes:</p>
-<p>CPU:</p>
-<pre><code class="language-bash">docker run --rm \
-  -u $(id -u):$(id -g) \
-  -v `pwd`:/workspace \
-  -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmclassification:0.25.0_cpu \
-  mmcls_config \
-  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
-  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
-</code></pre>
 <p>GPU:</p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
@@ -705,6 +694,17 @@ own purposes:</p>
   -v `pwd`/cache:/.cache \
   -v `pwd`/cache/torch:/.cache/torch \
   -t waikatodatamining/mmclassification:0.25.0_cuda11.1 \
+  mmcls_config \
+  /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
+  &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
+</code></pre>
+<p>CPU:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache/torch:/.cache/torch \
+  -t waikatodatamining/mmclassification:0.25.0_cpu \
   mmcls_config \
   /mmclassification/configs/resnet/resnet18_b32x8_imagenet.py \
   &gt; `pwd`/output/5flowers-mmcl-r18/resnet18_b32x8_imagenet.py
