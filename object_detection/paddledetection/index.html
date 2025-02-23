@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/mmdetection/">
+        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/paddledetection/">
       
       <link rel="icon" href="../../favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>MMDetection (object detection) - Applied Deep Learning</title>
+        <title>PaddleDetection (object detection) - Applied Deep Learning</title>
       
     
     
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              MMDetection (object detection)
+              PaddleDetection (object detection)
             
           </span>
         </div>
@@ -614,18 +614,18 @@
                 
                   
 
-  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/mmdetection.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/paddledetection.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>MMDetection (object detection)</h1>
+  <h1>PaddleDetection (object detection)</h1>
 
-<p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> is a comprehensive and flexible
-framework for object detection that offers a wide variety of architectures. Custom docker
-images with additional tools are available from here:</p>
-<p><a href="https://github.com/waikato-datamining/mmdetection">https://github.com/waikato-datamining/mmdetection</a></p>
+<p><a href="https://github.com/PaddlePaddle/PaddleDetection">PaddleDetection</a> is an Object Detection toolkit based on PaddlePaddle. 
+It supports object detection, instance segmentation, multiple object tracking and real-time multi-person keypoint detection. 
+Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/paddledetection">https://github.com/waikato-datamining/paddledetection</a></p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
 <h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
@@ -653,102 +653,107 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
 </code></pre>
 <h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
-<pre><code>waikatodatamining/mmdetection:2.27.0_cuda11.1
+<pre><code>waikatodatamining/paddledetection:2.8.0_cuda11.8
 </code></pre>
 <p>Inference is possible without a GPU as well (though much, much slower).
 For utilizing a CPU you can use the following docker image:</p>
-<pre><code>waikatodatamining/mmdetection:2.27.0_cpu
+<pre><code>waikatodatamining/paddledetection:2.8.0_cpu
 </code></pre>
-<p>The training script is called <code>mmdet_train</code>, for which we can invoke the help screen as follows
-(unfortunately, we need to set the <code>MMDET_CLASSES</code> environment variable to avoid an exception):</p>
+<p>The training script is called <code>paddledet_train</code>, for which we can invoke the help screen as follows:</p>
 <pre><code class="language-bash">docker run --rm \
-  -e MMDET_CLASSES= \
-  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
-  mmdet_train --help 
+  -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
+  paddledet_train --help 
 </code></pre>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>sign-mmdet-fr50
+<pre><code>sign-paddle-yolov3
 </code></pre>
 <p>Before we can train, we will need to obtain and customize a config file. Within the container,
 you can find example configurations for various architectures in the following directory:</p>
-<pre><code>/mmdetection/configs
+<pre><code>/opt/PaddleDetection/configs
 </code></pre>
-<p>Using the <code>mmdet_config</code> command, we can expand and dump one of these configurations for our
+<p>Using the <code>paddledet_export_config</code> command, we can expand and dump one of these configurations for our
 own purposes:</p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --gpus=all \
   -v `pwd`:/workspace \
+  -v `pwd`/cache/visualdl:/.visualdl \
   -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
-  mmdet_config \
-  /mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py \
-  &gt; output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py
+  -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
+  -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
+  paddledet_export_config \
+  -i /opt/PaddleDetection/configs/yolov3/yolov3_mobilenet_v1_270e_coco.yml \
+  -o /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
+  -O /workspace/output/sign-paddle-yolov3 \
+  -t /workspace/data/sign-coco-split/train/annotations.json \
+  -v /workspace/data/sign-coco-split/val/annotations.json \
+  --save_interval 10 \
+  --num_epochs 50 \
+  --num_classes 26
 </code></pre>
-<p>Open the <code>faster_rcnn_r50_fpn_1x_coco.py</code> file in a text editor and perform the following operations:</p>
-<ul>
-<li>remove any lines before <code>model = dict(</code></li>
-<li>change <code>num_classes</code> to 26</li>
-<li>change <code>dataset_type</code> to <code>Dataset</code> and any occurrences of <code>type</code> in the <code>train</code>, <code>test</code>, <code>val</code> sections of the <code>data</code> dictionary</li>
-<li>change <code>data_root</code> occurrences to <code>/workspace/data/sign-coco-split</code> (the directory above the <code>train</code> and <code>val</code> directories)</li>
-<li>change <code>img_prefix</code> occurrences to <code>img_prefix=data_root+'/DIR',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
-<li>change <code>ann_file</code> occurrences to <code>ann_file=data_root+'/DIR/annotations.json',</code> with <code>DIR</code> being the appropriate <code>train</code>, <code>val</code> or <code>test</code></li>
-<li>change <code>max_epochs</code> in <code>runner</code> to an appropriate value, e.g., 50</li>
-<li>change <code>interval</code> in <code>checkpoint_config</code> to a higher value, e.g., 10</li>
-</ul>
 <p>Kick off the training with the following command:</p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
+  -v `pwd`/cache/visualdl:/.visualdl \
   -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMDET_CLASSES=/workspace/data/sign-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
-  mmdet_train \
-  /workspace/output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py \
-  --work-dir /workspace/output/sign-mmdet-fr50/runs
+  -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
+  -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
+  paddledet_train \
+  -c /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
+  --eval \
+  -o use_gpu=true
+</code></pre>
+<p>Export the model using the <code>paddledet_export_model</code> script:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache/visualdl:/.visualdl \
+  -v `pwd`/cache:/.cache \
+  -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
+  -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
+  paddledet_export_model \
+  -c /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
+  --output_dir /workspace/output/sign-paddle-yolov3/inference
 </code></pre>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
-<p>Using the <code>mmdet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+<p>Using the <code>paddledet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
   --shm-size 8G \
   --gpus=all \
   -v `pwd`:/workspace \
+  -v `pwd`/cache/visualdl:/.visualdl \
   -v `pwd`/cache:/.cache \
-  -v `pwd`/cache/torch:/.cache/torch \
-  -e MMDET_CLASSES=/workspace/data/sign-coco-split/train/labels.txt \
-  -t waikatodatamining/mmdetection:2.27.0_cuda11.1 \
-  mmdet_predict \
-  --checkpoint /workspace/output/sign-mmdet-fr50/runs/latest.pth \
-  --config /workspace/output/sign-mmdet-fr50/faster_rcnn_r50_fpn_1x_coco.py \
+  -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
+  -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
+  paddledet_predict_poll \
+  --model_path /workspace/output/sign-paddle-yolov3/inference/yolov3_mobilenet_v1_270e_coco \
+  --device gpu \
+  --label_list /workspace/data/sign-coco-split/train/labels.txt \
   --prediction_in /workspace/predictions/in \
   --prediction_out /workspace/predictions/out
 </code></pre>
 <p><strong>Notes</strong> </p>
 <ul>
 <li>
-<p>By default, the predictions get output in <a href="https://github.com/waikato-datamining/image-dataset-converter/blob/main/formats/roicsv.md">ROI CSV format</a>.
-  But you can also output them in the <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a> 
-  by adding <code>--prediction_format opex --prediction_suffix .json</code> to the command.</p>
-</li>
-<li>
-<p>You can view the predictions with the ADAMS <em>Preview browser</em>:</p>
+<p>The predictions get output in <a href="https://github.com/WaikatoLink2020/objdet-predictions-exchange-format">OPEX JSON format</a>,
+  which can view the predictions with the ADAMS <em>Preview browser</em>:</p>
 <ul>
-<li><a href="../../previewing_predictions/#objdet_rois">ROIS CSV</a></li>
 <li><a href="../../previewing_predictions/#objdet_opex">OPEX</a></li>
 </ul>
 </li>
 </ul>
 <p><strong>Example prediction</strong></p>
-<p><img alt="Screenshot" src="../img/mmdet-A2_jpg.rf.e4d1f7a2679ab0140ad27a794db563c9-overlay.png" /> </p>
-<p><img alt="Screenshot" src="../img/mmdet-I0_jpg.rf.9dc9f090b7475a65889b24265858d240-overlay.png" /></p>
+<p><img alt="Screenshot" src="../img/paddledet-A2_jpg.rf.e4d1f7a2679ab0140ad27a794db563c9-overlay.png" /> </p>
+<p><img alt="Screenshot" src="../img/paddledet-I27_jpg.rf.d55af66cb9a6ee52b1c9299a6f99826a.png" /></p>
 
 
 
