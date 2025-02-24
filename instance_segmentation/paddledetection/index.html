@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/paddledetection/">
+        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/instance_segmentation/paddledetection/">
       
       <link rel="icon" href="../../favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>PaddleDetection (object detection) - Applied Deep Learning</title>
+        <title>PaddleDetection (instance segmentation) - Applied Deep Learning</title>
       
     
     
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PaddleDetection (object detection)
+              PaddleDetection (instance segmentation)
             
           </span>
         </div>
@@ -354,7 +354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../object_detection/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -368,7 +368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../annotate/" class="md-nav__link">
+      <a href="../../object_detection/annotate/" class="md-nav__link">
         Annotate
       </a>
     </li>
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../frameworks/" class="md-nav__link">
+      <a href="../../object_detection/frameworks/" class="md-nav__link">
         Frameworks
       </a>
     </li>
@@ -430,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../instance_segmentation/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../instance_segmentation/annotate/" class="md-nav__link">
+      <a href="../annotate/" class="md-nav__link">
         Annotate
       </a>
     </li>
@@ -458,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../instance_segmentation/frameworks/" class="md-nav__link">
+      <a href="../frameworks/" class="md-nav__link">
         Frameworks
       </a>
     </li>
@@ -614,13 +614,13 @@
                 
                   
 
-  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/paddledetection.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/instance_segmentation/paddledetection.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>PaddleDetection (object detection)</h1>
+  <h1>PaddleDetection (instance segmentation)</h1>
 
 <p><a href="https://github.com/PaddlePaddle/PaddleDetection">PaddleDetection</a> is an Object Detection toolkit based on PaddlePaddle. 
 It supports object detection, instance segmentation, multiple object tracking and real-time multi-person keypoint detection. 
@@ -629,24 +629,28 @@ Custom docker images with additional tools are available from here:</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
 <p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
 <h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
-<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/american-sign-language-letters/">American Sign Language Letters</a>
-dataset, which consists of sets of images of hands, one per letter in the English alphabet (26 labels).</p>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/oxford-pets/">Oxford Pets</a>
+dataset, which consists of 37 different categories of cats and dogs.</p>
 <p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
-<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip</a></p>
-<p>Once extracted, rename the <em>voc</em> directory to <em>sign-voc</em>.</p>
-<p>Now we have to convert the format from <em>VOC XML</em> into <em>MS COCO</em>. We can do this by using the 
-<a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a> library. 
-At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
-<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/oxford-pets/oxford-pets-adams.zip</a></p>
+<p>Rename the <code>adams</code> directory to <code>pets-adams</code>. </p>
+<p>To speed up training, we only use two labels: <code>cat:abyssinian</code> and <code>dog:yorkshire_terrier</code>.
+The label filtering and splitting it into <em>train</em>, <em>validation</em> and <em>test</em> subsets is done 
+using <a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a>:</p>
 <pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
   -v `pwd`:/workspace \
   -t waikatodatamining/image-dataset-converter:0.0.4 \
   idc-convert \
     -l INFO \
-    from-voc-od \
-      -i &quot;/workspace/data/sign-voc/*.xml&quot; \
+    from-adams-od \
+      -i &quot;/workspace/data/pets-adams/*.report&quot; \
+    filter-labels \
+      --labels cat:abyssinian dog:yorkshire_terrier \
+    discard-negatives \
+    coerce-mask \
     to-coco-od \
-      -o /workspace/data/sign-coco-split/ \
+      -o /workspace/data/pets2-coco-split \
+      --categories cat:abyssinian dog:yorkshire_terrier \
       --category_output_file labels.txt \
       --split_names train val test \
       --split_ratios 70 15 15
@@ -654,10 +658,6 @@ At the same time, we can split the dataset into <em>train</em>, <em>validation</
 <h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
 <p>For training, we will use the following docker image:</p>
 <pre><code>waikatodatamining/paddledetection:2.8.0_cuda11.8
-</code></pre>
-<p>Inference is possible without a GPU as well (though much, much slower).
-For utilizing a CPU you can use the following docker image:</p>
-<pre><code>waikatodatamining/paddledetection:2.8.0_cpu
 </code></pre>
 <p>The training script is called <code>paddledet_train</code>, for which we can invoke the help screen as follows:</p>
 <pre><code class="language-bash">docker run --rm \
@@ -667,7 +667,7 @@ For utilizing a CPU you can use the following docker image:</p>
 <p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
 what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
 create the following directory in the <code>output</code> folder:</p>
-<pre><code>sign-paddle-yolov3
+<pre><code>pets2-paddledet-maskrcnn
 </code></pre>
 <p>Before we can train, we will need to obtain and customize a config file. Within the container,
 you can find example configurations for various architectures in the following directory:</p>
@@ -684,15 +684,19 @@ own purposes:</p>
   -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
   -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
   paddledet_export_config \
-  -i /opt/PaddleDetection/configs/yolov3/yolov3_mobilenet_v1_270e_coco.yml \
-  -o /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
-  -O /workspace/output/sign-paddle-yolov3 \
-  -t /workspace/data/sign-coco-split/train/annotations.json \
-  -v /workspace/data/sign-coco-split/val/annotations.json \
+  -i /opt/PaddleDetection/configs/mask_rcnn/mask_rcnn_r50_1x_coco.yml \
+  -o /workspace/output/pets2-paddledet-maskrcnn/mask_rcnn_r50_1x_coco.yml \
+  -O /workspace/output/pets2-paddledet-maskrcnn \
+  -t /workspace/data/pets2-coco-split/train/annotations.json \
+  -v /workspace/data/pets2-coco-split/val/annotations.json \
   --save_interval 10 \
-  --num_epochs 50 \
-  --num_classes 26
+  --num_epochs 30 \
+  --num_classes 2
 </code></pre>
+<p>Open the <code>mask_rcnn_r50_1x_coco.yml</code> file in a text editor and perform the following operations:</p>
+<ul>
+<li>change <code>base_lr</code> to <code>0.0005</code></li>
+</ul>
 <p>Kick off the training with the following command:</p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
@@ -704,7 +708,7 @@ own purposes:</p>
   -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
   -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
   paddledet_train \
-  -c /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
+  -c /workspace/output/pets2-paddledet-maskrcnn/mask_rcnn_r50_1x_coco.yml \
   --eval \
   -o use_gpu=true
 </code></pre>
@@ -719,11 +723,11 @@ own purposes:</p>
   -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
   -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
   paddledet_export_model \
-  -c /workspace/output/sign-paddle-yolov3/yolov3_mobilenet_v1_270e_coco.yml \
-  --output_dir /workspace/output/sign-paddle-yolov3/inference
+  -c /workspace/output/pets2-paddledet-maskrcnn/mask_rcnn_r50_1x_coco.yml \
+  --output_dir /workspace/output/pets2-paddledet-maskrcnn/inference
 </code></pre>
 <h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
-<p>Using the <code>paddledet_predict</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+<p>Using the <code>paddledet_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
 as follows (e.g., from our <em>test</em> subset): </p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
@@ -735,11 +739,13 @@ as follows (e.g., from our <em>test</em> subset): </p>
   -v `pwd`/cache:/opt/PaddleDetection/~/.cache \
   -t waikatodatamining/paddledetection:2.8.0_cuda11.8 \
   paddledet_predict_poll \
-  --model_path /workspace/output/sign-paddle-yolov3/inference/yolov3_mobilenet_v1_270e_coco \
+  --model_path /workspace/output/pets2-paddledet-maskrcnn/inference/mask_rcnn_r50_1x_coco \
   --device gpu \
-  --label_list /workspace/data/sign-coco-split/train/labels.txt \
+  --label_list /workspace/data/pets2-coco-split/train/labels.txt \
   --prediction_in /workspace/predictions/in \
-  --prediction_out /workspace/predictions/out
+  --prediction_out /workspace/predictions/out \
+  --threshold 0.3 \
+  --mask_nth 2
 </code></pre>
 <p><strong>Notes</strong> </p>
 <ul>
@@ -752,8 +758,7 @@ as follows (e.g., from our <em>test</em> subset): </p>
 </li>
 </ul>
 <p><strong>Example prediction</strong></p>
-<p><img alt="Screenshot" src="../img/paddledet-A2_jpg.rf.e4d1f7a2679ab0140ad27a794db563c9-overlay.png" /> </p>
-<p><img alt="Screenshot" src="../img/paddledet-I27_jpg.rf.d55af66cb9a6ee52b1c9299a6f99826a.png" /></p>
+<p><img alt="Screenshot" src="../img/paddledet-Abyssinian_117.png" /> <img alt="Screenshot" src="../img/paddledet-Abyssinian_117-overlay.png" /></p>
 
 
 
