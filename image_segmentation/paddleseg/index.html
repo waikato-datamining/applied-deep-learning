@@ -689,6 +689,9 @@ own purposes:</p>
   -t /workspace/data/camvid-paddleseg-split/data-train.txt \
   -v /workspace/data/camvid-paddleseg-split/data-val.txt
 </code></pre>
+<p><strong>NB:</strong> <em>Number of classes</em> is the <em>number of labels plus background</em>. For this dataset,
+the background is explicitly labeled, so we can just use the number of labels in
+the dataset (<code>wc -l</code>).</p>
 <p>Kick off the training with the following command:</p>
 <pre><code class="language-bash">docker run --rm \
   -u $(id -u):$(id -g) \
