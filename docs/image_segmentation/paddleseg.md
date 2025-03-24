@@ -103,6 +103,10 @@ docker run --rm \
   -v /workspace/data/camvid-paddleseg-split/data-val.txt
 ```
 
+**NB:** *Number of classes* is the *number of labels plus background*. For this dataset,
+the background is explicitly labeled, so we can just use the number of labels in
+the dataset (`wc -l`).
+
 
 Kick off the training with the following command:
 
