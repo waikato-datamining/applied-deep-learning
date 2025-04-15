@@ -14,3 +14,12 @@ When prompted, use *object_shape* as *Selection type*.
 The following video takes you through the process:
 
 ![type:video](https://www.youtube.com/embed/7BjcWxlnG-8)
+
+Since mid-April 2025, snapshots of ADAMS have the new **SAM2** tool
+available from the *Tools* panel. *SAM2* stands for [Segment Anything Model 2](https://github.com/facebookresearch/sam2),
+a public model from Meta that can be used for determining outlines of objects,
+making the annotation process much more efficient. The model can be used
+on CPU-only and GPU machines alike, as well as on Linux and Windows.
+The following video demonstrates the tool:
+
+![type:video](https://youtu.be/5ln2c2kgMAc)
