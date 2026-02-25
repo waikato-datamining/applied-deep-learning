@@ -5,3 +5,4 @@ The following frameworks are available for **object detection**:
 * [Yolov5](yolov5.md)
 * [Yolov7](yolov7.md)
 * [Yolov10](yolov10.md)
+* [Yolo26](yolo26.md)

@@ -37,6 +37,8 @@ Create the following directory structure for the examples of this tutorial:
     |   |
     |   +-- visualdl
     |
+    +-- config
+    |
     +-- data
     |
     +-- models
