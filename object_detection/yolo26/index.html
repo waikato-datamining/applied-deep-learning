@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/frameworks/">
+        <link rel="canonical" href="https://www.data-mining.co.nz/applied-deep-learning/object_detection/yolo26/">
       
       <link rel="icon" href="../../favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Frameworks - Applied Deep Learning</title>
+        <title>Yolo26 - Applied Deep Learning</title>
       
     
     
@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#prerequisites" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -93,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Frameworks
+              Yolo26
             
           </span>
         </div>
@@ -321,14 +326,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
@@ -377,19 +380,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../frameworks/" class="md-nav__link">
         Frameworks
       </a>
-      
     </li>
   
 
@@ -571,6 +566,49 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training" class="md-nav__link">
+    Training
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predicting" class="md-nav__link">
+    Predicting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exporting-to-onnx-optional" class="md-nav__link">
+    Exporting to ONNX (optional)
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -583,23 +621,129 @@
                 
                   
 
-  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/frameworks.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/waikato-datamining/applied-deep-learning/edit/main/docs/object_detection/yolo26.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-  <h1>Frameworks</h1>
+  <h1>Yolo26</h1>
 
-<p>The following frameworks are available for <strong>object detection</strong>:</p>
+<p><a href="https://github.com/ultralytics/ultralytics">Yolo26</a> is a cutting-edge, state-of-the-art (SOTA) YOLO model. 
+Custom docker images with additional tools are available from here:</p>
+<p><a href="https://github.com/waikato-datamining/pytorch/tree/master/yolo26">https://github.com/waikato-datamining/pytorch/tree/master/yolo26</a></p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h2>
+<p>Make sure you have the directory structure created as outlined in the <a href="../../prerequisites/">Prerequisites</a>.</p>
+<h2 id="data">Data<a class="headerlink" href="#data" title="Permanent link">#</a></h2>
+<p>In this example, we will use the <a href="https://datasets.cms.waikato.ac.nz/ufdl/american-sign-language-letters/">American Sign Language Letters</a>
+dataset, which consists of sets of images of hands, one per letter in the English alphabet (26 labels).</p>
+<p>Download the dataset from the following URL into the <em>data</em> directory and extract it:</p>
+<p><a href="https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip">https://datasets.cms.waikato.ac.nz/ufdl/data/american-sign-language-letters/american-sign-language-letters-voc.zip</a></p>
+<p>Once extracted, rename the <em>voc</em> directory to <em>sign-voc</em>.</p>
+<p>Now we have to convert the format from <em>VOC XML</em> into <em>YOLO</em>. We can do this by using the 
+<a href="https://github.com/waikato-datamining/image-dataset-converter">image-dataset-converter</a> library. 
+At the same time, we can split the dataset into <em>train</em>, <em>validation</em> and <em>test</em> subsets.</p>
+<p>From within the <code>applied_deep_learning</code> directory, run the following command:</p>
+<pre><code class="language-bash">docker run --rm -u $(id -u):$(id -g) \
+  -v `pwd`:/workspace \
+  -t waikatodatamining/image-dataset-converter:0.0.4 \
+  idc-convert \
+    -l INFO \
+    from-voc-od \
+      -i &quot;/workspace/data/sign-voc/*.xml&quot; \
+    to-yolo-od \
+      -o /workspace/data/sign-yolo-split \
+      --labels labels.txt \
+      --labels_csv labels.csv \
+      --split_names train val test \
+      --split_ratios 70 15 15
+</code></pre>
+<p>Finally, download the <a href="../img/dataset26.yaml">dataset26.yaml</a> file, place it in the <code>sign-yolo-split</code>
+directory. It contains information about the dataset directory, the splits and the class labels.
+If you want to adapt this configuration for different labels, then you can automatically 
+transform the <code>labels.csv</code> file into a numbered list using the following command:</p>
+<pre><code class="language-bash">grep -v &quot;Index&quot; labels.csv | sed s/&quot;,&quot;/&quot;: &quot;/g | sed s/^/&quot;  &quot;/g
+</code></pre>
+<h2 id="training">Training<a class="headerlink" href="#training" title="Permanent link">#</a></h2>
+<p>For training, we will use the following docker image:</p>
+<pre><code>waikatodatamining/pytorch-yolo26:8.4.16_cuda12.6
+</code></pre>
+<p>If you do not have a GPU, you can use the CPU-only image:</p>
+<pre><code>waikatodatamining/pytorch-yolo26:8.4.16_cpu
+</code></pre>
+<p>The training script is called <code>yolo26_train</code>, for which we can invoke the help screen as follows:</p>
+<pre><code class="language-bash">docker run --rm -t waikatodatamining/pytorch-yolo26:8.4.16_cuda12.6 yolo26_train help 
+</code></pre>
+<p>Since we will be performing transfer larning, we need to download a base model to use for training. 
+Yolo26 offers different models, which differ in speed and accuracy. We will use the <em>fastest</em> one 
+called <code>yolo26n.pt</code> (<em>"nano"</em>) from the <code>v1.1</code> release:</p>
+<p><a href="https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt">https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt</a></p>
+<p>Download it and place it in the <code>models</code> directory.</p>
+<p>It is good practice creating a separate sub-directory for each training run, with a directory name that hints at
+what dataset and model were used. So for our first training run, which will use mainly default parameters, we will 
+create the following directory in the <code>output</code> folder:</p>
+<pre><code>sign-yolo26
+</code></pre>
+<p>Since the image size should be a multiple of 32, we use 640 for this experiment.</p>
+<p>Kick off the training with the following command:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --shm-size 8G \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/cache \
+  -v `pwd`/config:/config \
+  -t waikatodatamining/pytorch-yolo26:8.4.16_cuda12.6 \
+  yolo26_train \
+  model=/workspace/models/yolo26n.pt \
+  data=/workspace/data/sign-yolo-split/dataset26.yaml \
+  imgsz=640 \
+  exist_ok=true \
+  project=/workspace/output/ \
+  name=sign-yolo26 \
+  amp=false \
+  batch=4 \
+  epochs=20
+</code></pre>
+<h2 id="predicting">Predicting<a class="headerlink" href="#predicting" title="Permanent link">#</a></h2>
+<p>Using the <code>yolo26_predict_poll</code> script, we can batch-process images placed in the <code>predictions/in</code> directory
+as follows (e.g., from our <em>test</em> subset): </p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/cache \
+  -v `pwd`/config:/config \
+  -t waikatodatamining/pytorch-yolo26:8.4.16_cuda12.6 \
+  yolo26_predict_poll \
+  --model /workspace/output/sign-yolo26/weights/best.pt \
+  --prediction_in /workspace/predictions/in \
+  --prediction_out /workspace/predictions/out
+</code></pre>
+<p><strong>Notes</strong> </p>
 <ul>
-<li><a href="../mmdetection/">MMDetection</a></li>
-<li><a href="../paddledetection/">PaddleDetection</a></li>
-<li><a href="../yolov5/">Yolov5</a></li>
-<li><a href="../yolov7/">Yolov7</a></li>
-<li><a href="../yolov10/">Yolov10</a></li>
-<li><a href="../yolo26/">Yolo26</a></li>
+<li>You can view the predictions with the ADAMS <em>Preview browser</em>: <a href="../../previewing_predictions/#objdet_opex">OPEX</a></li>
 </ul>
+<p><strong>Example prediction</strong></p>
+<p><img alt="Screenshot" src="../img/yolo26-P5_jpg.rf.88876e50acdd0cd7011c92c6044530a4.png" /> </p>
+<p><img alt="Screenshot" src="../img/yolo26-Z25_jpg.rf.fbf575e280796d678ab8a4027d9a42b9.png" /></p>
+<h2 id="exporting-to-onnx-optional">Exporting to ONNX (optional)<a class="headerlink" href="#exporting-to-onnx-optional" title="Permanent link">#</a></h2>
+<p>You can export the trained model also to <a href="https://onnx.ai/">ONNX</a> using the 
+<code>yolo26_export</code> script:</p>
+<pre><code class="language-bash">docker run --rm \
+  -u $(id -u):$(id -g) \
+  --gpus=all \
+  -v `pwd`:/workspace \
+  -v `pwd`/cache:/cache \
+  -v `pwd`/config:/config \
+  -t waikatodatamining/pytorch-yolo26:8.4.16_cuda12.6 \
+  yolo26_export \
+  model=/workspace/output/sign-yolo26/weights/best.pt \
+  format=onnx \
+  opset=13 \
+  simplify
+</code></pre>
+<p>This will create a file called <code>best.onnx</code> in the weights directory.</p>
 
 
 
@@ -615,42 +759,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../annotate/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Annotate" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Annotate
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../instance_segmentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Introduction" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Introduction
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
