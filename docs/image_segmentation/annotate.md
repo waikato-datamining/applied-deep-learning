@@ -19,4 +19,4 @@ a public model from Meta that makes the annotation process much more efficient.
 The model can be used on CPU-only and GPU machines alike, as well as on Linux and Windows.
 The following video demonstrates the tool:
 
-![type:video](https://youtu.be/5ln2c2kgMAc)
+![type:video](https://www.youtube.com/embed/5ln2c2kgMAc)

@@ -158,7 +158,7 @@ docker run --rm \
   *indexed PNG* or *OPEX JSON* (`--prediction_format`).
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [Indexed PNG](../../previewing_predictions.md/#imgseg_indexed)
+    * [Indexed PNG](../previewing_predictions.md#indexed-png-format)
 
 **Example prediction**
 

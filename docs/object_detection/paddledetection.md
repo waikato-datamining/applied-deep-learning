@@ -171,7 +171,7 @@ docker run --rm \
 * The predictions get output in [OPEX JSON format](https://github.com/WaikatoLink2020/objdet-predictions-exchange-format),
   which you can view the predictions with the ADAMS *Preview browser*:
   
-    * [OPEX](../../previewing_predictions/#objdet_opex)
+    * [OPEX](../previewing_predictions.md#opex-format)
 
 **Example prediction**
 

@@ -138,7 +138,7 @@ docker run --rm \
 
 **Notes** 
 
-* You can view the predictions with the ADAMS *Preview browser*: [OPEX](../../previewing_predictions/#objdet_opex)
+* You can view the predictions with the ADAMS *Preview browser*: [OPEX](../previewing_predictions.md#opex-format)
 
 
 **Example prediction**

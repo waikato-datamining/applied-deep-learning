@@ -220,5 +220,5 @@ E.g., for the `image_06982.jpg` from the `alpine_sea_holly` class, we will get a
 
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [Image classification (JSON)](../../previewing_predictions/#imgcls_json)
+    * [Image classification (JSON)](../previewing_predictions.md#json)
 

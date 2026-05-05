@@ -7,11 +7,21 @@ theme:
     name: material
     logo: logo.png
     favicon: favicon.ico
+    features:
+        - content.code.copy
 markdown_extensions:
     - toc:
         baselevel: 2
         permalink: "#"
     - attr_list
+    - sane_lists
+    - pymdownx.highlight:
+        anchor_linenums: true
+        line_spans: __span
+        pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
 plugins:
     - search
     # https://github.com/soulless-viewer/mkdocs-video

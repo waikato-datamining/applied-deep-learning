@@ -124,7 +124,7 @@ docker run --rm \
 * The predictions are output in *Indexed PNG* format.
 * You can view the predictions with the ADAMS *Preview browser*:
   
-    * [Indexed PNG](../../previewing_predictions/#imgseg_indexed)
+    * [Indexed PNG](../previewing_predictions.md#indexed-png-format)
 
 **Example prediction**
 
